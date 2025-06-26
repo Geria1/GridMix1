@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>GridMix - UK Real-Time Energy Dashboard</title>
+    <meta name="description" content="Real-time UK electricity generation data dashboard showing energy mix, carbon intensity, and renewable energy sources. Live data from National Grid ESO." />
+    
+    <!-- Open Graph tags for social media -->
+    <meta property="og:title" content="GridMix - UK Real-Time Energy Dashboard" />
+    <meta property="og:description" content="Track UK's energy mix in real-time with interactive charts and data visualization" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23007acc'><path d='M13 3L4 14h5l-2 7 9-11h-5l2-7z'/></svg>" />
+    
+    <!-- Preconnect to improve performance -->
+    <link rel="preconnect" href="https://api.carbonintensity.org.uk" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+  </body>
+</html>
