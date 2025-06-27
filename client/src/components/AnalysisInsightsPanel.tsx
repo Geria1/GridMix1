@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, Wind, Calendar, MapPin } from 'lucide-react';
 import { useCurrentEnergyData } from '@/hooks/useEnergyData';
 import { useEmissionsProgress } from '@/hooks/useEmissionsData';
 
@@ -58,26 +57,22 @@ export function AnalysisInsightsPanel() {
 
   const insights = [
     {
-      icon: TrendingUp,
-      title: '⚡ Fuel Type Trends',
+      title: 'Fuel Type Trends',
       description: getFuelTypeTrend(),
       color: 'blue'
     },
     {
-      icon: Wind,
-      title: '🌀 Volatility & Resilience',
+      title: 'Volatility & Resilience',
       description: getVolatilityInsight(),
       color: 'green'
     },
     {
-      icon: Calendar,
-      title: '📅 Policy Milestones',
+      title: 'Policy Milestones',
       description: getPolicyMilestone(),
       color: 'purple'
     },
     {
-      icon: MapPin,
-      title: '🔍 Regional Focus',
+      title: 'Regional Focus',
       description: 'Scotland leading offshore wind deployment. England hosting major solar farms. Wales expanding onshore wind capacity.',
       color: 'orange'
     }
@@ -117,7 +112,7 @@ export function AnalysisInsightsPanel() {
     <div className="mb-8">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-          🧠 Analysis & Insights
+          Analysis & Insights
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
           Real-time analysis of UK energy trends, grid dynamics, and policy progress
@@ -130,10 +125,7 @@ export function AnalysisInsightsPanel() {
           return (
             <Card key={index} className={`${colors.border} ${colors.bg} transition-colors hover:shadow-md`}>
               <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-3 text-lg">
-                  <div className={`w-10 h-10 ${colors.bg} rounded-lg flex items-center justify-center`}>
-                    <insight.icon className={`${colors.icon} text-xl`} size={20} />
-                  </div>
+                <CardTitle className="text-lg">
                   <span className={colors.title}>{insight.title}</span>
                 </CardTitle>
               </CardHeader>

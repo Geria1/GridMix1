@@ -13,19 +13,19 @@ export function EnergyMixDashboard() {
   const tabConfig = [
     {
       value: 'monthly',
-      label: '🗓️ Monthly Trends',
+      label: 'Monthly Trends',
       icon: Calendar,
       description: 'View seasonal patterns and long-term shifts in energy sources'
     },
     {
       value: 'weekly',
-      label: '📆 Weekly Fluctuations', 
+      label: 'Weekly Fluctuations', 
       icon: BarChart3,
       description: 'Explore week-to-week variations in renewable and fossil generation'
     },
     {
       value: 'realtime',
-      label: '🔁 Real-Time Snapshot',
+      label: 'Real-Time Snapshot',
       icon: Clock,
       description: 'Current live generation data from the UK electricity grid'
     }
@@ -35,8 +35,8 @@ export function EnergyMixDashboard() {
     <div className="mb-8">
       <Card className="border-gray-200 dark:border-gray-700">
         <CardHeader className="pb-4">
-          <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-            📊 Energy Mix Dashboard
+          <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
+            Energy Mix Dashboard
           </CardTitle>
           <p className="text-gray-600 dark:text-gray-400 text-sm">
             Interactive visualization of UK electricity generation by fuel type
