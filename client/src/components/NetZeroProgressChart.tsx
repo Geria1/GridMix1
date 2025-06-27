@@ -43,9 +43,18 @@ export function NetZeroProgressChart() {
   const formatTooltip = (value: number, name: string, props: any) => {
     const point = props.payload;
     if (name === 'percentageOf1990') {
+      let dataType = 'Projected Pathway';
+      if (point.isActual) {
+        dataType = 'Official Data';
+      } else if (point.source?.includes('BMRS')) {
+        dataType = 'BMRS Estimate';
+      } else if (point.source?.includes('Carbon Budget')) {
+        dataType = 'Carbon Budget Target';
+      }
+      
       return [
         `${value.toFixed(1)}% of 1990 levels (${point.totalEmissions?.toFixed(1)} MtCO₂e)`,
-        point.isActual ? 'Actual Emissions' : 'Projected Pathway'
+        `${dataType} - ${point.source}`
       ];
     }
     return [value, name];
@@ -102,10 +111,10 @@ export function NetZeroProgressChart() {
             <div>
               <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                 <TrendingDown className="h-5 w-5 text-green-600" />
-                UK Net-Zero Progress: 1990-2050
+                UK GHG Emissions Pathway to 2050
               </CardTitle>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                Greenhouse Gas Emissions Pathway to Net Zero
+                Including 2025 Estimates via Energy Generation
               </p>
             </div>
             <div className="text-right">
@@ -116,6 +125,22 @@ export function NetZeroProgressChart() {
         </CardHeader>
         
         <CardContent className="p-6 pt-0">
+          {/* Legend */}
+          <div className="flex flex-wrap gap-4 mb-4 text-xs">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-0.5 bg-green-600"></div>
+              <span className="text-gray-600 dark:text-gray-400">Official Data (BEIS/ONS)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-0.5 border-b-2 border-dashed border-orange-500"></div>
+              <span className="text-gray-600 dark:text-gray-400">BMRS Estimates (2023-2025)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-0.5 border-b border-dashed border-green-600"></div>
+              <span className="text-gray-600 dark:text-gray-400">Carbon Budget Targets</span>
+            </div>
+          </div>
+          
           {/* Main Chart */}
           <div className="h-80 mb-6">
             <ResponsiveContainer width="100%" height="100%">
@@ -154,7 +179,7 @@ export function NetZeroProgressChart() {
                   }}
                 />
                 
-                {/* Historical area (actual data) */}
+                {/* Historical area (actual government data) */}
                 <Area
                   type="monotone"
                   dataKey="percentageOf1990"
@@ -165,7 +190,18 @@ export function NetZeroProgressChart() {
                   data={chartData.filter(d => d.isActual)}
                 />
                 
-                {/* Projected pathway */}
+                {/* BMRS-derived estimates (2023-2025) */}
+                <Line
+                  type="monotone"
+                  dataKey="percentageOf1990"
+                  stroke="#f59e0b"
+                  strokeWidth={3}
+                  strokeDasharray="8 4"
+                  dot={{ fill: '#f59e0b', strokeWidth: 2, r: 5 }}
+                  data={chartData.filter(d => !d.isActual && d.source?.includes('BMRS'))}
+                />
+                
+                {/* Future carbon budget pathway */}
                 <Line
                   type="monotone"
                   dataKey="percentageOf1990"
@@ -173,7 +209,7 @@ export function NetZeroProgressChart() {
                   strokeWidth={2}
                   strokeDasharray="5 5"
                   dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
-                  data={chartData.filter(d => !d.isActual)}
+                  data={chartData.filter(d => !d.isActual && !d.source?.includes('BMRS'))}
                 />
                 
                 {/* Reference lines for key milestones */}

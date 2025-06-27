@@ -1,0 +1,90 @@
+Build an accurate, up-to-date graphical representation of the UK’s greenhouse gas emissions trajectory from 1990 to 2025, highlighting progress toward the legally binding net-zero target by 2050.
+
+📡 Data Sources:
+1. Primary: Official Emissions Data
+Sources: BEIS, ONS, CCC (UK Government / Climate Change Committee)
+
+Data: Historical GHG emissions in MtCO₂e or % of 1990 baseline
+
+Focus: Verified emissions data up to the latest published year (likely 2022 or provisional 2023)
+
+2. Secondary: Elexon BMRS Energy Generation Data
+Endpoint:
+https://bmrs.elexon.co.uk/api/v1/generation/actual/per-type/day-total
+
+Use BMRS data from 2023 to 2025 to estimate energy-sector emissions where official GHG data is unavailable.
+
+Approach:
+
+Use generation by fuel type (e.g., COAL, CCGT, BIOMASS) as proxies for emissions
+
+Apply emissions intensity factors (kg CO₂e/MWh) to estimate annual emissions from energy generation
+
+Example Emission Factors:
+
+Fuel Type	Emissions Factor (kg CO₂e/MWh)
+COAL	920
+CCGT	394
+BIOMASS	120 (biogenic, partially counted)
+WIND/SOLAR/NUCLEAR	0 (assume zero)
+
+📈 Graph Requirements
+Type:
+Line or area chart
+
+X-Axis:
+Years (1990–2050), with actual plotted values through 2025
+
+Y-Axis:
+% of 1990 emissions (baseline = 100%), down to 0% (net-zero)
+
+Visual Elements:
+Solid line for verified years (1990–2022)
+
+Dashed line or shaded area for estimated years (2023–2025 using BMRS)
+
+Green color gradient to represent emission decline
+
+Markers on key years: 1990, 2020, 2023, 2025, 2030, 2050
+
+Annotations for:
+
+1990 Baseline
+
+Net-zero target in 2050
+
+Latest estimated emissions from BMRS-inferred data
+
+🧠 Agent Tasks
+1. Data Integration:
+Merge official emissions data (1990–2022) with:
+
+BMRS fuel-type generation totals (2023–2025)
+
+Emissions proxies calculated from generation × emissions factor
+
+2. Normalization:
+Express all emissions values as % of 1990 baseline
+
+Clearly indicate which values are official, and which are inferred
+
+3. Visualization Output:
+Clean, professional chart with title:
+"UK GHG Emissions Pathway to 2050: Including 2025 Estimates via Energy Generation"
+
+Formats:
+
+Dashboard embed (HTML/JS or iframe)
+
+Downloadable PNG/SVG
+
+Include legend, axis labels, and tooltip data
+
+✅ Completion Criteria:
+Visual is complete through 2025 (not just 2022)
+
+Incorporates and clearly distinguishes BMRS-derived data
+
+Reflects actual and estimated progress against the 2050 target
+
+Ready for policy presentation, web publishing, or energy system briefings
