@@ -1,0 +1,69 @@
+🎯 Goal:
+Create an integrated data visualization for the UK’s legally binding journey to net-zero GHG emissions by 2050, including:
+
+📈 Line chart showing actual and estimated emissions from 1990–2025, with blank space to 2050
+
+⏳ Live countdown clock showing real-time time remaining until 31 December 2050
+
+📊 Graph Requirements:
+🔹 X-Axis:
+Years from 1990 to 2050
+
+Highlight: 1990, 2020, 2023, 2025, 2030, 2040, 2050 (target)
+
+🔹 Y-Axis:
+% of 1990 emissions (100% → 0%)
+
+🔹 Line Data:
+1990–2022: Actual emissions from official UK data (BEIS/CCC)
+
+2023–2025: Estimated via Elexon BMRS API + emissions factors
+
+2026–2050: Leave blank (no projected line), showing the remaining path as an open space
+
+🔹 Design Elements:
+Feature	Details
+Solid line	From 1990 to 2025
+Empty visual space	From 2026 to 2050 (to spark viewer imagination)
+Labels & milestones	Annotations for 1990 (baseline), 2025 ("You Are Here"), 2050 (target)
+Optional background fill	Subtle shading from 2025–2050 showing the path left to travel
+
+⏳ Countdown Clock Specifications:
+🔹 Function:
+Live, real-time countdown to midnight, 31 December 2050
+
+🔹 Placement:
+Embed next to or above the chart, clearly visible to users
+
+🔹 Format:
+plaintext
+Copy
+Edit
+🕒 Time Left to UK Net-Zero (2050):
+24 years : 6 months : 3 days : 12 hours : 47 minutes : 10 seconds
+🔹 Behavior:
+Updates every second
+
+On mobile: collapses to a smaller layout
+
+Optional hover or info icon explaining:
+“Countdown to UK’s net-zero climate target under the Climate Change Act.”
+
+🔹 Technical Details:
+Use JavaScript Date object for live countdown:
+
+js
+Copy
+Edit
+const targetDate = new Date("2050-12-31T23:59:59Z");
+Countdown updates via setInterval() every 1,000ms
+
+Fallback for no-JS: display static text (e.g., “Target Year: 2050”)
+
+✅ Final Output Criteria:
+Component	Requirement
+Emissions Chart	Full timeline from 1990 to 2050, with data to 2025
+Live Countdown Clock	Shows real-time time left to 2050 target
+Responsive Layout	Works on desktop & mobile
+Embed-ready Output	As HTML/JS module or React/Vue component
+Visual Quality	Clean, modern design — suitable for GridMix site or public-facing dashboards
