@@ -26,24 +26,39 @@ export class BMRSApiService {
     if (!this.apiKey) {
       throw new Error('BMRS API key not configured');
     }
+    
+    // BMRS API may use API key in header or as query parameter
+    // Let's try the standard API key approach first
     return {
-      'Authorization': `Basic ${this.apiKey}`,
+      'X-API-Key': this.apiKey,
       'Content-Type': 'application/json',
+      'Accept': 'application/json',
     };
   }
 
   async getActualDemand(from: string, to: string): Promise<BMRSDemandResponse[]> {
     try {
-      const url = `${this.baseUrl}/demand/actual/total?from=${from}&to=${to}`;
+      // Try API key as query parameter instead of header
+      const url = `${this.baseUrl}/demand/actual/total?from=${from}&to=${to}&APIKey=${this.apiKey}`;
+      console.log(`Fetching BMRS demand data from: ${url.replace(this.apiKey || '', '[API_KEY]')}`);
+      
       const response = await fetch(url, {
-        headers: this.getAuthHeaders(),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
       });
 
+      console.log(`BMRS Demand API response status: ${response.status}`);
+      
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`BMRS Demand API error response: ${errorText.substring(0, 200)}...`);
         throw new Error(`BMRS Demand API error: ${response.status} ${response.statusText}`);
       }
 
       const data: BMRSDemandResponse[] = await response.json();
+      console.log(`BMRS demand data received: ${data.length} records`);
       return data;
     } catch (error) {
       console.error('Error fetching BMRS demand data:', error);
@@ -53,16 +68,27 @@ export class BMRSApiService {
 
   async getActualGenerationByType(settlementDate: string): Promise<BMRSGenerationResponse[]> {
     try {
-      const url = `${this.baseUrl}/generation/actual/per-type/day-total?settlementDate=${settlementDate}`;
+      // Try API key as query parameter instead of header
+      const url = `${this.baseUrl}/generation/actual/per-type/day-total?settlementDate=${settlementDate}&APIKey=${this.apiKey}`;
+      console.log(`Fetching BMRS generation data from: ${url.replace(this.apiKey || '', '[API_KEY]')}`);
+      
       const response = await fetch(url, {
-        headers: this.getAuthHeaders(),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
       });
 
+      console.log(`BMRS Generation API response status: ${response.status}`);
+      
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`BMRS Generation API error response: ${errorText.substring(0, 200)}...`);
         throw new Error(`BMRS Generation API error: ${response.status} ${response.statusText}`);
       }
 
       const data: BMRSGenerationResponse[] = await response.json();
+      console.log(`BMRS generation data received: ${data.length} records`);
       return data.filter(item => item.activeFlag === 'Y');
     } catch (error) {
       console.error('Error fetching BMRS generation data:', error);
