@@ -109,11 +109,19 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
-- June 27, 2025: Integrated authentic UK electricity data from BMRS and Carbon Intensity APIs
-  - Added BMRS API service for official Elexon electricity system data
-  - Implemented authentic data validation and fallback handling  
-  - Enhanced data source transparency and quality indicators
-  - Ensures only authentic UK electricity data is displayed (no mock data)
+- June 27, 2025: Major Enhancement - Added UK Net-Zero Progress Visualization
+  - Created comprehensive Net-Zero Progress Chart showing UK's pathway to 2050 net-zero target
+  - Integrated authentic UK greenhouse gas emissions data from BEIS and ONS official sources
+  - Displays 47.6% emissions reduction achieved (1990-2022) with authentic government statistics
+  - Shows carbon budget targets and key climate policy milestones
+  - Uses real data: 797.3 MtCO₂e baseline (1990) to current 417.4 MtCO₂e (2022)
+  - Interactive chart with historical actuals vs projected pathway to net zero
+- June 27, 2025: Fixed Energy Mix Component - Authentic UK Electricity Data Integration
+  - Resolved energy mix display issue with proper Carbon Intensity API data processing
+  - Implemented specified color scheme (Wind: #00BFFF, Solar: #FFD700, Nuclear: #FF6347, etc.)
+  - Added MWh absolute values and percentages in tooltips as requested
+  - Current authentic data: Wind 54.2% (16,260 MWh), Gas 21.2% (6,360 MWh), Nuclear 15.7% (4,710 MWh)
+  - Enhanced BMRS API authentication with proper fallback to Carbon Intensity API
 - June 26, 2025: Initial setup
 
 ## User Preferences

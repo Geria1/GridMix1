@@ -36,21 +36,63 @@ const milestones = [
 ];
 
 export function NetZeroProgressChart() {
+  const { data: pathwayData, isLoading: pathwayLoading, error: pathwayError } = useEmissionsPathway();
+  const { data: progressData, isLoading: progressLoading } = useEmissionsProgress();
+  const { data: milestonesData, isLoading: milestonesLoading } = useEmissionsMilestones();
+
   const formatTooltip = (value: number, name: string, props: any) => {
     const point = props.payload;
-    if (name === 'emissions') {
+    if (name === 'percentageOf1990') {
       return [
-        `${value}% of 1990 levels`,
-        point.actual ? 'Actual Emissions' : 'Projected Pathway'
+        `${value.toFixed(1)}% of 1990 levels (${point.totalEmissions?.toFixed(1)} MtCO₂e)`,
+        point.isActual ? 'Actual Emissions' : 'Projected Pathway'
       ];
     }
     return [value, name];
   };
 
   const formatLabel = (label: string) => {
-    const point = netZeroProgressData.find(d => d.year.toString() === label);
-    return point?.label ? `${label} - ${point.label}` : label;
+    return `Year ${label}`;
   };
+
+  if (pathwayLoading || progressLoading || milestonesLoading) {
+    return (
+      <div className="lg:col-span-2">
+        <Card className="border-gray-200 dark:border-gray-700">
+          <CardHeader>
+            <Skeleton className="h-6 w-64" />
+            <Skeleton className="h-4 w-48" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-80 w-full" />
+            <div className="grid grid-cols-3 gap-4 mt-6">
+              <Skeleton className="h-16 w-full" />
+              <Skeleton className="h-16 w-full" />
+              <Skeleton className="h-16 w-full" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (pathwayError) {
+    return (
+      <div className="lg:col-span-2">
+        <Card className="border-gray-200 dark:border-gray-700">
+          <CardContent className="p-6">
+            <div className="text-center text-red-600 dark:text-red-400">
+              Unable to load UK emissions data from government sources
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  const chartData = pathwayData?.combined || [];
+  const currentReduction = progressData?.currentReduction || 50;
+  const yearsToNetZero = 2050 - (progressData?.latestYear || 2023);
 
   return (
     <div className="lg:col-span-2">
@@ -67,7 +109,7 @@ export function NetZeroProgressChart() {
               </p>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold text-green-600">50%</div>
+              <div className="text-2xl font-bold text-green-600">{currentReduction.toFixed(1)}%</div>
               <div className="text-xs text-gray-500">reduction achieved</div>
             </div>
           </div>
@@ -115,23 +157,23 @@ export function NetZeroProgressChart() {
                 {/* Historical area (actual data) */}
                 <Area
                   type="monotone"
-                  dataKey="emissions"
+                  dataKey="percentageOf1990"
                   stroke="#10b981"
                   strokeWidth={3}
                   fill="url(#emissionsGradient)"
                   fillOpacity={0.6}
-                  data={netZeroProgressData.filter(d => d.actual)}
+                  data={chartData.filter(d => d.isActual)}
                 />
                 
                 {/* Projected pathway */}
                 <Line
                   type="monotone"
-                  dataKey="emissions"
+                  dataKey="percentageOf1990"
                   stroke="#10b981"
                   strokeWidth={2}
                   strokeDasharray="5 5"
                   dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
-                  data={netZeroProgressData.filter(d => d.projected)}
+                  data={chartData.filter(d => !d.isActual)}
                 />
                 
                 {/* Reference lines for key milestones */}
@@ -150,7 +192,7 @@ export function NetZeroProgressChart() {
             </h4>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {milestones.map((milestone, index) => (
+              {(milestonesData || milestones).map((milestone, index) => (
                 <div key={index} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-medium text-green-600">{milestone.year}</span>
@@ -161,6 +203,11 @@ export function NetZeroProgressChart() {
                   </div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">
                     {milestone.description}
+                    {milestone.emissions && (
+                      <span className="block mt-1 font-medium">
+                        {milestone.emissions.toFixed(1)} MtCO₂e
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
@@ -171,15 +218,17 @@ export function NetZeroProgressChart() {
           <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">50%</div>
-                <div className="text-xs text-gray-600 dark:text-gray-400">Emissions Reduced (2023)</div>
+                <div className="text-2xl font-bold text-blue-600">{currentReduction.toFixed(1)}%</div>
+                <div className="text-xs text-gray-600 dark:text-gray-400">
+                  Emissions Reduced ({progressData?.latestYear || 2022})
+                </div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600">32%</div>
+                <div className="text-2xl font-bold text-orange-600">{progressData?.targetReduction2030 || 68}%</div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">2030 Target</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">27</div>
+                <div className="text-2xl font-bold text-green-600">{yearsToNetZero}</div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">Years to Net Zero</div>
               </div>
             </div>
