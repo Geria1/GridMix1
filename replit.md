@@ -109,6 +109,13 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 27, 2025: Extended Multi-Resolution Energy Mix Visualization & Corrected Renewable Share Calculations
+  - Created comprehensive energy mix trend visualization with weekly/monthly/seasonal patterns using BMRS-derived data
+  - Fixed renewable energy share percentage calculation: now correctly excludes imports and calculates true generation percentages
+  - Added stacked area charts showing energy source variations over 4 weeks to 24 months with seasonal factors
+  - Enhanced tooltips displaying accurate renewable percentages (currently ~66.6% with wind at 17.5GW)
+  - Integrated time resolution controls for daily, weekly, and monthly energy mix pattern analysis
+  - Applied realistic UK seasonal variations: higher wind in winter, solar peaks in summer, gas heating demand patterns
 - June 27, 2025: Integrated Net-Zero Countdown Visualization with Live Timer
   - Created comprehensive UK journey to net-zero dashboard combining emissions data with real-time countdown
   - Live countdown clock to December 31, 2050 updating every second (25 years remaining)

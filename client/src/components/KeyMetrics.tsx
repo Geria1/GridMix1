@@ -22,7 +22,16 @@ export function KeyMetrics() {
   const calculateRenewableShare = () => {
     if (!energyData?.energyMix) return 0;
     const mix = energyData.energyMix;
-    return mix.wind + mix.solar + mix.hydro + mix.biomass;
+    
+    // Calculate total generation (excluding imports as they're not generation)
+    const totalGeneration = mix.wind + mix.solar + mix.nuclear + mix.gas + mix.coal + mix.hydro + mix.biomass + mix.other;
+    
+    // Calculate renewable generation (wind, solar, hydro, biomass)
+    const renewableGeneration = mix.wind + mix.solar + mix.hydro + mix.biomass;
+    
+    if (totalGeneration === 0) return 0;
+    
+    return (renewableGeneration / totalGeneration) * 100;
   };
 
   const getCarbonIntensityColor = (intensity: number) => {

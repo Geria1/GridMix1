@@ -92,19 +92,26 @@ export function EnergyMixTrendChart() {
     if (!active || !payload?.length) return null;
 
     const data = payload[0].payload;
-    const total = data.totalDemand;
+    // Calculate total generation (excluding imports)
+    const totalGeneration = data.wind + data.solar + data.nuclear + data.gas + data.coal + data.hydro + data.biomass + data.other;
+    // Calculate renewable share
+    const renewableGeneration = data.wind + data.solar + data.hydro + data.biomass;
+    const renewableShare = totalGeneration > 0 ? ((renewableGeneration / totalGeneration) * 100).toFixed(1) : '0.0';
 
     return (
       <div className="bg-white dark:bg-gray-800 p-4 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
         <p className="font-medium text-gray-900 dark:text-white mb-2">
           {formatTooltipLabel(label)}
         </p>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-          Total: {total?.toLocaleString()} MW
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+          Total Generation: {totalGeneration?.toLocaleString()} MW
+        </p>
+        <p className="text-sm text-green-600 dark:text-green-400 mb-2 font-medium">
+          Renewables: {renewableShare}%
         </p>
         <div className="space-y-1">
           {payload.map((entry: any) => {
-            const percentage = total > 0 ? ((entry.value / total) * 100).toFixed(1) : '0.0';
+            const percentage = totalGeneration > 0 ? ((entry.value / totalGeneration) * 100).toFixed(1) : '0.0';
             return (
               <div key={entry.dataKey} className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
@@ -344,7 +351,7 @@ export function EnergyMixTrendChart() {
             <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
               {resolution === 'monthly' ? 'Monthly' : 'Weekly'} Trends Summary
             </h4>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-xs">
               <div>
                 <p className="text-gray-600 dark:text-gray-400">Avg Wind</p>
                 <p className="font-medium">
@@ -364,9 +371,25 @@ export function EnergyMixTrendChart() {
                 </p>
               </div>
               <div>
-                <p className="text-gray-600 dark:text-gray-400">Avg Demand</p>
+                <p className="text-green-600 dark:text-green-400">Avg Renewables</p>
+                <p className="font-medium text-green-600 dark:text-green-400">
+                  {(() => {
+                    const avgRenewableShare = timeSeriesData.reduce((sum, d) => {
+                      const totalGen = d.wind + d.solar + d.nuclear + d.gas + d.coal + d.hydro + d.biomass + d.other;
+                      const renewableGen = d.wind + d.solar + d.hydro + d.biomass;
+                      return sum + (totalGen > 0 ? (renewableGen / totalGen) * 100 : 0);
+                    }, 0) / timeSeriesData.length;
+                    return avgRenewableShare.toFixed(1);
+                  })()}%
+                </p>
+              </div>
+              <div>
+                <p className="text-gray-600 dark:text-gray-400">Avg Generation</p>
                 <p className="font-medium">
-                  {(timeSeriesData.reduce((sum, d) => sum + d.totalDemand, 0) / timeSeriesData.length / 1000).toFixed(1)}GW
+                  {(timeSeriesData.reduce((sum, d) => {
+                    const totalGen = d.wind + d.solar + d.nuclear + d.gas + d.coal + d.hydro + d.biomass + d.other;
+                    return sum + totalGen;
+                  }, 0) / timeSeriesData.length / 1000).toFixed(1)}GW
                 </p>
               </div>
             </div>
