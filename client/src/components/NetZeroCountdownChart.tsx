@@ -263,7 +263,7 @@ export function NetZeroCountdownChart() {
                       <div className="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
                         <p className="font-medium text-gray-900 dark:text-white">{formatLabel(data.year.toString())}</p>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {data.percentageOf1990.toFixed(1)}% of 1990 levels
+                          {data.percentageOf1990 !== undefined && data.percentageOf1990 !== null ? `${data.percentageOf1990.toFixed(1)}% of 1990 levels` : 'Net Zero Target'}
                         </p>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
                           {data.totalEmissions ? `${data.totalEmissions.toFixed(1)} MtCO₂e` : 'N/A'}
