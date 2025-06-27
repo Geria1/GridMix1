@@ -6,6 +6,7 @@ import { TrendChart } from '@/components/TrendChart';
 import { CarbonIntensityChart } from '@/components/CarbonIntensityChart';
 import { RegionalHighlights } from '@/components/RegionalHighlights';
 import { SystemStatus } from '@/components/SystemStatus';
+import { NetZeroProgressChart } from '@/components/NetZeroProgressChart';
 import { Footer } from '@/components/Footer';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
@@ -54,6 +55,8 @@ export default function Dashboard() {
         </div>
 
         <CarbonIntensityChart />
+
+        <NetZeroProgressChart />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <RegionalHighlights />

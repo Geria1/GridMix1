@@ -1,0 +1,89 @@
+Create a graphical visual showing the UK's milestone progress toward its legally binding target of net-zero greenhouse gas (GHG) emissions by 2050, using 1990 GHG levels as the baseline.
+
+📊 Visual Requirements:
+1. Graph Type:
+A line chart or stepped area chart showing GHG emissions over time (1990–2050).
+
+2. X-Axis:
+Years (from 1990 to 2050)
+
+Key milestone years labeled:
+
+1990 (baseline)
+
+2010
+
+2020
+
+2025
+
+2030
+
+2040
+
+2050 (target year)
+
+3. Y-Axis:
+Total UK GHG emissions (in MtCO₂e – million tonnes CO₂ equivalent)
+
+100% corresponds to 1990 levels
+
+0% represents net-zero
+
+4. Data Points (illustrative — AI agent should retrieve latest values if live data integration is available):
+Year	Estimated Emissions (vs 1990)
+1990	100%
+2010	~75%
+2020	~59%
+2023	~50%
+2030	(Target) ~32–35%
+2050	0% (Net-Zero Target)
+
+5. Design Features:
+Highlight 1990 baseline and 2050 target with annotations.
+
+Use a green trajectory line showing emissions reduction.
+
+Use milestone markers (dots or flags) at major target years (e.g., 2023, 2030, 2040, 2050).
+
+Optional: shaded area to represent the "carbon budget" or allowable emissions pathway.
+
+📌 Caption / Title:
+“UK Greenhouse Gas Emissions Pathway: Progress Toward Net-Zero by 2050”
+
+🧠 AI Agent Tasks:
+Data Handling:
+
+Use official emissions datasets (e.g., BEIS, CCC, ONS) where available.
+
+Normalize emissions to % of 1990 baseline for clarity.
+
+Chart Generation:
+
+Render the line chart using consistent, professional styling.
+
+Export in web-friendly format (SVG/PNG) or embed in dashboard.
+
+Annotations:
+
+Add text to explain:
+
+1990 baseline (e.g., “~800 MtCO₂e”)
+
+Current progress (e.g., “~50% reduction by 2023”)
+
+Net-zero definition (GHG emissions = 0, with offsets included)
+
+Optional Enhancements:
+
+Add historical policy milestones (e.g., Climate Change Act 2008, Net Zero Commitment 2019)
+
+Display renewable share growth alongside if relevant
+
+✅ Completion Criteria:
+Clear, accurate, and readable chart generated
+
+Milestone progress from 1990 to 2050 clearly depicted
+
+Visual can be used in public dashboard or briefing materials
+

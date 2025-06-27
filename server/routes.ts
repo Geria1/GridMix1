@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { energyApiService } from "./services/energyApi";
 import { bmrsApiService } from "./services/bmrsApi";
 import { authenticDataService } from "./services/authenticDataService";
+import { ukEmissionsApiService } from "./services/ukEmissionsApi";
 import { insertEnergyDataSchema } from "@shared/schema";
 
 let dataUpdateInterval: NodeJS.Timeout;
@@ -166,6 +167,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
         dataQuality: 'no-data',
         error: error instanceof Error ? error.message : 'Unknown error'
       });
+    }
+  });
+
+  // UK Emissions and Net Zero Progress endpoints
+  app.get("/api/emissions/historical", async (req, res) => {
+    try {
+      const historicalData = await ukEmissionsApiService.getHistoricalEmissions();
+      res.json(historicalData);
+    } catch (error) {
+      console.error('Error fetching historical emissions:', error);
+      res.status(500).json({ error: 'Failed to fetch historical emissions data' });
+    }
+  });
+
+  app.get("/api/emissions/progress", async (req, res) => {
+    try {
+      const progress = await ukEmissionsApiService.getCurrentProgress();
+      res.json(progress);
+    } catch (error) {
+      console.error('Error fetching emissions progress:', error);
+      res.status(500).json({ error: 'Failed to fetch emissions progress' });
+    }
+  });
+
+  app.get("/api/emissions/milestones", async (req, res) => {
+    try {
+      const milestones = await ukEmissionsApiService.getKeyMilestones();
+      res.json(milestones);
+    } catch (error) {
+      console.error('Error fetching emissions milestones:', error);
+      res.status(500).json({ error: 'Failed to fetch emissions milestones' });
+    }
+  });
+
+  app.get("/api/emissions/pathway", async (req, res) => {
+    try {
+      const [historical, projected] = await Promise.all([
+        ukEmissionsApiService.getHistoricalEmissions(),
+        ukEmissionsApiService.getProjectedPathway()
+      ]);
+      
+      res.json({
+        historical,
+        projected,
+        combined: [...historical, ...projected].sort((a, b) => a.year - b.year)
+      });
+    } catch (error) {
+      console.error('Error fetching emissions pathway:', error);
+      res.status(500).json({ error: 'Failed to fetch emissions pathway' });
     }
   });
 
