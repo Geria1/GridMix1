@@ -1,0 +1,136 @@
+Purpose:
+Enable the GridMix AI agent to retrieve, process, and analyze UK electricity system data from Elexon’s BMRS APIs — specifically:
+
+Actual Total Demand (per settlement period)
+
+Actual Generation Per Type (Daily Total)
+
+This enables GridMix to monitor, visualize, and derive insights into the real-time and historical balance of electricity supply and demand by generation type.
+
+API #1: Actual Total Demand
+Endpoint:
+URL:
+https://bmrs.elexon.co.uk/api/v1/demand/actual/total
+
+Docs:
+Actual Total Demand Documentation
+
+Authentication:
+Required: Yes
+
+Header:
+
+makefile
+Copy
+Edit
+Authorization: Basic <your_api_key>
+Parameters:
+Parameter	Type	Required	Example
+from	ISO 8601 datetime	✅	2024-06-25T00:00Z
+to	ISO 8601 datetime	✅	2024-06-25T23:30Z
+
+ Response Data:
+json
+Copy
+Edit
+[
+  {
+    "settlementDate": "2024-06-26",
+    "settlementPeriod": 37,
+    "totalDemand": 30456,
+    "publishingPeriodCommencingTime": "2024-06-26T18:00:00Z"
+  },
+  ...
+]
+⚡ API #2: Actual Generation Per Type (Daily Total)
+📡 Endpoint:
+URL:
+https://bmrs.elexon.co.uk/api/v1/generation/actual/per-type/day-total
+
+Docs:
+Actual Generation Per Type Documentation
+
+ Authentication:
+Required: Yes
+
+Header:
+
+makefile
+Copy
+Edit
+Authorization: Basic <your_api_key>
+ Parameters:
+Parameter	Type	Required	Example
+settlementDate	yyyy-mm-dd	✅	2024-06-25
+
+ Response Data:
+Each record provides daily generation totals by fuel type.
+
+json
+Copy
+Edit
+[
+  {
+    "settlementDate": "2024-06-25",
+    "fuelType": "SOLAR",
+    "quantity": 2231.2,
+    "activeFlag": "Y"
+  },
+  {
+    "settlementDate": "2024-06-25",
+    "fuelType": "CCGT",
+    "quantity": 14567.9,
+    "activeFlag": "Y"
+  },
+  ...
+]
+ Combined Use Strategy
+ Frequency:
+Demand API: every 30 minutes
+
+Generation API: once daily after all data is published (~T+1)
+
+ Storage:
+Normalize settlement periods to UTC timestamps
+
+Store demand and generation data with consistent keys (e.g., date, fuelType, timestamp) for cross-analysis
+
+ Use Cases Enabled in GridMix
+Use Case	Description
+Demand-Supply Matching	Compare total demand to total generation
+Fuel Mix Analysis	Break down generation by type (e.g., wind, solar, gas)
+Renewable Share Tracking	Calculate daily % of demand met by renewables
+Emissions Proxy Estimation	Use fuel mix to estimate carbon intensity
+Forecasting Inputs	Improve short-term demand/generation predictions
+
+ Data Integrity & Resilience
+Validate for missing or negative values
+
+Fallback to cached values if API times out
+
+Ensure time zone consistency (always UTC)
+
+API request limits should be respected (throttle as needed)
+
+✅ AI Agent Success Criteria
+Authenticates and queries both APIs correctly
+
+Merges generation and demand datasets into unified daily view
+
+Enables generation of daily reports and real-time dashboards
+
+Flags anomalies or unusual patterns in demand/supply curves
+
+Automatically adapts to fuel types added or removed by Elexon
+
+Let me know if you'd like code samples, a connector blueprint (e.g., in Python or Node.js), or this formatted for developer docs or a project wiki.
+
+
+
+
+
+
+
+
+
+

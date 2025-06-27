@@ -87,6 +87,7 @@ export class EnergyApiService {
     }
   }
 
+  // Deprecated: Use BMRS API for authentic demand data
   async getDemandData(): Promise<number> {
     try {
       const response = await fetch(`${this.baseUrl}/intensity`);
@@ -94,9 +95,7 @@ export class EnergyApiService {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
-      // Note: The Carbon Intensity API doesn't provide demand data directly
-      // In a real implementation, you'd use the BMRS API or National Grid ESO API
-      // For now, we'll estimate based on typical UK demand patterns
+      // Fallback estimation for when BMRS is unavailable
       const hour = new Date().getHours();
       const baseDemand = 30000; // 30 GW base demand
       const peakMultiplier = hour >= 17 && hour <= 20 ? 1.4 : 

@@ -2,23 +2,48 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { energyApiService } from "./services/energyApi";
+import { bmrsApiService } from "./services/bmrsApi";
 import { insertEnergyDataSchema } from "@shared/schema";
 
 let dataUpdateInterval: NodeJS.Timeout;
 
 async function fetchAndStoreEnergyData() {
   try {
-    console.log('Fetching energy data...');
+    console.log('Fetching energy data from BMRS and Carbon Intensity APIs...');
     
-    const [carbonIntensity, generationMix, demand, regionalData, systemStatus] = await Promise.all([
+    // Try to get authentic data from BMRS API first
+    let demand: number;
+    let generationMix: Record<string, number>;
+    
+    try {
+      // Get authentic UK electricity data from BMRS
+      const [bmrsDemand, bmrsGeneration] = await Promise.all([
+        bmrsApiService.getCurrentDemand(),
+        bmrsApiService.getTodaysGenerationMix()
+      ]);
+      
+      demand = bmrsDemand;
+      generationMix = bmrsGeneration;
+      console.log('Using authentic BMRS data');
+    } catch (bmrsError) {
+      console.warn('BMRS API unavailable, falling back to Carbon Intensity API:', bmrsError);
+      // Fallback to Carbon Intensity API
+      const [fallbackDemand, fallbackMix] = await Promise.all([
+        energyApiService.getDemandData(),
+        energyApiService.getGenerationMix()
+      ]);
+      demand = fallbackDemand;
+      generationMix = fallbackMix;
+    }
+
+    // Get carbon intensity and other data from Carbon Intensity API
+    const [carbonIntensity, regionalData, systemStatus] = await Promise.all([
       energyApiService.getCurrentCarbonIntensity(),
-      energyApiService.getGenerationMix(),
-      energyApiService.getDemandData(),
       energyApiService.getRegionalData(),
       energyApiService.getSystemStatus()
     ]);
 
-    const frequency = energyApiService.getGridFrequency().toFixed(2);
+    const frequency = bmrsApiService.getGridFrequency().toFixed(2);
 
     const energyData = {
       timestamp: new Date(),
@@ -76,22 +101,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (historyData.length === 0) {
         // If no historical data, try to fetch from API
         try {
-          const apiHistoryData = await energyApiService.get24HourData();
-          
-          // Store the historical data
-          for (const dataPoint of apiHistoryData) {
-            const energyData = {
-              timestamp: new Date(dataPoint.time),
-              totalDemand: await energyApiService.getDemandData(),
-              carbonIntensity: dataPoint.carbonIntensity,
-              frequency: energyApiService.getGridFrequency().toFixed(2),
-              energyMix: dataPoint.mix,
-              regionalData: energyApiService.getRegionalData(),
-              systemStatus: energyApiService.getSystemStatus(),
-            };
+          // Try to get historical data from BMRS first
+          try {
+            const bmrsHistoricalDemand = await bmrsApiService.getHistoricalDemand(hours);
             
-            const validatedData = insertEnergyDataSchema.parse(energyData);
-            await storage.saveEnergyData(validatedData);
+            // Get generation mix for recent dates
+            const today = new Date().toISOString().split('T')[0];
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = yesterday.toISOString().split('T')[0];
+            
+            const [todayGeneration, yesterdayGeneration] = await Promise.all([
+              bmrsApiService.getTodaysGenerationMix().catch(() => null),
+              bmrsApiService.getActualGenerationByType(yesterdayStr).then(data => 
+                bmrsApiService['normalizeGenerationData'](data)
+              ).catch(() => null)
+            ]);
+            
+            const generationMix = todayGeneration || yesterdayGeneration;
+            
+            if (generationMix && bmrsHistoricalDemand.length > 0) {
+              // Store BMRS historical data
+              for (const dataPoint of bmrsHistoricalDemand) {
+                const energyData = {
+                  timestamp: new Date(dataPoint.time),
+                  totalDemand: dataPoint.demand,
+                  carbonIntensity: await energyApiService.getCurrentCarbonIntensity(),
+                  frequency: bmrsApiService.getGridFrequency().toFixed(2),
+                  energyMix: generationMix,
+                  regionalData: energyApiService.getRegionalData(),
+                  systemStatus: energyApiService.getSystemStatus(),
+                };
+                
+                const validatedData = insertEnergyDataSchema.parse(energyData);
+                await storage.saveEnergyData(validatedData);
+              }
+            } else {
+              throw new Error('BMRS historical data unavailable');
+            }
+          } catch (bmrsError) {
+            // Fallback to Carbon Intensity API
+            const apiHistoryData = await energyApiService.get24HourData();
+            
+            // Store the historical data
+            for (const dataPoint of apiHistoryData) {
+              const energyData = {
+                timestamp: new Date(dataPoint.time),
+                totalDemand: await energyApiService.getDemandData(),
+                carbonIntensity: dataPoint.carbonIntensity,
+                frequency: bmrsApiService.getGridFrequency().toFixed(2),
+                energyMix: dataPoint.mix,
+                regionalData: energyApiService.getRegionalData(),
+                systemStatus: energyApiService.getSystemStatus(),
+              };
+              
+              const validatedData = insertEnergyDataSchema.parse(energyData);
+              await storage.saveEnergyData(validatedData);
+            }
           }
           
           const newHistoryData = await storage.getEnergyDataHistory(hours);
