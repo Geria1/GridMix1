@@ -11,14 +11,14 @@ interface CarbonIntensityResponse {
 }
 
 interface GenerationMixResponse {
-  data: Array<{
+  data: {
     from: string;
     to: string;
     generationmix: Array<{
       fuel: string;
       perc: number;
     }>;
-  }>;
+  };
 }
 
 interface SystemDataResponse {
@@ -60,11 +60,11 @@ export class EnergyApiService {
       const data: GenerationMixResponse = await response.json();
       const mix: Record<string, number> = {};
       
-      if (data.data[0]?.generationmix) {
+      if (data.data?.generationmix) {
         // Get current demand to convert percentages to absolute values (MWh)
         const currentDemand = await this.getDemandData();
         
-        data.data[0].generationmix.forEach(item => {
+        data.data.generationmix.forEach(item => {
           // Map API fuel types to our standardized names
           const fuelMap: Record<string, string> = {
             'gas': 'gas',
