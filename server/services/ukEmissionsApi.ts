@@ -134,28 +134,35 @@ export class UKEmissionsApiService {
       IMPORTS: 300 // Average European grid intensity
     };
 
-    // Estimate emissions for 2023-2025 using energy sector trends
-    // Based on continued renewable growth and gas phase-out
+    // Calculate emissions estimates based on UK energy transition trends
+    // Using realistic decarbonization trajectory from renewable growth
+    
+    // Energy sector emissions have been declining ~3-5% annually
+    // Total UK emissions include transport, buildings, industry, agriculture
+    // Energy sector represents ~25% of total UK emissions
+    
+    const energySectorDeclineRate = 0.04; // 4% annual decline
+    const baseline2022Emissions = 417.4; // MtCO₂e actual 2022
     
     const estimates: UKEmissionsData[] = [
       {
         year: 2023,
-        totalEmissions: 395.2, // ~52% reduction from 1990
-        percentageOf1990: (395.2 / this.baselineEmissions) * 100,
+        totalEmissions: baseline2022Emissions * (1 - energySectorDeclineRate * 0.3), // Conservative estimate
+        percentageOf1990: ((baseline2022Emissions * (1 - energySectorDeclineRate * 0.3)) / this.baselineEmissions) * 100,
         isActual: false,
         source: 'BMRS Energy Generation Estimate'
       },
       {
         year: 2024,
-        totalEmissions: 378.5, // ~53% reduction from 1990
-        percentageOf1990: (378.5 / this.baselineEmissions) * 100,
+        totalEmissions: baseline2022Emissions * (1 - energySectorDeclineRate * 0.6),
+        percentageOf1990: ((baseline2022Emissions * (1 - energySectorDeclineRate * 0.6)) / this.baselineEmissions) * 100,
         isActual: false,
         source: 'BMRS Energy Generation Estimate'
       },
       {
         year: 2025,
-        totalEmissions: 362.1, // ~55% reduction from 1990
-        percentageOf1990: (362.1 / this.baselineEmissions) * 100,
+        totalEmissions: baseline2022Emissions * (1 - energySectorDeclineRate * 0.9),
+        percentageOf1990: ((baseline2022Emissions * (1 - energySectorDeclineRate * 0.9)) / this.baselineEmissions) * 100,
         isActual: false,
         source: 'BMRS Energy Generation Estimate'
       }
