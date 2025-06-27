@@ -61,6 +61,9 @@ export class EnergyApiService {
       const mix: Record<string, number> = {};
       
       if (data.data[0]?.generationmix) {
+        // Get current demand to convert percentages to absolute values (MWh)
+        const currentDemand = await this.getDemandData();
+        
         data.data[0].generationmix.forEach(item => {
           // Map API fuel types to our standardized names
           const fuelMap: Record<string, string> = {
@@ -76,8 +79,12 @@ export class EnergyApiService {
           };
           
           const mappedFuel = fuelMap[item.fuel.toLowerCase()] || 'other';
-          mix[mappedFuel] = (mix[mappedFuel] || 0) + item.perc;
+          // Convert percentage to MWh: (percentage / 100) * total demand
+          const absoluteValue = (item.perc / 100) * currentDemand;
+          mix[mappedFuel] = (mix[mappedFuel] || 0) + absoluteValue;
         });
+        
+        console.log('Carbon Intensity API generation mix (MWh):', mix);
       }
       
       return mix;

@@ -22,12 +22,13 @@ const ENERGY_COLORS = {
 
 const ENERGY_LABELS = {
   wind: 'Wind',
-  gas: 'Gas',
+  gas: 'Gas (CCGT)',
   nuclear: 'Nuclear',
   solar: 'Solar',
   hydro: 'Hydro',
   biomass: 'Biomass',
   coal: 'Coal',
+  oil: 'Oil',
   imports: 'Imports',
   other: 'Other',
 };
@@ -36,14 +37,27 @@ export function EnergyMixChart() {
   const { data: energyData, isLoading, error } = useCurrentEnergyData();
 
   const formatEnergyMixData = (energyMix: EnergyMix) => {
+    // Calculate total generation to compute percentages
+    const totalGeneration = Object.values(energyMix).reduce((sum, value) => sum + value, 0);
+    
+    if (totalGeneration === 0) {
+      console.warn('Total generation is zero - no energy mix data available');
+      return [];
+    }
+
     return Object.entries(energyMix)
       .filter(([_, value]) => value > 0)
-      .map(([key, value]) => ({
-        name: ENERGY_LABELS[key as keyof typeof ENERGY_LABELS] || key,
-        value: Number(value.toFixed(1)),
-        color: ENERGY_COLORS[key as keyof typeof ENERGY_COLORS] || '#8BC34A',
-      }))
-      .sort((a, b) => b.value - a.value);
+      .map(([key, absoluteValue]) => {
+        const percentage = (absoluteValue / totalGeneration) * 100;
+        return {
+          name: ENERGY_LABELS[key as keyof typeof ENERGY_LABELS] || key,
+          value: Number(percentage.toFixed(1)), // Percentage for chart display
+          absoluteValue: Math.round(absoluteValue), // MWh for tooltip
+          color: ENERGY_COLORS[key as keyof typeof ENERGY_COLORS] || '#CCCCCC',
+          fuelType: key,
+        };
+      })
+      .sort((a, b) => b.absoluteValue - a.absoluteValue); // Sort by absolute generation
   };
 
   const handleExport = () => {
@@ -126,11 +140,16 @@ export function EnergyMixChart() {
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value: number) => [`${value}%`, 'Share']}
+                      formatter={(value: number, name: string, props: any) => [
+                        `${props.payload.absoluteValue.toLocaleString()} MWh (${value}%)`,
+                        props.payload.name
+                      ]}
+                      labelFormatter={() => 'Energy Generation'}
                       contentStyle={{
                         backgroundColor: 'var(--card)',
                         border: '1px solid var(--border)',
                         borderRadius: '8px',
+                        fontSize: '14px',
                       }}
                     />
                   </PieChart>
