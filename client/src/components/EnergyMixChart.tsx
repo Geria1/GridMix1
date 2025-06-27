@@ -8,15 +8,16 @@ import { Skeleton } from '@/components/ui/skeleton';
 import type { EnergyMix } from '@/types/energy';
 
 const ENERGY_COLORS = {
-  wind: '#2196F3',
-  gas: '#757575',
-  nuclear: '#9C27B0',
-  solar: '#FF9800',
-  hydro: '#00BCD4',
-  biomass: '#795548',
-  coal: '#424242',
-  imports: '#607D8B',
-  other: '#8BC34A',
+  wind: '#00BFFF',
+  solar: '#FFD700',
+  nuclear: '#FF6347',
+  gas: '#8A2BE2',
+  coal: '#4B4B4B',
+  hydro: '#1E90FF',
+  biomass: '#228B22',
+  oil: '#A52A2A',
+  imports: '#999999',
+  other: '#CCCCCC',
 };
 
 const ENERGY_LABELS = {

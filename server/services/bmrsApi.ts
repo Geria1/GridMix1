@@ -27,8 +27,6 @@ export class BMRSApiService {
       throw new Error('BMRS API key not configured');
     }
     
-    // BMRS API may use API key in header or as query parameter
-    // Let's try the standard API key approach first
     return {
       'X-API-Key': this.apiKey,
       'Content-Type': 'application/json',
@@ -38,7 +36,6 @@ export class BMRSApiService {
 
   async getActualDemand(from: string, to: string): Promise<BMRSDemandResponse[]> {
     try {
-      // Try API key as query parameter instead of header
       const url = `${this.baseUrl}/demand/actual/total?from=${from}&to=${to}&APIKey=${this.apiKey}`;
       console.log(`Fetching BMRS demand data from: ${url.replace(this.apiKey || '', '[API_KEY]')}`);
       
@@ -57,7 +54,14 @@ export class BMRSApiService {
         throw new Error(`BMRS Demand API error: ${response.status} ${response.statusText}`);
       }
 
-      const data: BMRSDemandResponse[] = await response.json();
+      const responseText = await response.text();
+      
+      // Check if response is HTML (authentication failure)
+      if (responseText.includes('<!doctype') || responseText.includes('<html>')) {
+        throw new Error('BMRS API returned HTML - authentication failed or invalid endpoint');
+      }
+
+      const data: BMRSDemandResponse[] = JSON.parse(responseText);
       console.log(`BMRS demand data received: ${data.length} records`);
       return data;
     } catch (error) {
@@ -68,7 +72,6 @@ export class BMRSApiService {
 
   async getActualGenerationByType(settlementDate: string): Promise<BMRSGenerationResponse[]> {
     try {
-      // Try API key as query parameter instead of header
       const url = `${this.baseUrl}/generation/actual/per-type/day-total?settlementDate=${settlementDate}&APIKey=${this.apiKey}`;
       console.log(`Fetching BMRS generation data from: ${url.replace(this.apiKey || '', '[API_KEY]')}`);
       
@@ -87,9 +90,23 @@ export class BMRSApiService {
         throw new Error(`BMRS Generation API error: ${response.status} ${response.statusText}`);
       }
 
-      const data: BMRSGenerationResponse[] = await response.json();
+      const responseText = await response.text();
+      
+      // Check if response is HTML (authentication failure)
+      if (responseText.includes('<!doctype') || responseText.includes('<html>')) {
+        throw new Error('BMRS API returned HTML - authentication failed or invalid endpoint');
+      }
+      
+      const data: BMRSGenerationResponse[] = JSON.parse(responseText);
       console.log(`BMRS generation data received: ${data.length} records`);
-      return data.filter(item => item.activeFlag === 'Y');
+      
+      // Filter for active entries with valid data
+      return data.filter(item => 
+        item.activeFlag === 'Y' && 
+        item.fuelType && 
+        typeof item.quantity === 'number' && 
+        item.quantity > 0
+      );
     } catch (error) {
       console.error('Error fetching BMRS generation data:', error);
       throw error;
@@ -123,13 +140,17 @@ export class BMRSApiService {
   async getTodaysGenerationMix(): Promise<Record<string, number>> {
     try {
       const today = new Date().toISOString().split('T')[0];
-      const generationData = await this.getActualGenerationByType(today);
-
+      console.log(`Fetching generation mix for ${today}`);
+      
+      let generationData = await this.getActualGenerationByType(today);
+      
+      // If no data for today, try yesterday
       if (generationData.length === 0) {
-        // Try yesterday's data if today's is not available yet
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
         const yesterdayStr = yesterday.toISOString().split('T')[0];
+        console.log(`No data for today, trying ${yesterdayStr}`);
+        
         const yesterdayData = await this.getActualGenerationByType(yesterdayStr);
         
         if (yesterdayData.length === 0) {
@@ -147,13 +168,6 @@ export class BMRSApiService {
   }
 
   public normalizeGenerationData(data: BMRSGenerationResponse[]): Record<string, number> {
-    // Calculate total generation to get percentages
-    const totalGeneration = data.reduce((sum, item) => sum + item.quantity, 0);
-    
-    if (totalGeneration === 0) {
-      throw new Error('Total generation is zero - invalid data');
-    }
-
     // Map BMRS fuel types to our standardized names
     const fuelTypeMap: Record<string, string> = {
       'CCGT': 'gas',
@@ -191,18 +205,15 @@ export class BMRSApiService {
       other: 0,
     };
 
-    // Aggregate by normalized fuel type and convert to percentages
+    // Aggregate data by standardized fuel types
     data.forEach(item => {
-      const normalizedType = fuelTypeMap[item.fuelType] || 'other';
-      const percentage = (item.quantity / totalGeneration) * 100;
-      normalizedMix[normalizedType] += percentage;
+      if (item.activeFlag === 'Y' && item.quantity > 0) {
+        const standardType = fuelTypeMap[item.fuelType] || 'other';
+        normalizedMix[standardType] += item.quantity;
+      }
     });
 
-    // Round to 1 decimal place
-    Object.keys(normalizedMix).forEach(key => {
-      normalizedMix[key] = Math.round(normalizedMix[key] * 10) / 10;
-    });
-
+    console.log('BMRS generation mix (MWh):', normalizedMix);
     return normalizedMix;
   }
 
@@ -226,8 +237,7 @@ export class BMRSApiService {
     }
   }
 
-  // Get grid frequency - this would need a different endpoint or service
-  // For now, we'll simulate realistic UK grid frequency around 50Hz
+  // Get grid frequency - realistic UK grid frequency around 50Hz
   getGridFrequency(): number {
     // UK grid frequency should be very close to 50Hz
     // Real implementation would use National Grid ESO frequency data
