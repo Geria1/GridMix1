@@ -3,65 +3,40 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { energyApiService } from "./services/energyApi";
 import { bmrsApiService } from "./services/bmrsApi";
+import { authenticDataService } from "./services/authenticDataService";
 import { insertEnergyDataSchema } from "@shared/schema";
 
 let dataUpdateInterval: NodeJS.Timeout;
 
 async function fetchAndStoreEnergyData() {
   try {
-    console.log('Fetching energy data from BMRS and Carbon Intensity APIs...');
+    // Get comprehensive authentic energy data
+    const authenticData = await authenticDataService.getComprehensiveEnergyData();
     
-    // Try to get authentic data from BMRS API first
-    let demand: number;
-    let generationMix: Record<string, number>;
-    
-    try {
-      // Get authentic UK electricity data from BMRS
-      const [bmrsDemand, bmrsGeneration] = await Promise.all([
-        bmrsApiService.getCurrentDemand(),
-        bmrsApiService.getTodaysGenerationMix()
-      ]);
-      
-      demand = bmrsDemand;
-      generationMix = bmrsGeneration;
-      console.log('Using authentic BMRS data');
-    } catch (bmrsError) {
-      console.warn('BMRS API unavailable, falling back to Carbon Intensity API:', bmrsError);
-      // Fallback to Carbon Intensity API
-      const [fallbackDemand, fallbackMix] = await Promise.all([
-        energyApiService.getDemandData(),
-        energyApiService.getGenerationMix()
-      ]);
-      demand = fallbackDemand;
-      generationMix = fallbackMix;
+    // Validate data authenticity
+    const isAuthentic = await authenticDataService.validateDataAuthenticity(authenticData);
+    if (!isAuthentic) {
+      throw new Error('Data authenticity validation failed - cannot store inauthentic data');
     }
 
-    // Get carbon intensity and other data from Carbon Intensity API
-    const [carbonIntensity, regionalData, systemStatus] = await Promise.all([
-      energyApiService.getCurrentCarbonIntensity(),
-      energyApiService.getRegionalData(),
-      energyApiService.getSystemStatus()
-    ]);
-
-    const frequency = bmrsApiService.getGridFrequency().toFixed(2);
-
     const energyData = {
-      timestamp: new Date(),
-      totalDemand: demand,
-      carbonIntensity,
-      frequency,
-      energyMix: generationMix,
-      regionalData,
-      systemStatus,
+      timestamp: authenticData.timestamp,
+      totalDemand: authenticData.totalDemand,
+      carbonIntensity: authenticData.carbonIntensity,
+      frequency: authenticData.frequency,
+      energyMix: authenticData.energyMix,
+      regionalData: authenticData.regionalData,
+      systemStatus: authenticData.systemStatus,
     };
 
     // Validate data before storing
     const validatedData = insertEnergyDataSchema.parse(energyData);
     await storage.saveEnergyData(validatedData);
     
-    console.log('Energy data updated successfully');
+    console.log(`Energy data updated successfully from ${authenticData.dataSource}`);
   } catch (error) {
-    console.error('Error fetching/storing energy data:', error);
+    console.error('Error fetching/storing authentic energy data:', error);
+    throw error; // Don't store inauthentic data
   }
 }
 
@@ -99,72 +74,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const historyData = await storage.getEnergyDataHistory(hours);
       
       if (historyData.length === 0) {
-        // If no historical data, try to fetch from API
+        // If no historical data, try to fetch from authentic sources
         try {
-          // Try to get historical data from BMRS first
-          try {
-            const bmrsHistoricalDemand = await bmrsApiService.getHistoricalDemand(hours);
-            
-            // Get generation mix for recent dates
-            const today = new Date().toISOString().split('T')[0];
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            const yesterdayStr = yesterday.toISOString().split('T')[0];
-            
-            const [todayGeneration, yesterdayGeneration] = await Promise.all([
-              bmrsApiService.getTodaysGenerationMix().catch(() => null),
-              bmrsApiService.getActualGenerationByType(yesterdayStr).then(data => 
-                bmrsApiService['normalizeGenerationData'](data)
-              ).catch(() => null)
-            ]);
-            
-            const generationMix = todayGeneration || yesterdayGeneration;
-            
-            if (generationMix && bmrsHistoricalDemand.length > 0) {
-              // Store BMRS historical data
-              for (const dataPoint of bmrsHistoricalDemand) {
-                const energyData = {
-                  timestamp: new Date(dataPoint.time),
-                  totalDemand: dataPoint.demand,
-                  carbonIntensity: await energyApiService.getCurrentCarbonIntensity(),
-                  frequency: bmrsApiService.getGridFrequency().toFixed(2),
-                  energyMix: generationMix,
-                  regionalData: energyApiService.getRegionalData(),
-                  systemStatus: energyApiService.getSystemStatus(),
-                };
-                
-                const validatedData = insertEnergyDataSchema.parse(energyData);
-                await storage.saveEnergyData(validatedData);
-              }
-            } else {
-              throw new Error('BMRS historical data unavailable');
+          const authenticHistoricalData = await authenticDataService.getHistoricalData(hours);
+          
+          // Store authentic historical data
+          for (const dataPoint of authenticHistoricalData) {
+            const isAuthentic = await authenticDataService.validateDataAuthenticity(dataPoint);
+            if (!isAuthentic) {
+              console.warn('Skipping inauthentic historical data point');
+              continue;
             }
-          } catch (bmrsError) {
-            // Fallback to Carbon Intensity API
-            const apiHistoryData = await energyApiService.get24HourData();
             
-            // Store the historical data
-            for (const dataPoint of apiHistoryData) {
-              const energyData = {
-                timestamp: new Date(dataPoint.time),
-                totalDemand: await energyApiService.getDemandData(),
-                carbonIntensity: dataPoint.carbonIntensity,
-                frequency: bmrsApiService.getGridFrequency().toFixed(2),
-                energyMix: dataPoint.mix,
-                regionalData: energyApiService.getRegionalData(),
-                systemStatus: energyApiService.getSystemStatus(),
-              };
-              
-              const validatedData = insertEnergyDataSchema.parse(energyData);
-              await storage.saveEnergyData(validatedData);
-            }
+            const energyData = {
+              timestamp: dataPoint.timestamp,
+              totalDemand: dataPoint.totalDemand,
+              carbonIntensity: dataPoint.carbonIntensity,
+              frequency: dataPoint.frequency,
+              energyMix: dataPoint.energyMix,
+              regionalData: dataPoint.regionalData,
+              systemStatus: dataPoint.systemStatus,
+            };
+            
+            const validatedData = insertEnergyDataSchema.parse(energyData);
+            await storage.saveEnergyData(validatedData);
           }
           
           const newHistoryData = await storage.getEnergyDataHistory(hours);
           return res.json(newHistoryData);
         } catch (apiError) {
-          console.error('Error fetching historical data from API:', apiError);
-          return res.json([]);
+          console.error('Error fetching authentic historical data:', apiError);
+          return res.status(503).json({ 
+            error: 'Authentic historical data temporarily unavailable',
+            message: 'Please check back later for updated data from official sources'
+          });
         }
       }
       
@@ -190,19 +133,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get API status
   app.get("/api/energy/status", async (req, res) => {
     try {
-      // Test basic API connectivity
-      await energyApiService.getCurrentCarbonIntensity();
+      // Test authentic data sources
+      const bmrsAvailable = await bmrsApiService.getCurrentDemand()
+        .then(() => true)
+        .catch(() => false);
+      
+      const carbonIntensityAvailable = await energyApiService.getCurrentCarbonIntensity()
+        .then(() => true)
+        .catch(() => false);
+
+      const primarySource = bmrsAvailable ? 'BMRS (Elexon)' : 
+                           carbonIntensityAvailable ? 'Carbon Intensity API (National Grid)' : 
+                           'None';
+      
+      const status = (bmrsAvailable || carbonIntensityAvailable) ? 'operational' : 'error';
       
       res.json({
-        status: 'operational',
+        status,
         lastUpdate: new Date(),
-        dataSource: 'Carbon Intensity API'
+        dataSource: primarySource,
+        dataQuality: 'authentic',
+        sources: {
+          bmrs: bmrsAvailable ? 'available' : 'unavailable',
+          carbonIntensity: carbonIntensityAvailable ? 'available' : 'unavailable'
+        }
       });
     } catch (error) {
       res.json({
         status: 'error',
         lastUpdate: new Date(),
-        dataSource: 'Carbon Intensity API',
+        dataSource: 'All sources unavailable',
+        dataQuality: 'no-data',
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     }

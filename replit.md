@@ -109,8 +109,12 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
-Changelog:
-- June 26, 2025. Initial setup
+- June 27, 2025: Integrated authentic UK electricity data from BMRS and Carbon Intensity APIs
+  - Added BMRS API service for official Elexon electricity system data
+  - Implemented authentic data validation and fallback handling  
+  - Enhanced data source transparency and quality indicators
+  - Ensures only authentic UK electricity data is displayed (no mock data)
+- June 26, 2025: Initial setup
 
 ## User Preferences
 
