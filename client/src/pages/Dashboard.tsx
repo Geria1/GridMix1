@@ -1,13 +1,14 @@
 import React from 'react';
 import { Header } from '@/components/Header';
+import { HeroSection } from '@/components/HeroSection';
 import { KeyMetrics } from '@/components/KeyMetrics';
-import { EnergyMixChart } from '@/components/EnergyMixChart';
-import { EnergyMixTrendChart } from '@/components/EnergyMixTrendChart';
-import { TrendChart } from '@/components/TrendChart';
+import { EnergyMixDashboard } from '@/components/EnergyMixDashboard';
 import { CarbonIntensityChart } from '@/components/CarbonIntensityChart';
+import { NetZeroCountdownChart } from '@/components/NetZeroCountdownChart';
+import { AnalysisInsightsPanel } from '@/components/AnalysisInsightsPanel';
 import { RegionalHighlights } from '@/components/RegionalHighlights';
 import { SystemStatus } from '@/components/SystemStatus';
-import { NetZeroCountdownChart } from '@/components/NetZeroCountdownChart';
+import { TechnicalNotesSection } from '@/components/TechnicalNotesSection';
 import { Footer } from '@/components/Footer';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
@@ -19,8 +20,10 @@ export default function Dashboard() {
   const getRenewableAlert = () => {
     if (!energyData?.energyMix) return null;
     
-    const renewableShare = energyData.energyMix.wind + energyData.energyMix.solar + 
-                          energyData.energyMix.hydro + energyData.energyMix.biomass;
+    const mix = energyData.energyMix;
+    const totalGeneration = mix.wind + mix.solar + mix.nuclear + mix.gas + mix.coal + mix.hydro + mix.biomass + mix.other;
+    const renewableGeneration = mix.wind + mix.solar + mix.hydro + mix.biomass;
+    const renewableShare = totalGeneration > 0 ? (renewableGeneration / totalGeneration) * 100 : 0;
     
     if (renewableShare > 60) {
       return `High renewable generation today: ${renewableShare.toFixed(1)}% from renewable sources`;
@@ -37,6 +40,9 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <Header />
       
+      {/* Hero Section */}
+      <HeroSection />
+      
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Alert Banner */}
         {!error && getRenewableAlert() && (
@@ -48,23 +54,29 @@ export default function Dashboard() {
           </Alert>
         )}
 
+        {/* Key Metrics */}
         <KeyMetrics />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          <EnergyMixChart />
-          <TrendChart />
-        </div>
+        {/* Energy Mix Dashboard with Tabs */}
+        <EnergyMixDashboard />
 
+        {/* Carbon Intensity Tracking */}
         <CarbonIntensityChart />
 
-        <EnergyMixTrendChart />
-
+        {/* Emissions Trajectory Section */}
         <NetZeroCountdownChart />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Analysis & Insights Panels */}
+        <AnalysisInsightsPanel />
+
+        {/* Regional and System Status */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <RegionalHighlights />
           <SystemStatus />
         </div>
+
+        {/* Technical Notes */}
+        <TechnicalNotesSection />
       </main>
 
       <Footer />

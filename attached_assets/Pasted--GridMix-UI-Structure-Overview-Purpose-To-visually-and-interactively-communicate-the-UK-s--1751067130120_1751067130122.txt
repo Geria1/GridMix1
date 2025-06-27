@@ -1,0 +1,85 @@
+🌐 GridMix — UI & Structure Overview
+🎯 Purpose:
+To visually and interactively communicate the UK’s energy transition — generation sources, emissions trends, and progress to net-zero by 2050.
+
+🧭 1. Hero Section (Top Banner)
+📍Purpose:
+Instant orientation: where the UK stands now on energy and climate targets.
+
+plaintext
+Copy
+Edit
+──────────────────────────────────────────────────────
+🌍 GridMix | UK Grid Energy + Emissions Dashboard
+──────────────────────────────────────────────────────
+🔋 Current Energy Mix • 📈 Progress to Net-Zero • ⏳ Time Left to 2050
+✅ Elements:
+
+Live countdown clock to 2050
+
+“You are here” marker (e.g., current year vs 1990 & 2050)
+
+Short tagline:
+
+“Tracking the UK’s journey to clean power by 2050.”
+
+📊 2. Energy Mix Dashboard
+Tabs/Toggle:
+css
+Copy
+Edit
+[ 🗓️ Monthly Trends ] [ 📆 Weekly Fluctuations ] [ 🔁 Real-Time Snapshot ]
+Each chart is a stacked area or interactive bar chart showing share of each fuel type:
+
+Wind 🟩
+
+Solar 🟨
+
+CCGT (Gas) 🟥
+
+Nuclear 🟦
+
+Biomass 🟫
+
+Coal ⚫
+
+Summary Caption (below chart):
+“This dashboard shows how the UK’s electricity generation changes over time. Seasonal shifts and short-term fluctuations in renewable and fossil sources are clearly visible.”
+
+🌱 3. Emissions Trajectory Section
+Components:
+📉 Line chart from 1990–2025, with empty space to 2050
+
+🔴 1990 baseline
+
+🟢 Current emissions marker (e.g., “43% of 1990 levels”)
+
+🏁 Net-zero target at 2050
+
+Clock:
+"⏳ Time Left to Net-Zero (2050): 24 years, 6 months, 3 days..."
+
+🧠 4. Analysis & Insights Panels (Optional)
+Each in a card format with icons:
+
+Insight Title	Description
+⚡ Fuel Type Trends	Visualize which sources are rising (e.g., wind, solar) and which are fading
+🌀 Volatility & Resilience	Show week-to-week shifts and grid balancing challenges
+📅 Policy Milestones	Coal phase-out (2025), gas reductions, capacity market
+🔍 Compare Regions (Future enhancement)	Regional energy profiles and renewable capacity
+
+🧩 5. Technical Notes / Data Sources Section
+Minimal, collapsible:
+
+“Data provided via Elexon BMRS APIs. Generation by fuel type retrieved daily and aggregated weekly/monthly for clarity. Emission data sourced from BEIS, CCC, and official UK inventory datasets.”
+
+🧬 Design Aesthetics & UX
+Layout: Grid-based, clean whitespace, rounded cards
+
+Theme: Muted background, high-contrast charts, optional dark mode
+
+Fonts: Large headings (XL), clean sans-serif body (base/MD)
+
+Responsive: All elements scale for mobile + touch interaction
+
+Interactive: Hover tooltips, toggle switches, animated transitions
