@@ -113,18 +113,16 @@ export function TechnicalNotesSection() {
                     
                     <div className="grid grid-cols-2 gap-2 text-xs">
                       <div>
-                        <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                          <Clock className="w-3 h-3" />
-                          <span>Updates:</span>
+                        <div className="text-gray-500 dark:text-gray-400 text-xs">
+                          Updates:
                         </div>
                         <div className="text-gray-700 dark:text-gray-300 font-medium">
                           {source.updateFrequency}
                         </div>
                       </div>
                       <div>
-                        <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                          <Shield className="w-3 h-3" />
-                          <span>Coverage:</span>
+                        <div className="text-gray-500 dark:text-gray-400 text-xs">
+                          Coverage:
                         </div>
                         <div className="text-gray-700 dark:text-gray-300 font-medium">
                           {source.coverage}
