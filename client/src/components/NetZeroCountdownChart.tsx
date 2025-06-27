@@ -266,7 +266,7 @@ export function NetZeroCountdownChart() {
                           {data.percentageOf1990.toFixed(1)}% of 1990 levels
                         </p>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {data.totalEmissions?.toFixed(1)} MtCO₂e
+                          {data.totalEmissions ? `${data.totalEmissions.toFixed(1)} MtCO₂e` : 'N/A'}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">{data.source}</p>
                       </div>
