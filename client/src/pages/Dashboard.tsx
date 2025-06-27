@@ -2,6 +2,7 @@ import React from 'react';
 import { Header } from '@/components/Header';
 import { KeyMetrics } from '@/components/KeyMetrics';
 import { EnergyMixChart } from '@/components/EnergyMixChart';
+import { EnergyMixTrendChart } from '@/components/EnergyMixTrendChart';
 import { TrendChart } from '@/components/TrendChart';
 import { CarbonIntensityChart } from '@/components/CarbonIntensityChart';
 import { RegionalHighlights } from '@/components/RegionalHighlights';
@@ -55,6 +56,8 @@ export default function Dashboard() {
         </div>
 
         <CarbonIntensityChart />
+
+        <EnergyMixTrendChart />
 
         <NetZeroCountdownChart />
 
