@@ -1,5 +1,4 @@
 import React from 'react';
-import { Header } from '@/components/Header';
 import { HeroSection } from '@/components/HeroSection';
 import { KeyMetrics } from '@/components/KeyMetrics';
 import { EnergyMixDashboard } from '@/components/EnergyMixDashboard';
@@ -8,7 +7,6 @@ import { NetZeroCountdownChart } from '@/components/NetZeroCountdownChart';
 import { AnalysisInsightsPanel } from '@/components/AnalysisInsightsPanel';
 import { RegionalHighlights } from '@/components/RegionalHighlights';
 import { SystemStatus } from '@/components/SystemStatus';
-import { TechnicalNotesSection } from '@/components/TechnicalNotesSection';
 import { Footer } from '@/components/Footer';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
@@ -38,8 +36,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
-      <Header />
-      
       {/* Hero Section */}
       <HeroSection />
       
@@ -74,9 +70,6 @@ export default function Dashboard() {
           <RegionalHighlights />
           <SystemStatus />
         </div>
-
-        {/* Technical Notes */}
-        <TechnicalNotesSection />
       </main>
 
       <Footer />
