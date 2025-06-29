@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { energyApiService } from "./services/energyApi";
 import { bmrsApiService } from "./services/bmrsApi";
 import { authenticDataService } from "./services/authenticDataService";
+import { enhancedDataService } from "./services/enhancedDataService";
 import { ukEmissionsApiService } from "./services/ukEmissionsApi";
 import { insertEnergyDataSchema } from "@shared/schema";
 
@@ -342,6 +343,94 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error fetching emissions pathway:', error);
       res.status(500).json({ error: 'Failed to fetch emissions pathway' });
+    }
+  });
+
+  // Enhanced data endpoints with multiple BMRS integrations
+  app.get("/api/energy/enhanced/current", async (req, res) => {
+    try {
+      const enhancedData = await enhancedDataService.getComprehensiveEnergyData();
+      res.json(enhancedData);
+    } catch (error) {
+      console.error('Error fetching enhanced energy data:', error);
+      res.status(500).json({ error: 'Failed to fetch enhanced energy data' });
+    }
+  });
+
+  app.get("/api/energy/enhanced/history", async (req, res) => {
+    try {
+      const hours = parseInt(req.query.hours as string) || 24;
+      const enhancedHistory = await enhancedDataService.getHistoricalDataEnhanced(hours);
+      res.json(enhancedHistory);
+    } catch (error) {
+      console.error('Error fetching enhanced historical data:', error);
+      res.status(500).json({ error: 'Failed to fetch enhanced historical data' });
+    }
+  });
+
+  app.get("/api/energy/enhanced/status", async (req, res) => {
+    try {
+      const dataSourceStatus = enhancedDataService.getDataSourceStatus();
+      res.json(dataSourceStatus);
+    } catch (error) {
+      console.error('Error fetching enhanced status:', error);
+      res.status(500).json({ error: 'Failed to fetch enhanced status' });
+    }
+  });
+
+  // Advanced BMRS endpoints
+  app.get("/api/bmrs/grid-status", async (req, res) => {
+    try {
+      const gridStatus = await bmrsApiService.getComprehensiveGridStatus();
+      res.json(gridStatus);
+    } catch (error) {
+      console.error('Error fetching BMRS grid status:', error);
+      res.status(500).json({ error: 'Failed to fetch BMRS grid status' });
+    }
+  });
+
+  app.get("/api/bmrs/frequency", async (req, res) => {
+    try {
+      const hours = parseInt(req.query.hours as string) || 1;
+      const now = new Date();
+      const fromTime = new Date(now.getTime() - hours * 60 * 60 * 1000).toISOString();
+      const toTime = now.toISOString();
+      
+      const frequencyData = await bmrsApiService.getSystemFrequency(fromTime, toTime);
+      res.json(frequencyData);
+    } catch (error) {
+      console.error('Error fetching BMRS frequency data:', error);
+      res.status(500).json({ error: 'Failed to fetch BMRS frequency data' });
+    }
+  });
+
+  app.get("/api/bmrs/balancing", async (req, res) => {
+    try {
+      const hours = parseInt(req.query.hours as string) || 1;
+      const now = new Date();
+      const fromTime = new Date(now.getTime() - hours * 60 * 60 * 1000).toISOString();
+      const toTime = now.toISOString();
+      
+      const balancingData = await bmrsApiService.getBalancingData(fromTime, toTime);
+      res.json(balancingData);
+    } catch (error) {
+      console.error('Error fetching BMRS balancing data:', error);
+      res.status(500).json({ error: 'Failed to fetch BMRS balancing data' });
+    }
+  });
+
+  app.get("/api/bmrs/interconnectors", async (req, res) => {
+    try {
+      const hours = parseInt(req.query.hours as string) || 1;
+      const now = new Date();
+      const fromTime = new Date(now.getTime() - hours * 60 * 60 * 1000).toISOString();
+      const toTime = now.toISOString();
+      
+      const interconnectorData = await bmrsApiService.getInterconnectorFlows(fromTime, toTime);
+      res.json(interconnectorData);
+    } catch (error) {
+      console.error('Error fetching BMRS interconnector data:', error);
+      res.status(500).json({ error: 'Failed to fetch BMRS interconnector data' });
     }
   });
 

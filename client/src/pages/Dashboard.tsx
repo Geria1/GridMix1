@@ -7,6 +7,7 @@ import { NetZeroCountdownChart } from '@/components/NetZeroCountdownChart';
 import { AnalysisInsightsPanel } from '@/components/AnalysisInsightsPanel';
 import { RegionalHighlights } from '@/components/RegionalHighlights';
 import { SystemStatus } from '@/components/SystemStatus';
+import { EnhancedDataSources } from '@/components/EnhancedDataSources';
 import { Footer } from '@/components/Footer';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
