@@ -71,6 +71,9 @@ export default function Dashboard() {
           <RegionalHighlights />
           <SystemStatus />
         </div>
+
+        {/* Enhanced Data Sources */}
+        <EnhancedDataSources />
       </main>
 
       <Footer />

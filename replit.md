@@ -109,6 +109,14 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 29, 2025: Enhanced BMRS and Elexon API Integration
+  - Expanded BMRS API service with comprehensive grid monitoring endpoints (frequency, balancing, imbalance, reserve margin, interconnectors)
+  - Created EnhancedDataService with intelligent data source selection and quality assessment
+  - Added multiple new API endpoints: /api/energy/enhanced/*, /api/bmrs/* for advanced grid data
+  - Implemented data quality scoring (high/medium/low) with automatic fallback mechanisms
+  - Enhanced system status monitoring with grid stability assessment and interconnector flow tracking
+  - Added EnhancedDataSources component showcasing multiple data integration capabilities
+  - Improved error handling and authentication management for BMRS API connections
 - June 28, 2025: Multi-Page Structure Implementation
   - Created comprehensive multi-page application with Dashboard, About GridMix, Blog, and About Me pages
   - Added global navigation header with active page highlighting and mobile-responsive design

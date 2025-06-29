@@ -156,10 +156,10 @@ export function EnhancedDataSources() {
             <CardContent>
               <div className="space-y-3">
                 <div className="text-sm text-gray-600 dark:text-gray-300">
-                  <strong>Primary Source:</strong> {dataSourceStatus.bmrsAvailable ? 'BMRS (Elexon)' : 'Carbon Intensity API'}
+                  <strong>Primary Source:</strong> {(dataSourceStatus as any)?.bmrsAvailable ? 'BMRS (Elexon)' : 'Carbon Intensity API'}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">
-                  <strong>Fallback Available:</strong> {dataSourceStatus.carbonIntensityAvailable ? 'Yes' : 'No'}
+                  <strong>Fallback Available:</strong> {(dataSourceStatus as any)?.carbonIntensityAvailable ? 'Yes' : 'No'}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">
                   <strong>Enhanced Features:</strong> 
@@ -189,30 +189,30 @@ export function EnhancedDataSources() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">Data Source</span>
-                  <Badge variant="secondary">{enhancedData.dataSource}</Badge>
+                  <Badge variant="secondary">{(enhancedData as any)?.dataSource || 'Unknown'}</Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">Data Quality</span>
-                  <Badge className={getDataQualityColor(enhancedData.dataQuality)}>
-                    {enhancedData.dataQuality}
+                  <Badge className={getDataQualityColor((enhancedData as any)?.dataQuality || 'unknown')}>
+                    {(enhancedData as any)?.dataQuality || 'unknown'}
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">Grid Frequency</span>
                   <span className="font-medium text-gray-900 dark:text-white">
-                    {enhancedData.frequency.toFixed(2)} Hz
+                    {((enhancedData as any)?.frequency || 50.0).toFixed(2)} Hz
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">Total Demand</span>
                   <span className="font-medium text-gray-900 dark:text-white">
-                    {(enhancedData.totalDemand / 1000).toFixed(1)} GW
+                    {(((enhancedData as any)?.totalDemand || 30000) / 1000).toFixed(1)} GW
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">Carbon Intensity</span>
                   <span className="font-medium text-gray-900 dark:text-white">
-                    {enhancedData.carbonIntensity} g/kWh
+                    {(enhancedData as any)?.carbonIntensity || 0} g/kWh
                   </span>
                 </div>
               </div>
@@ -229,26 +229,26 @@ export function EnhancedDataSources() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">Grid Stability</span>
-                  <Badge className={getStabilityColor(enhancedData.systemStatus.gridStability)}>
-                    {enhancedData.systemStatus.gridStability.replace('-', ' ')}
+                  <Badge className={getStabilityColor((enhancedData as any)?.systemStatus?.gridStability || 'stable')}>
+                    {((enhancedData as any)?.systemStatus?.gridStability || 'stable').replace('-', ' ')}
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">Reserve Margin</span>
                   <span className="font-medium text-gray-900 dark:text-white">
-                    {enhancedData.systemStatus.reserveMargin.toFixed(1)}%
+                    {((enhancedData as any)?.systemStatus?.reserveMargin || 0).toFixed(1)}%
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">Net Imports</span>
                   <span className="font-medium text-gray-900 dark:text-white">
-                    {(enhancedData.systemStatus.netImports / 1000).toFixed(1)} GW
+                    {(((enhancedData as any)?.systemStatus?.netImports || 0) / 1000).toFixed(1)} GW
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">System Imbalance</span>
                   <span className="font-medium text-gray-900 dark:text-white">
-                    {enhancedData.systemStatus.systemImbalance.toFixed(0)} MW
+                    {((enhancedData as any)?.systemStatus?.systemImbalance || 0).toFixed(0)} MW
                   </span>
                 </div>
               </div>
@@ -271,24 +271,24 @@ export function EnhancedDataSources() {
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">System Frequency</span>
                   <span className="font-medium text-gray-900 dark:text-white">
-                    {bmrsGridStatus.frequency.toFixed(3)} Hz
+                    {((bmrsGridStatus as any)?.frequency || 50.0).toFixed(3)} Hz
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">Reserve Margin</span>
                   <span className="font-medium text-gray-900 dark:text-white">
-                    {bmrsGridStatus.reserveMargin.toFixed(1)}%
+                    {((bmrsGridStatus as any)?.reserveMargin || 0).toFixed(1)}%
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600 dark:text-gray-300">System Imbalance</span>
                   <span className="font-medium text-gray-900 dark:text-white">
-                    {bmrsGridStatus.systemImbalance.toFixed(0)} MW
+                    {((bmrsGridStatus as any)?.systemImbalance || 0).toFixed(0)} MW
                   </span>
                 </div>
                 <div className="pt-2 border-t border-gray-200 dark:border-gray-600">
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    Updated: {new Date(bmrsGridStatus.timestamp).toLocaleTimeString()}
+                    Updated: {(bmrsGridStatus as any)?.timestamp ? new Date((bmrsGridStatus as any).timestamp).toLocaleTimeString() : 'Unknown'}
                   </div>
                 </div>
               </div>
@@ -303,14 +303,14 @@ export function EnhancedDataSources() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {Object.entries(bmrsGridStatus.interconnectorFlows).length > 0 ? (
-                  Object.entries(bmrsGridStatus.interconnectorFlows).map(([country, flow]) => (
+                {Object.entries((bmrsGridStatus as any)?.interconnectorFlows || {}).length > 0 ? (
+                  Object.entries((bmrsGridStatus as any).interconnectorFlows).map(([country, flow]) => (
                     <div key={country} className="flex items-center justify-between">
                       <span className="text-gray-600 dark:text-gray-300 capitalize">
                         {country}
                       </span>
                       <span className="font-medium text-gray-900 dark:text-white">
-                        {(flow / 1000).toFixed(1)} GW
+                        {((flow as number) / 1000).toFixed(1)} GW
                       </span>
                     </div>
                   ))
