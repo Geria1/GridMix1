@@ -1,15 +1,8 @@
 import React from 'react';
 import { useTheme } from '@/components/ThemeProvider';
 import { Button } from '@/components/ui/button';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, Zap } from 'lucide-react';
 import { useCurrentEnergyData } from '@/hooks/useEnergyData';
-// GridMix logo will be displayed as CSS background to avoid import issues
-const gridmixLogoStyle = {
-  backgroundImage: 'url("/attached_assets/grimix logo green and blue_1751223794918.PNG")',
-  backgroundSize: 'contain',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'center'
-};
 
 export function Header() {
   const { theme, toggleTheme } = useTheme();
@@ -33,18 +26,11 @@ export function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo and Title */}
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gray-900 dark:bg-gray-800 rounded-lg p-1">
-              <div 
-                style={gridmixLogoStyle}
-                className="w-full h-full"
-                role="img"
-                aria-label="GridMix Logo"
-              />
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+              <Zap className="text-white text-xl" size={24} />
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
-                GridMix
-              </h1>
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">GridMix</h1>
               <p className="text-sm text-gray-500 dark:text-gray-400">UK Energy Dashboard</p>
             </div>
           </div>

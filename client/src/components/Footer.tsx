@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
-import { Bell } from 'lucide-react';
+import { Zap, Bell } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -9,23 +9,11 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-8 h-8 bg-gray-900 dark:bg-gray-800 rounded-lg p-1">
-                <div 
-                  style={{
-                    backgroundImage: 'url("/attached_assets/grimix logo green and blue_1751223794918.PNG")',
-                    backgroundSize: 'contain',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center'
-                  }}
-                  className="w-full h-full"
-                  role="img"
-                  aria-label="GridMix Logo"
-                />
+            <div className="flex items-center space-x-2 mb-4">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <Zap className="text-white" size={20} />
               </div>
-              <span className="font-semibold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
-                GridMix
-              </span>
+              <span className="font-semibold text-gray-900 dark:text-white">GridMix</span>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Real-time UK electricity generation data, democratizing access to energy information for everyone.
