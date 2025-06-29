@@ -109,11 +109,12 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
-- June 29, 2025: Blog Content Update - Net Zero 2050 Article
-  - Replaced existing blog content with comprehensive article on UK Net Zero policy and U.S. climate shifts
-  - Added interactive article display with expand/collapse functionality for full content reading
-  - Implemented structured formatting for headers, bullet points, impact sections, and benefits
-  - Updated tag system to include "Net Zero", "Policy", and "Economics" topics
+- June 29, 2025: Blog Content Update - Two Featured Articles
+  - Added comprehensive article on UK Net Zero policy and U.S. climate shifts
+  - Added technical guide on Carbon Intensity calculation and practical applications
+  - Implemented interactive article display with expand/collapse functionality for full content reading
+  - Enhanced formatting with proper table rendering, color-coded sections, and markdown support
+  - Updated tag system to include "Net Zero", "Policy", "Economics", "Carbon Intensity", and "Technical" topics
 - June 29, 2025: About Me Page Personal Bio Update
   - Updated About Me page with John's complete professional background and personal story
   - Added Chemical Engineering degree and MSc in Sustainable Energy & Entrepreneurship from University of Nottingham

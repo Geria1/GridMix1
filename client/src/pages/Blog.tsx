@@ -5,15 +5,16 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 export default function Blog() {
-  const [showFullArticle, setShowFullArticle] = useState(false);
+  const [showFullArticle, setShowFullArticle] = useState<number | null>(null);
   
-  const featuredPost = {
-    title: "Net Zero 2050: Can the UK Stay the Course as U.S. Policy Shifts?",
-    excerpt: "As the world races toward decarbonisation, the UK stands legally bound to hit net zero by 2050. But what happens if the U.S. turns its back on climate goals?",
-    date: "June 29, 2025",
-    tags: ["Policy", "Net Zero", "Economics"],
-    readTime: "8 min read",
-    content: `As the world races — or stumbles — toward decarbonisation, the UK stands out as a nation legally bound to hit net zero emissions by 2050. It's an ambitious goal, and one that has already reshaped British policy, energy infrastructure, and investment.
+  const featuredPosts = [
+    {
+      title: "Net Zero 2050: Can the UK Stay the Course as U.S. Policy Shifts?",
+      excerpt: "As the world races toward decarbonisation, the UK stands legally bound to hit net zero by 2050. But what happens if the U.S. turns its back on climate goals?",
+      date: "June 29, 2025",
+      tags: ["Policy", "Net Zero", "Economics"],
+      readTime: "8 min read",
+      content: `As the world races — or stumbles — toward decarbonisation, the UK stands out as a nation legally bound to hit net zero emissions by 2050. It's an ambitious goal, and one that has already reshaped British policy, energy infrastructure, and investment.
 
 But what happens if the U.S. — the world's largest economy and one of its biggest polluters — turns its back on net zero?
 
@@ -107,9 +108,200 @@ If the U.S. retreats from climate goals, the UK will feel the heat — economica
 - Weak global influence
 
 Staying the course isn't just about climate—it's about leadership, security, and a future we can sustain.`
-  };
+    },
+    {
+      title: "Carbon Intensity: Why It Matters and How to Use It for a Greener Future",
+      excerpt: "Understanding carbon intensity is essential for anyone who uses electricity. Learn when electricity is cleanest and how to make smarter, greener energy decisions.",
+      date: "June 29, 2025",
+      tags: ["Carbon Intensity", "Data", "Technical"],
+      readTime: "6 min read",
+      content: `As the UK races toward its net-zero targets, understanding carbon intensity is no longer just a technical detail—it's essential knowledge for anyone who uses electricity. Whether you're a sustainability officer, an energy trader, or simply trying to reduce your carbon footprint at home, knowing when and how carbon intensity fluctuates helps you make smarter, greener decisions.
 
-  const tags = ["Net Zero", "Policy", "Economics", "Wind", "Solar", "Data", "Trends", "Nuclear"];
+In this blog post, we'll explain what carbon intensity is, why it matters more than ever, and how it's calculated—so you can use energy with climate-conscious precision.
+
+## What Is Carbon Intensity?
+
+Carbon intensity refers to the amount of carbon dioxide (CO₂) emitted for every unit of electricity generated. It's measured in grams of CO₂ per kilowatt-hour (gCO₂/kWh).
+
+Because the UK's electricity comes from a dynamic mix of sources—like wind, solar, gas, coal, and imports—carbon intensity isn't fixed. It varies hour by hour, depending on which sources are generating power at that moment.
+
+## Why Carbon Intensity Matters
+
+### 1. Smarter Energy Use
+Using electricity when it's cleanest—typically when renewables dominate—means a lower personal or corporate carbon footprint.
+
+### 2. Greener Operations
+Businesses can integrate carbon intensity into sustainability strategies, scheduling energy-heavy tasks during low-carbon periods.
+
+### 3. Informed Policy and Planning
+Carbon intensity is a vital metric for tracking decarbonisation progress and making grid and infrastructure decisions.
+
+### 4. Real-Time Climate Action
+With tools like GridMix, users can make data-driven decisions to directly impact their emissions in real time.
+
+## How Is Carbon Intensity Calculated?
+
+### Step 1: Get the Generation Mix
+Start with data showing how much electricity is being produced from each energy source at a specific time. This data is available from:
+- GridMix (live data and visualisation)
+- National Grid ESO
+- Elexon
+
+### Step 2: Apply Emission Factors
+Each source of electricity has a known average emission factor:
+
+| Source | Emission Factor (gCO₂/kWh) |
+|--------|----------------------------|
+| Coal | 937 |
+| Gas | 394 |
+| Biomass | 120 |
+| Nuclear | 0 |
+| Wind | 0 |
+| Solar | 0 |
+| Hydro | 0 |
+| Imports | Varies |
+
+Multiply each source's generation by its emission factor to get its total emissions.
+
+### Step 3: Do the Maths
+Add up the emissions, then divide by the total generation to find carbon intensity:
+
+**Formula:**
+Carbon Intensity = Total Emissions (gCO₂) ÷ Total Electricity (kWh)
+
+### Example Calculation:
+
+| Source | Generation (MWh) | Emission Factor | Emissions (kgCO₂) |
+|--------|------------------|-----------------|-------------------|
+| Gas | 1000 | 394 | 394,000 |
+| Coal | 200 | 937 | 187,400 |
+| Wind | 800 | 0 | 0 |
+
+**Total Generation:** 2000 MWh = 2,000,000 kWh
+**Total Emissions:** 581,400,000 gCO₂
+
+**Carbon Intensity = 581,400,000 ÷ 2,000,000 = 290.7 gCO₂/kWh**
+
+## How GridMix Helps You Track It
+
+At GridMix, we automate all of this for you. Our platform delivers:
+- Live and historical carbon intensity data
+- Regional energy mix breakdowns
+- Tools for tracking your energy-related emissions
+
+This makes it easy to align your electricity use with low-carbon periods—without doing the maths yourself.
+
+## Final Thoughts
+
+In a time of climate urgency, understanding when electricity is clean and when it's carbon-heavy is one of the most impactful tools we have. Knowing the carbon intensity of the grid lets you act smarter, save emissions, and contribute to a more sustainable UK—minute by minute.`
+    }
+  ];
+
+  const tags = ["Net Zero", "Policy", "Economics", "Carbon Intensity", "Wind", "Solar", "Data", "Technical"];
+
+  const renderContent = (content: string) => {
+    return content.split('\n\n').map((paragraph: string, index: number) => {
+      if (paragraph.startsWith('##')) {
+        return (
+          <h2 key={index} className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
+            {paragraph.replace('## ', '')}
+          </h2>
+        );
+      }
+      if (paragraph.startsWith('###')) {
+        return (
+          <h3 key={index} className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
+            {paragraph.replace('### ', '')}
+          </h3>
+        );
+      }
+      if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
+        return (
+          <p key={index} className="font-semibold text-gray-900 dark:text-white mb-2">
+            {paragraph.replace(/\*\*/g, '')}
+          </p>
+        );
+      }
+      if (paragraph.includes('✔️')) {
+        return (
+          <div key={index} className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg mb-4">
+            <p className="font-semibold text-green-800 dark:text-green-200">
+              {paragraph.replace('✔️ ', '')}
+            </p>
+          </div>
+        );
+      }
+      if (paragraph.startsWith('- ')) {
+        const items = paragraph.split('\n').filter((item: string) => item.trim());
+        return (
+          <ul key={index} className="list-disc list-inside space-y-1 mb-4">
+            {items.map((item: string, itemIndex: number) => (
+              <li key={itemIndex} className="text-gray-700 dark:text-gray-300">
+                {item.replace('- ', '')}
+              </li>
+            ))}
+          </ul>
+        );
+      }
+      if (paragraph.includes('**Impact:**')) {
+        const [header, ...content] = paragraph.split('\n');
+        return (
+          <div key={index} className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg mb-4">
+            <p className="font-semibold text-amber-800 dark:text-amber-200 mb-2">
+              {header.replace(/\*\*/g, '')}
+            </p>
+            <ul className="list-disc list-inside space-y-1">
+              {content.map((item: string, itemIndex: number) => (
+                item.trim() && (
+                  <li key={itemIndex} className="text-amber-700 dark:text-amber-300">
+                    {item.replace('- ', '')}
+                  </li>
+                )
+              ))}
+            </ul>
+          </div>
+        );
+      }
+      if (paragraph.includes('|') && paragraph.includes('---')) {
+        const lines = paragraph.split('\n').filter((line: string) => line.trim());
+        const headers = lines[0].split('|').map((h: string) => h.trim()).filter((h: string) => h);
+        const rows = lines.slice(2).map((line: string) => 
+          line.split('|').map((cell: string) => cell.trim()).filter((cell: string) => cell)
+        );
+        return (
+          <div key={index} className="overflow-x-auto mb-6">
+            <table className="min-w-full border border-gray-300 dark:border-gray-600 rounded-lg">
+              <thead className="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  {headers.map((header: string, hIndex: number) => (
+                    <th key={hIndex} className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold text-gray-900 dark:text-white">
+                      {header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row: string[], rIndex: number) => (
+                  <tr key={rIndex} className="border-b border-gray-200 dark:border-gray-700">
+                    {row.map((cell: string, cIndex: number) => (
+                      <td key={cIndex} className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300">
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      }
+      return (
+        <p key={index} className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
+          {paragraph}
+        </p>
+      );
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -129,138 +321,75 @@ Staying the course isn't just about climate—it's about leadership, security, a
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Featured Article */}
+            {/* Featured Articles */}
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Featured Article</h2>
-              <Card className="border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-                        {featuredPost.title}
-                      </CardTitle>
-                      <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
-                        <span>{featuredPost.date}</span>
-                        <span>{featuredPost.readTime}</span>
-                      </div>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  {!showFullArticle ? (
-                    <>
-                      <p className="text-gray-600 dark:text-gray-300 mb-4 text-lg leading-relaxed">
-                        {featuredPost.excerpt}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex flex-wrap gap-2">
-                          {featuredPost.tags.map((tag, tagIndex) => (
-                            <Badge key={tagIndex} variant="secondary" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                        <Button 
-                          onClick={() => setShowFullArticle(true)}
-                          className="bg-blue-600 hover:bg-blue-700 text-white"
-                        >
-                          Read Full Article →
-                        </Button>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="prose prose-lg dark:prose-invert max-w-none">
-                        <div className="text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
-                          {featuredPost.content.split('\n\n').map((paragraph, index) => {
-                            if (paragraph.startsWith('##')) {
-                              return (
-                                <h2 key={index} className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
-                                  {paragraph.replace('## ', '')}
-                                </h2>
-                              );
-                            }
-                            if (paragraph.startsWith('###')) {
-                              return (
-                                <h3 key={index} className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
-                                  {paragraph.replace('### ', '')}
-                                </h3>
-                              );
-                            }
-                            if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
-                              return (
-                                <p key={index} className="font-semibold text-gray-900 dark:text-white mb-2">
-                                  {paragraph.replace(/\*\*/g, '')}
-                                </p>
-                              );
-                            }
-                            if (paragraph.includes('✔️')) {
-                              return (
-                                <div key={index} className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg mb-4">
-                                  <p className="font-semibold text-green-800 dark:text-green-200">
-                                    {paragraph.replace('✔️ ', '')}
-                                  </p>
-                                </div>
-                              );
-                            }
-                            if (paragraph.startsWith('- ')) {
-                              const items = paragraph.split('\n').filter(item => item.trim());
-                              return (
-                                <ul key={index} className="list-disc list-inside space-y-1 mb-4">
-                                  {items.map((item, itemIndex) => (
-                                    <li key={itemIndex} className="text-gray-700 dark:text-gray-300">
-                                      {item.replace('- ', '')}
-                                    </li>
-                                  ))}
-                                </ul>
-                              );
-                            }
-                            if (paragraph.includes('**Impact:**')) {
-                              const [header, ...content] = paragraph.split('\n');
-                              return (
-                                <div key={index} className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg mb-4">
-                                  <p className="font-semibold text-amber-800 dark:text-amber-200 mb-2">
-                                    {header.replace(/\*\*/g, '')}
-                                  </p>
-                                  <ul className="list-disc list-inside space-y-1">
-                                    {content.map((item, itemIndex) => (
-                                      item.trim() && (
-                                        <li key={itemIndex} className="text-amber-700 dark:text-amber-300">
-                                          {item.replace('- ', '')}
-                                        </li>
-                                      )
-                                    ))}
-                                  </ul>
-                                </div>
-                              );
-                            }
-                            return (
-                              <p key={index} className="mb-4">
-                                {paragraph}
-                              </p>
-                            );
-                          })}
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Featured Articles</h2>
+              <div className="space-y-6">
+                {featuredPosts.map((post, postIndex) => (
+                  <Card key={postIndex} className="border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <CardTitle className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                            {post.title}
+                          </CardTitle>
+                          <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
+                            <span>{post.date}</span>
+                            <span>{post.readTime}</span>
+                          </div>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-                        <div className="flex flex-wrap gap-2">
-                          {featuredPost.tags.map((tag, tagIndex) => (
-                            <Badge key={tagIndex} variant="secondary" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                        <Button 
-                          variant="outline"
-                          onClick={() => setShowFullArticle(false)}
-                        >
-                          ← Back to Summary
-                        </Button>
-                      </div>
-                    </>
-                  )}
-                </CardContent>
-              </Card>
+                    </CardHeader>
+                    <CardContent>
+                      {showFullArticle !== postIndex ? (
+                        <>
+                          <p className="text-gray-600 dark:text-gray-300 mb-4 text-lg leading-relaxed">
+                            {post.excerpt}
+                          </p>
+                          <div className="flex items-center justify-between">
+                            <div className="flex flex-wrap gap-2">
+                              {post.tags.map((tag: string, tagIndex: number) => (
+                                <Badge key={tagIndex} variant="secondary" className="text-xs">
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </div>
+                            <Button 
+                              onClick={() => setShowFullArticle(postIndex)}
+                              className="bg-blue-600 hover:bg-blue-700 text-white"
+                            >
+                              Read Full Article →
+                            </Button>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="prose prose-lg dark:prose-invert max-w-none">
+                            <div className="text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+                              {renderContent(post.content)}
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                            <div className="flex flex-wrap gap-2">
+                              {post.tags.map((tag: string, tagIndex: number) => (
+                                <Badge key={tagIndex} variant="secondary" className="text-xs">
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </div>
+                            <Button 
+                              variant="outline"
+                              onClick={() => setShowFullArticle(null)}
+                            >
+                              ← Back to Summary
+                            </Button>
+                          </div>
+                        </>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
 
             {/* Coming Soon */}
@@ -317,7 +446,7 @@ Staying the course isn't just about climate—it's about leadership, security, a
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {tags.map((tag, index) => (
+                  {tags.map((tag: string, index: number) => (
                     <Badge 
                       key={index} 
                       variant="outline" 
@@ -341,15 +470,15 @@ Staying the course isn't just about climate—it's about leadership, security, a
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-300">Wind Share Today:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">~60%</span>
+                    <span className="font-medium text-gray-900 dark:text-white">~20%</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-300">Renewable Share:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">~67%</span>
+                    <span className="font-medium text-gray-900 dark:text-white">~55%</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-300">Grid Demand:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">29.8 GW</span>
+                    <span className="font-medium text-gray-900 dark:text-white">42.0 GW</span>
                   </div>
                   <div className="pt-2 border-t border-gray-200 dark:border-gray-600">
                     <Button variant="ghost" size="sm" className="w-full text-blue-600 dark:text-blue-400">
