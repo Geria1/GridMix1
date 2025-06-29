@@ -109,6 +109,13 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 29, 2025: Legal Pages and Social Sharing Implementation
+  - Created comprehensive Privacy Policy page with UK GDPR compliance and professional styling
+  - Added Terms of Use page with intellectual property, data sources, and usage guidelines
+  - Integrated ShareButtons component with Twitter, LinkedIn, Facebook, email, and copy-link functionality
+  - Added social media sharing to all blog posts for enhanced content distribution
+  - Updated footer navigation with Privacy Policy and Terms of Use links
+  - Applied consistent GridMix branding and responsive design across all legal pages
 - June 29, 2025: Mailchimp Newsletter Integration Complete
   - Integrated @mailchimp/mailchimp_marketing package for automated email capture
   - Added NewsletterSignup component with variants for blog, footer, and inline use

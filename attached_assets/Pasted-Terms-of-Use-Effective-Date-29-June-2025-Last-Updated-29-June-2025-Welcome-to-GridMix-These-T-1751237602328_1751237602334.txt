@@ -1,0 +1,103 @@
+Terms of Use
+Effective Date: 29 June 2025
+ Last Updated: 29 June 2025
+Welcome to GridMix. These Terms of Use (“Terms”) govern your access to and use of our website, services, data, and tools made available at www.gridmix.co.uk (the “Site”). By using the Site, you agree to be bound by these Terms.
+If you do not agree with these Terms, please do not use our Site.
+
+1. About GridMix
+GridMix is a data platform offering real-time and historical information on the UK’s electricity generation mix, carbon intensity, and related energy metrics. Our mission is to promote transparency and support climate-conscious decision-making through accessible, reliable energy data.
+
+2. Eligibility
+You must be at least 13 years old to use the Site. By using the Site, you affirm that you are legally able to enter into this agreement.
+
+3. Use of the Site
+You agree to use the Site:
+In accordance with these Terms and applicable laws
+
+
+Only for lawful, personal, academic, or non-commercial informational purposes (unless otherwise agreed)
+
+
+You agree not to:
+Interfere with the operation, security, or accessibility of the Site
+
+
+Attempt to gain unauthorised access to any part of the Site
+
+
+Use the data for misleading, illegal, or harmful purposes
+
+
+Reproduce or redistribute GridMix content or data for commercial use without permission
+
+
+
+4. Intellectual Property
+All content and materials on GridMix, including text, graphics, visualisations, data processing tools, and code, are owned by or licensed to GridMix and are protected by UK and international copyright and intellectual property laws.
+You may:
+View and share content for personal, academic, or non-commercial use
+
+
+Credit GridMix when using or referencing our data and visualisations (e.g., “Source: GridMix.co.uk”)
+
+
+You may not:
+Republish, distribute, or commercially exploit our content or tools without express written permission
+
+
+Reverse engineer or create derivative works based on GridMix software or systems
+
+
+For permissions or licensing enquiries, contact: hello@gridmix.co.uk
+
+5. Data Sources and Accuracy
+GridMix uses data from trusted third-party providers, including but not limited to:
+National Grid ESO
+
+
+Elexon
+
+
+Department for Energy Security and Net Zero (DESNZ)
+
+
+Other licensed data providers and official public datasets
+
+
+We process and visualise this data to provide up-to-date insights into the UK’s electricity grid and carbon intensity. Wherever possible, we use datasets made available under open licences, such as the Open Government Licence (OGL v3.0).
+While we strive for accuracy, completeness, and real-time updates, GridMix provides this information “as is” and for informational purposes only. We do not guarantee the accuracy or availability of external data sources, and your use of the information is at your own risk.
+
+6. Third-Party Links and Services
+GridMix may include links to third-party websites or services. These are provided for your convenience only. We do not endorse or accept responsibility for third-party content, practices, or privacy policies.
+
+7. Availability and Modifications
+We aim to keep the Site operational at all times but do not guarantee uninterrupted access. We reserve the right to:
+Update, modify, or discontinue any part of the Site without notice
+
+
+Revise these Terms at any time. Continued use after changes constitutes acceptance of the updated Terms
+
+
+
+8. Termination
+We may suspend or terminate your access to the Site at any time without notice if we reasonably believe you have violated these Terms or misused the Site.
+
+9. Limitation of Liability
+To the fullest extent permitted by law, GridMix shall not be liable for:
+Any indirect, incidental, or consequential damages
+
+
+Loss of data, profits, or business resulting from your use of, or reliance on, the Site or its data
+
+
+You agree to use GridMix at your own discretion and risk.
+
+10. Governing Law
+These Terms are governed by and interpreted in accordance with the laws of England and Wales. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of the courts of England and Wales.
+
+11. Contact Us
+If you have any questions or concerns regarding these Terms, please contact:
+
+ 📧 Email: hello@gridmix.co.uk
+ 🌐 Website: www.gridmix.co.uk
+
