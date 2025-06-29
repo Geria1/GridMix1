@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
@@ -33,7 +33,7 @@ const ENERGY_LABELS = {
   other: 'Other',
 };
 
-function EnergyMixChartComponent() {
+export function EnergyMixChart() {
   const { data: energyData, isLoading, error } = useCurrentEnergyData();
 
   const formatEnergyMixData = (energyMix: EnergyMix) => {
@@ -180,3 +180,5 @@ function EnergyMixChartComponent() {
     </div>
   );
 }
+
+
