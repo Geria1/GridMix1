@@ -81,7 +81,6 @@ export class BMRSApiService {
   async getActualDemand(from: string, to: string): Promise<BMRSDemandResponse[]> {
     try {
       const url = `${this.baseUrl}/demand/actual/total?from=${from}&to=${to}&APIKey=${this.apiKey}`;
-      console.log(`Fetching BMRS demand data from: ${url.replace(this.apiKey || '', '[API_KEY]')}`);
       
       const response = await fetch(url, {
         headers: {
@@ -117,7 +116,6 @@ export class BMRSApiService {
   async getActualGenerationByType(settlementDate: string): Promise<BMRSGenerationResponse[]> {
     try {
       const url = `${this.baseUrl}/generation/actual/per-type/day-total?settlementDate=${settlementDate}&APIKey=${this.apiKey}`;
-      console.log(`Fetching BMRS generation data from: ${url.replace(this.apiKey || '', '[API_KEY]')}`);
       
       const response = await fetch(url, {
         headers: {
@@ -285,7 +283,7 @@ export class BMRSApiService {
   async getSystemFrequency(from: string, to: string): Promise<BMRSFrequencyResponse[]> {
     try {
       const url = `${this.baseUrl}/balancing/dynamic/all?from=${from}&to=${to}&APIKey=${this.apiKey}`;
-      console.log(`Fetching BMRS frequency data from: ${url.replace(this.apiKey || '', '[API_KEY]')}`);
+
       
       const response = await fetch(url, {
         headers: {
