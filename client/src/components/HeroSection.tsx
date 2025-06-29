@@ -54,7 +54,22 @@ export function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <div className="flex justify-center mb-6">
+            <div className="w-20 h-20 bg-gray-900 dark:bg-gray-800 rounded-2xl p-2">
+              <div 
+                style={{
+                  backgroundImage: 'url("/attached_assets/grimix logo green and blue_1751223794918.PNG")',
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center'
+                }}
+                className="w-full h-full"
+                role="img"
+                aria-label="GridMix Logo"
+              />
+            </div>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent mb-4">
             GridMix
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-2">

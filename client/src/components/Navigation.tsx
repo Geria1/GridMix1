@@ -20,12 +20,27 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/">
-            <div className="flex items-center space-x-2 cursor-pointer">
-              <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
-                GridMix
+            <div className="flex items-center space-x-3 cursor-pointer">
+              <div className="w-10 h-10 bg-gray-900 dark:bg-gray-800 rounded-lg p-1">
+                <div 
+                  style={{
+                    backgroundImage: 'url("/attached_assets/grimix logo green and blue_1751223794918.PNG")',
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center'
+                  }}
+                  className="w-full h-full"
+                  role="img"
+                  aria-label="GridMix Logo"
+                />
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">
-                UK Energy Dashboard
+              <div>
+                <div className="text-xl font-bold bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
+                  GridMix
+                </div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">
+                  UK Energy Dashboard
+                </div>
               </div>
             </div>
           </Link>

@@ -24,9 +24,15 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
+  /* GridMix brand colors - matching logo */
+  --gridmix-teal: hsl(174, 100%, 40%);
+  --gridmix-blue: hsl(207, 90%, 54%);
+  --gridmix-primary: hsl(174, 100%, 40%);
+  --gridmix-secondary: hsl(207, 90%, 54%);
+  
   /* Energy-specific colors */
   --energy-blue: hsl(207, 90%, 54%);
-  --renewable-green: hsl(122, 39%, 49%);
+  --renewable-green: hsl(174, 100%, 40%);
   --wind-blue: hsl(207, 90%, 61%);
   --solar-orange: hsl(36, 100%, 50%);
   --fossil-gray: hsl(0, 0%, 46%);
