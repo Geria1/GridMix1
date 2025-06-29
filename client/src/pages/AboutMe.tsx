@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import profileImage from "@assets/IMG_0090_1751238030881.jpeg";
 
 export default function AboutMe() {
   return (
@@ -23,26 +24,37 @@ export default function AboutMe() {
           <div className="lg:col-span-2 space-y-6">
             <Card className="border-gray-200 dark:border-gray-700">
               <CardContent className="p-8">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                  Hey, I'm John Igwebuike.
-                </h2>
-                
-                <div className="prose prose-lg dark:prose-invert max-w-none space-y-6">
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    I trained as a Chemical Engineer and went on to earn an MSc in Sustainable Energy & Entrepreneurship at the University of Nottingham.
-                  </p>
-                  
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    I'm passionate about clean energy, open data, and building tools that make complex systems easier to understand. GridMix came out of my curiosity for climate policy, renewable energy science, and a belief that everyone should have easy access to real-time, transparent insights into how the energy grid is changing—because those changes shape the way we use and think about energy every day.
-                  </p>
-                  
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    I work in the UK renewable energy sector and also have a strong interest in property entrepreneurship. Through my day-to-day work, I've seen how quickly the energy landscape is evolving, and I wanted to create something that helps make that shift more visible and relatable. GridMix is my way of helping others explore and make sense of the energy transition happening all around us.
-                  </p>
-                  
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    Outside of work, I'm usually listening to audiobooks or podcasts—and while I'm still getting the hang of it, you'll often find me at the driving range in the evenings, working on my golf swing.
-                  </p>
+                <div className="flex flex-col md:flex-row gap-8 items-start">
+                  <div className="flex-shrink-0">
+                    <img 
+                      src={profileImage} 
+                      alt="John Igwebuike - GridMix Creator"
+                      className="w-48 h-48 rounded-xl object-cover shadow-lg border-4 border-white dark:border-gray-700"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                      Hey, I'm John Igwebuike.
+                    </h2>
+                    
+                    <div className="prose prose-lg dark:prose-invert max-w-none space-y-6">
+                      <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                        I trained as a Chemical Engineer and went on to earn an MSc in Sustainable Energy & Entrepreneurship at the University of Nottingham.
+                      </p>
+                      
+                      <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                        I'm passionate about clean energy, open data, and building tools that make complex systems easier to understand. GridMix came out of my curiosity for climate policy, renewable energy science, and a belief that everyone should have easy access to real-time, transparent insights into how the energy grid is changing—because those changes shape the way we use and think about energy every day.
+                      </p>
+                      
+                      <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                        I work in the UK renewable energy sector and also have a strong interest in property entrepreneurship. Through my day-to-day work, I've seen how quickly the energy landscape is evolving, and I wanted to create something that helps make that shift more visible and relatable. GridMix is my way of helping others explore and make sense of the energy transition happening all around us.
+                      </p>
+                      
+                      <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                        Outside of work, I'm usually listening to audiobooks or podcasts—and while I'm still getting the hang of it, you'll often find me at the driving range in the evenings, working on my golf swing.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
