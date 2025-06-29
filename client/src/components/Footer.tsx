@@ -36,6 +36,9 @@ export function Footer() {
               <Link href="/about-me" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
                 About Me
               </Link>
+              <Link href="/privacy" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
+                Privacy Policy
+              </Link>
             </div>
           </div>
           

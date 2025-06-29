@@ -1,0 +1,152 @@
+Privacy Policy
+Effective date: 29 June 2025
+ Last updated: 29 June 2025
+GridMix ("we", "our", "us") is committed to protecting and respecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our website www.gridmix.co.uk and related services.
+We adhere to the UK General Data Protection Regulation (UK GDPR), the Data Protection Act 2018, and other applicable privacy laws.
+
+1. Who We Are
+GridMix is a platform that provides live and historical data about electricity generation, energy mix, and carbon intensity in the UK. Our aim is to promote energy awareness, transparency, and sustainable decision-making through accessible data.
+
+2. What Information We Collect
+We collect two types of data:
+a. Personal Data (Only if You Provide It)
+We only collect personally identifiable information if you choose to provide it. For example, if you:
+Sign up for updates or a newsletter
+
+
+Contact us through a form or email
+
+
+This may include:
+Name
+
+
+Email address
+
+
+Organisation (if applicable)
+
+
+Any other details you choose to submit
+
+
+b. Non-Personal Data (Automatically Collected)
+When you visit GridMix, we may automatically collect certain information using analytics tools and cookies, including:
+IP address
+
+
+Browser type and version
+
+
+Pages visited and time spent
+
+
+Device and operating system
+
+
+Referring website
+
+
+This data is aggregated and used to improve site performance, diagnose issues, and understand user behaviour.
+
+3. How We Use Your Information
+We use your data only when necessary, including to:
+Respond to your enquiries
+
+
+Provide services or updates you request
+
+
+Improve and optimise the website
+
+
+Monitor usage patterns and trends
+
+
+Comply with legal obligations
+
+
+We do not sell your personal data.
+
+4. Cookies and Tracking
+GridMix uses cookies to enhance user experience and measure website performance. Cookies are small files stored on your device. You can control or delete cookies through your browser settings.
+We may use:
+Essential cookies – Required for basic functionality
+
+
+Analytics cookies – To track usage (e.g., Google Analytics)
+
+
+We do not use cookies for advertising or marketing purposes.
+
+5. Lawful Basis for Processing
+Under the UK GDPR, our lawful bases for processing personal data may include:
+Consent – When you give us permission (e.g., for newsletter sign-up)
+
+
+Legitimate interest – For site functionality and improvement
+
+
+Legal obligation – If required by law
+
+
+
+6. Data Retention
+We retain personal data only as long as necessary for the purposes described above or as required by law. Non-personal data may be stored indefinitely for statistical purposes.
+
+7. Data Security
+We implement appropriate technical and organisational measures to protect your data, including:
+Secure servers and encrypted connections (HTTPS)
+
+
+Access controls and authentication
+
+
+Regular security reviews
+
+
+However, no internet transmission is 100% secure. Use the site at your own risk.
+
+8. Third-Party Services
+We may use trusted third-party services such as:
+Analytics providers (e.g., Google Analytics)
+
+
+Cloud hosting (e.g., AWS or UK/EU-based providers)
+
+
+These providers are required to comply with relevant privacy standards.
+
+9. Your Rights
+Under UK data protection law, you have rights including:
+The right to access your data
+
+
+The right to rectify inaccurate data
+
+
+The right to request deletion ("right to be forgotten")
+
+
+The right to restrict or object to processing
+
+
+The right to data portability
+
+
+The right to withdraw consent at any time
+
+
+To exercise your rights, please contact us at: hello@gridmix.co.uk
+
+10. Children’s Privacy
+GridMix is not intended for use by children under 13. We do not knowingly collect personal data from children. If you believe a child has provided us with personal information, please contact us immediately.
+
+11. Changes to This Policy
+We may update this Privacy Policy from time to time. Any changes will be posted on this page with a revised “Last updated” date. Where required, we’ll notify users directly of significant changes.
+
+12. Contact Us
+If you have any questions or concerns about this Privacy Policy or your data, contact:
+ 📧 Email: hello@gridmix.co.uk
+ 🌐 Website: www.gridmix.co.uk
+
