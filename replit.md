@@ -109,6 +109,10 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 29, 2025: Hero Section Copy Update
+  - Updated main tagline from "UK Grid Energy + Emissions Dashboard" to "UK Energy Dashboard"
+  - Changed description from "Tracking the UK's journey to clean power by 2050" to "Clean energy, carbon emissions, and grid mix — all in one place."
+  - Applied more concise, user-friendly messaging for better clarity
 - June 29, 2025: Enhanced BMRS and Elexon API Integration
   - Expanded BMRS API service with comprehensive grid monitoring endpoints (frequency, balancing, imbalance, reserve margin, interconnectors)
   - Created EnhancedDataService with intelligent data source selection and quality assessment

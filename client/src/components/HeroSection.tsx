@@ -58,10 +58,10 @@ export function HeroSection() {
             GridMix
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-2">
-            UK Grid Energy + Emissions Dashboard
+            UK Energy Dashboard
           </p>
           <p className="text-lg text-gray-500 dark:text-gray-400">
-            Tracking the UK's journey to clean power by 2050
+            Clean energy, carbon emissions, and grid mix — all in one place.
           </p>
         </div>
 
