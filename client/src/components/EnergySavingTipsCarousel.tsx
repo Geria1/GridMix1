@@ -153,29 +153,32 @@ export function EnergySavingTipsCarousel() {
   const tip = energyTips[currentTip];
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-          <Lightbulb className="w-5 h-5 text-yellow-500" />
-          Energy Saving Tips
-        </h3>
-        <div className="text-sm text-gray-500 dark:text-gray-400">
-          {currentTip + 1} of {energyTips.length}
+    <Card className="bg-gray-900 dark:bg-gray-800 border-gray-700 dark:border-gray-600">
+      <CardContent className="p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+            <Lightbulb className="w-5 h-5 text-yellow-400" />
+            Energy Saving Tips
+          </h3>
+          <div className="text-sm text-gray-400">
+            {currentTip + 1} of {energyTips.length}
+          </div>
         </div>
-      </div>
 
-      <Card className="relative overflow-hidden bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 border-green-200 dark:border-green-800">
-        <CardContent className="p-6">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+        {/* Main Content in Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column: Tip Details */}
+          <div className="lg:col-span-2">
+            <div className="flex items-start gap-4 mb-4">
+              <div className="p-3 bg-gray-800 dark:bg-gray-700 rounded-lg">
                 {tip.icon}
               </div>
-              <div>
-                <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
+              <div className="flex-1">
+                <h4 className="text-xl font-semibold text-white mb-2">
                   {tip.title}
                 </h4>
-                <div className="flex gap-2">
+                <div className="flex gap-2 mb-3">
                   <Badge className={categoryColors[tip.category]}>
                     {tip.category}
                   </Badge>
@@ -183,116 +186,100 @@ export function EnergySavingTipsCarousel() {
                     {tip.difficulty}
                   </Badge>
                 </div>
+                <p className="text-gray-300 leading-relaxed">
+                  {tip.description}
+                </p>
               </div>
             </div>
-            
-            <div className="text-right">
-              <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+          </div>
+
+          {/* Right Column: Metrics */}
+          <div className="space-y-4">
+            {/* Savings Highlight */}
+            <div className="bg-green-900/30 border border-green-700 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-green-400 mb-1">
                 {tip.savings}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                Potential savings
-              </div>
-            </div>
-          </div>
-
-          <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-            {tip.description}
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="flex items-center gap-2 p-3 bg-white dark:bg-gray-800 rounded-lg">
-              <DollarSign className="w-4 h-4 text-blue-500" />
-              <div>
-                <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Cost
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  {tip.estimatedCost}
-                </div>
+              <div className="text-sm text-green-300">
+                Annual Savings
               </div>
             </div>
 
-            <div className="flex items-center gap-2 p-3 bg-white dark:bg-gray-800 rounded-lg">
-              <Leaf className="w-4 h-4 text-green-500" />
-              <div>
-                <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Carbon Saved
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  {tip.carbonSaving}
+            {/* Metrics Grid */}
+            <div className="grid grid-cols-1 gap-3">
+              <div className="flex items-center gap-3 p-3 bg-gray-800 dark:bg-gray-700 rounded-lg">
+                <DollarSign className="w-4 h-4 text-blue-400" />
+                <div>
+                  <div className="text-sm font-medium text-white">Cost</div>
+                  <div className="text-sm text-gray-400">{tip.estimatedCost}</div>
                 </div>
               </div>
-            </div>
 
-            <div className="flex items-center gap-2 p-3 bg-white dark:bg-gray-800 rounded-lg">
-              <Zap className="w-4 h-4 text-orange-500" />
-              <div>
-                <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Difficulty
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  {tip.difficulty}
+              <div className="flex items-center gap-3 p-3 bg-gray-800 dark:bg-gray-700 rounded-lg">
+                <Leaf className="w-4 h-4 text-green-400" />
+                <div>
+                  <div className="text-sm font-medium text-white">Carbon Saved</div>
+                  <div className="text-sm text-gray-400">{tip.carbonSaving}</div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Navigation Controls */}
-          <div className="flex items-center justify-between">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={prevTip}
-              className="flex items-center gap-2"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              Previous
-            </Button>
+        {/* Navigation Controls */}
+        <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-700">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={prevTip}
+            className="flex items-center gap-2 bg-gray-800 border-gray-600 text-gray-300 hover:bg-gray-700"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Previous
+          </Button>
 
-            {/* Dot Indicators */}
-            <div className="flex gap-2">
-              {energyTips.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToTip(index)}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    index === currentTip
-                      ? 'bg-green-500'
-                      : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
-                  }`}
-                />
-              ))}
-            </div>
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={nextTip}
-              className="flex items-center gap-2"
-            >
-              Next
-              <ChevronRight className="w-4 h-4" />
-            </Button>
+          {/* Dot Indicators */}
+          <div className="flex gap-2">
+            {energyTips.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToTip(index)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === currentTip
+                    ? 'bg-green-400'
+                    : 'bg-gray-600 hover:bg-gray-500'
+                }`}
+              />
+            ))}
           </div>
 
-          {/* Auto-play indicator */}
-          {isAutoPlaying && (
-            <div className="mt-3 text-center">
-              <div className="inline-flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                Auto-advancing tips
-                <button
-                  onClick={() => setIsAutoPlaying(false)}
-                  className="text-blue-500 hover:text-blue-600 underline"
-                >
-                  Stop
-                </button>
-              </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={nextTip}
+            className="flex items-center gap-2 bg-gray-800 border-gray-600 text-gray-300 hover:bg-gray-700"
+          >
+            Next
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        </div>
+
+        {/* Auto-play indicator */}
+        {isAutoPlaying && (
+          <div className="mt-3 text-center">
+            <div className="inline-flex items-center gap-2 text-xs text-gray-400">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              Auto-advancing tips
+              <button
+                onClick={() => setIsAutoPlaying(false)}
+                className="text-blue-400 hover:text-blue-300 underline"
+              >
+                Stop
+              </button>
             </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }

@@ -109,6 +109,15 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 29, 2025: Interactive Energy-Saving Tips Carousel Implementation
+  - Created comprehensive carousel component with 8 practical energy-saving tips
+  - Added auto-advancing functionality (6-second intervals) with manual navigation controls
+  - Implemented categorized tips (Heating, Lighting, Appliances, Transport) with difficulty levels
+  - Displayed potential annual savings, implementation costs, and carbon footprint reduction for each tip
+  - Redesigned layout to match dashboard aesthetic with dark theme and compact grid structure
+  - Integrated carousel into main dashboard between Regional/System Status and Data Sources sections
+  - Added interactive dot indicators and previous/next navigation buttons
+  - Features tips like LED bulb replacement (£40-80/year savings), smart thermostats (10-23% heating reduction), and transport alternatives (£500-1,000/year savings)
 - June 29, 2025: Legal Pages and Social Sharing Implementation
   - Created comprehensive Privacy Policy page with UK GDPR compliance and professional styling
   - Added Terms of Use page with intellectual property, data sources, and usage guidelines
