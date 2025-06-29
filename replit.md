@@ -109,6 +109,14 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 29, 2025: Mailchimp Newsletter Integration Complete
+  - Integrated @mailchimp/mailchimp_marketing package for automated email capture
+  - Added NewsletterSignup component with variants for blog, footer, and inline use
+  - Implemented comprehensive mailchimpService with subscriber management and GDPR compliance
+  - Deployed newsletter forms across multiple site locations: blog main section, sidebar, and footer
+  - Added source tagging (blog-main, blog-sidebar, footer) for subscriber segmentation
+  - Created responsive email capture forms with proper error handling and success messaging
+  - Ready for deployment to live site with Mailchimp API credentials integration
 - June 29, 2025: Blog Content Update - Two Featured Articles
   - Added comprehensive article on UK Net Zero policy and U.S. climate shifts
   - Added technical guide on Carbon Intensity calculation and practical applications
