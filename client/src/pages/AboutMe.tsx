@@ -24,16 +24,24 @@ export default function AboutMe() {
             <Card className="border-gray-200 dark:border-gray-700">
               <CardContent className="p-8">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                  Hi, I'm John Igwebuike, the creator of GridMix.
+                  Hey, I'm John Igwebuike.
                 </h2>
                 
                 <div className="prose prose-lg dark:prose-invert max-w-none space-y-6">
                   <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    I'm passionate about clean energy, open data, and building tools that help people understand how our grid is changing. GridMix was born out of my interest in climate policy, data visualization, and empowering users with transparent, timely information about the UK's energy system.
+                    I trained as a Chemical Engineer and went on to earn an MSc in Sustainable Energy & Entrepreneurship at the University of Nottingham.
                   </p>
                   
                   <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    I work in project management in the UK renewable energy sector and have interests in property investments and entrepreneurship. Through my work, I've seen firsthand how rapidly the energy landscape is evolving, and I wanted to create a platform that makes this transformation visible and understandable to everyone.
+                    I'm passionate about clean energy, open data, and building tools that make complex systems easier to understand. GridMix came out of my curiosity for climate policy, renewable energy science, and a belief that everyone should have easy access to real-time, transparent insights into how the energy grid is changing—because those changes shape the way we use and think about energy every day.
+                  </p>
+                  
+                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                    I work in the UK renewable energy sector and also have a strong interest in property entrepreneurship. Through my day-to-day work, I've seen how quickly the energy landscape is evolving, and I wanted to create something that helps make that shift more visible and relatable. GridMix is my way of helping others explore and make sense of the energy transition happening all around us.
+                  </p>
+                  
+                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                    Outside of work, I'm usually listening to audiobooks or podcasts—and while I'm still getting the hang of it, you'll often find me at the driving range in the evenings, working on my golf swing.
                   </p>
                 </div>
               </CardContent>
@@ -120,17 +128,34 @@ export default function AboutMe() {
             <Card className="border-gray-200 dark:border-gray-700">
               <CardHeader>
                 <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Professional Interests
+                  Professional Background
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  <Badge variant="secondary" className="block text-center">Renewable Energy</Badge>
-                  <Badge variant="secondary" className="block text-center">Project Management</Badge>
-                  <Badge variant="secondary" className="block text-center">Data Visualization</Badge>
+                  <Badge variant="secondary" className="block text-center">Chemical Engineering</Badge>
+                  <Badge variant="secondary" className="block text-center">Sustainable Energy MSc</Badge>
+                  <Badge variant="secondary" className="block text-center">Renewable Energy Sector</Badge>
+                  <Badge variant="secondary" className="block text-center">Property Entrepreneurship</Badge>
                   <Badge variant="secondary" className="block text-center">Climate Policy</Badge>
-                  <Badge variant="secondary" className="block text-center">Property Investment</Badge>
-                  <Badge variant="secondary" className="block text-center">Entrepreneurship</Badge>
+                  <Badge variant="secondary" className="block text-center">Energy Science</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Personal Interests */}
+            <Card className="border-gray-200 dark:border-gray-700">
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Personal Interests
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <Badge variant="outline" className="block text-center">Audiobooks</Badge>
+                  <Badge variant="outline" className="block text-center">Podcasts</Badge>
+                  <Badge variant="outline" className="block text-center">Golf</Badge>
+                  <Badge variant="outline" className="block text-center">Open Data</Badge>
                 </div>
               </CardContent>
             </Card>

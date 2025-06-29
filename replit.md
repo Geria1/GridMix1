@@ -109,6 +109,11 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 29, 2025: About Me Page Personal Bio Update
+  - Updated About Me page with John's complete professional background and personal story
+  - Added Chemical Engineering degree and MSc in Sustainable Energy & Entrepreneurship from University of Nottingham
+  - Included personal interests: audiobooks, podcasts, golf, and energy sector work
+  - Enhanced sidebar with professional background and personal interests sections
 - June 29, 2025: Production Deployment Complete
   - Successfully deployed GridMix to custom domain https://gridmix.co.uk
   - DNS configuration completed with HTTPS SSL certificate active
