@@ -8,6 +8,7 @@ import { AnalysisInsightsPanel } from '@/components/AnalysisInsightsPanel';
 import { RegionalHighlights } from '@/components/RegionalHighlights';
 import { SystemStatus } from '@/components/SystemStatus';
 import { EnhancedDataSources } from '@/components/EnhancedDataSources';
+import { EnergySavingTipsCarousel } from '@/components/EnergySavingTipsCarousel';
 import { Footer } from '@/components/Footer';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
@@ -71,6 +72,11 @@ export default function Dashboard() {
           <RegionalHighlights />
           <SystemStatus />
         </div>
+
+        {/* Energy Saving Tips Carousel */}
+        <section className="mb-8">
+          <EnergySavingTipsCarousel />
+        </section>
 
         {/* Enhanced Data Sources */}
         <EnhancedDataSources />
