@@ -6,6 +6,7 @@ import { bmrsApiService } from "./services/bmrsApi";
 import { authenticDataService } from "./services/authenticDataService";
 import { enhancedDataService } from "./services/enhancedDataService";
 import { ukEmissionsApiService } from "./services/ukEmissionsApi";
+import { mailchimpService } from "./services/mailchimpService";
 import { insertEnergyDataSchema } from "@shared/schema";
 
 let dataUpdateInterval: NodeJS.Timeout;
@@ -431,6 +432,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error fetching BMRS interconnector data:', error);
       res.status(500).json({ error: 'Failed to fetch BMRS interconnector data' });
+    }
+  });
+
+  // Mailchimp subscription routes
+  app.post("/api/newsletter/subscribe", async (req, res) => {
+    try {
+      const { email, firstName, lastName, source } = req.body;
+
+      if (!email) {
+        return res.status(400).json({
+          success: false,
+          message: "Email address is required"
+        });
+      }
+
+      const result = await mailchimpService.addSubscriber({
+        email,
+        firstName,
+        lastName,
+        tags: [source || 'website'],
+        source
+      });
+
+      if (result.success) {
+        res.json(result);
+      } else {
+        res.status(400).json(result);
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error"
+      });
+    }
+  });
+
+  app.get("/api/newsletter/status", async (req, res) => {
+    try {
+      const configured = await mailchimpService.isConfigured();
+      if (!configured) {
+        return res.json({
+          configured: false,
+          message: "Mailchimp not configured"
+        });
+      }
+
+      const connected = await mailchimpService.testConnection();
+      const audienceInfo = await mailchimpService.getAudienceInfo();
+
+      res.json({
+        configured: true,
+        connected,
+        audience: audienceInfo
+      });
+    } catch (error) {
+      console.error('Newsletter status error:', error);
+      res.status(500).json({
+        configured: false,
+        message: "Error checking status"
+      });
     }
   });
 
