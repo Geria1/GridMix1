@@ -25,9 +25,13 @@ export class MailchimpService {
   private config: MailchimpConfig;
 
   constructor() {
+    const apiKey = process.env.MAILCHIMP_API_KEY || '';
+    // Extract server from API key (format: key-us10)
+    const server = apiKey.includes('-') ? apiKey.split('-').pop() || '' : process.env.MAILCHIMP_SERVER || '';
+    
     this.config = {
-      apiKey: process.env.MAILCHIMP_API_KEY || '',
-      server: process.env.MAILCHIMP_SERVER || '',
+      apiKey: apiKey,
+      server: server,
       listId: process.env.MAILCHIMP_AUDIENCE_ID || ''
     };
 

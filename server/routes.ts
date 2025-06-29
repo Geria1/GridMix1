@@ -469,6 +469,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/mailchimp/test", async (req, res) => {
+    try {
+      const configured = await mailchimpService.isConfigured();
+      if (!configured) {
+        return res.json({
+          configured: false,
+          message: "Mailchimp not configured - missing API credentials"
+        });
+      }
+
+      const connected = await mailchimpService.testConnection();
+      
+      res.json({
+        configured: true,
+        connected: connected,
+        message: connected ? "Mailchimp connection successful" : "Mailchimp connection failed"
+      });
+    } catch (error) {
+      console.error('Mailchimp test error:', error);
+      res.status(500).json({
+        configured: false,
+        connected: false,
+        message: "Error testing Mailchimp connection",
+        error: error.message
+      });
+    }
+  });
+
   app.get("/api/newsletter/status", async (req, res) => {
     try {
       const configured = await mailchimpService.isConfigured();
