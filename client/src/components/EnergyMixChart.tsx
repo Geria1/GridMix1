@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
@@ -33,7 +33,7 @@ const ENERGY_LABELS = {
   other: 'Other',
 };
 
-export function EnergyMixChart() {
+function EnergyMixChartComponent() {
   const { data: energyData, isLoading, error } = useCurrentEnergyData();
 
   const formatEnergyMixData = (energyMix: EnergyMix) => {
@@ -48,16 +48,16 @@ export function EnergyMixChart() {
     return Object.entries(energyMix)
       .filter(([_, value]) => value > 0)
       .map(([key, absoluteValue]) => {
-        const percentage = (absoluteValue / totalGeneration) * 100;
-        return {
-          name: ENERGY_LABELS[key as keyof typeof ENERGY_LABELS] || key,
-          value: Number(percentage.toFixed(1)), // Percentage for chart display
-          absoluteValue: Math.round(absoluteValue), // MWh for tooltip
-          color: ENERGY_COLORS[key as keyof typeof ENERGY_COLORS] || '#CCCCCC',
-          fuelType: key,
-        };
-      })
-      .sort((a, b) => b.absoluteValue - a.absoluteValue); // Sort by absolute generation
+      const percentage = (absoluteValue / totalGeneration) * 100;
+      return {
+        name: ENERGY_LABELS[key as keyof typeof ENERGY_LABELS] || key,
+        value: Number(percentage.toFixed(1)), // Percentage for chart display
+        absoluteValue: Math.round(absoluteValue), // MWh for tooltip
+        color: ENERGY_COLORS[key as keyof typeof ENERGY_COLORS] || '#CCCCCC',
+        fuelType: key,
+      };
+    })
+    .sort((a, b) => b.absoluteValue - a.absoluteValue); // Sort by absolute generation
   };
 
   const handleExport = () => {

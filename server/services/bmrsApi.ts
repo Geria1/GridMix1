@@ -315,7 +315,7 @@ export class BMRSApiService {
   async getBalancingData(from: string, to: string): Promise<BMRSBalancingResponse[]> {
     try {
       const url = `${this.baseUrl}/balancing/settlement/stack/all?from=${from}&to=${to}&APIKey=${this.apiKey}`;
-      console.log(`Fetching BMRS balancing data from: ${url.replace(this.apiKey || '', '[API_KEY]')}`);
+
       
       const response = await fetch(url, {
         headers: {
@@ -345,7 +345,7 @@ export class BMRSApiService {
   async getImbalanceData(from: string, to: string): Promise<BMRSImbalanceResponse[]> {
     try {
       const url = `${this.baseUrl}/balancing/settlement/system-sell-buy-price?from=${from}&to=${to}&APIKey=${this.apiKey}`;
-      console.log(`Fetching BMRS imbalance data from: ${url.replace(this.apiKey || '', '[API_KEY]')}`);
+
       
       const response = await fetch(url, {
         headers: {
@@ -375,7 +375,7 @@ export class BMRSApiService {
   async getReserveMargin(from: string, to: string): Promise<BMRSMarginResponse[]> {
     try {
       const url = `${this.baseUrl}/forecast/margin/daily?from=${from}&to=${to}&APIKey=${this.apiKey}`;
-      console.log(`Fetching BMRS reserve margin data from: ${url.replace(this.apiKey || '', '[API_KEY]')}`);
+
       
       const response = await fetch(url, {
         headers: {
@@ -405,7 +405,7 @@ export class BMRSApiService {
   async getInterconnectorFlows(from: string, to: string): Promise<BMRSGenerationResponse[]> {
     try {
       const url = `${this.baseUrl}/generation/actual/interconnector?from=${from}&to=${to}&APIKey=${this.apiKey}`;
-      console.log(`Fetching BMRS interconnector data from: ${url.replace(this.apiKey || '', '[API_KEY]')}`);
+
       
       const response = await fetch(url, {
         headers: {
