@@ -485,6 +485,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const extractedServer = apiKey.includes('-') ? apiKey.split('-').pop() || '' : '';
       const listId = process.env.MAILCHIMP_AUDIENCE_ID || '';
 
+      // Test connection with current service
       const connected = await mailchimpService.testConnection();
       
       res.json({
@@ -497,7 +498,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           providedServer: providedServer,
           extractedServer: extractedServer,
           finalServer: extractedServer || providedServer,
-          apiKeyFormat: apiKey ? `${apiKey.substring(0, 8)}...` : 'none'
+          apiKeyFormat: apiKey ? `${apiKey.substring(0, 12)}...` : 'none',
+          timestamp: new Date().toISOString()
         }
       });
     } catch (error: any) {

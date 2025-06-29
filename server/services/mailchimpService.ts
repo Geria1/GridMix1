@@ -93,10 +93,18 @@ export class MailchimpService {
         };
       }
 
+      // Handle authentication errors
+      if (error.status === 401) {
+        return {
+          success: false,
+          message: 'Newsletter service is currently being configured. Please check back soon!'
+        };
+      }
+
       console.error('Mailchimp API error:', error);
       return {
         success: false,
-        message: 'There was an error subscribing. Please try again later.'
+        message: 'Newsletter signup temporarily unavailable. Please try again later.'
       };
     }
   }
