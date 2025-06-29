@@ -127,17 +127,13 @@ Because the UK's electricity comes from a dynamic mix of sources—like wind, so
 
 ## Why Carbon Intensity Matters
 
-### 1. Smarter Energy Use
-Using electricity when it's cleanest—typically when renewables dominate—means a lower personal or corporate carbon footprint.
+### #1. Smarter Energy Use Using electricity when it's cleanest—typically when renewables dominate—means a lower personal or corporate carbon footprint.
 
-### 2. Greener Operations
-Businesses can integrate carbon intensity into sustainability strategies, scheduling energy-heavy tasks during low-carbon periods.
+### #2. Greener Operations Businesses can integrate carbon intensity into sustainability strategies, scheduling energy-heavy tasks during low-carbon periods.
 
-### 3. Informed Policy and Planning
-Carbon intensity is a vital metric for tracking decarbonisation progress and making grid and infrastructure decisions.
+### #3. Informed Policy and Planning Carbon intensity is a vital metric for tracking decarbonisation progress and making grid and infrastructure decisions.
 
-### 4. Real-Time Climate Action
-With tools like GridMix, users can make data-driven decisions to directly impact their emissions in real time.
+### #4. Real-Time Climate Action With tools like GridMix, users can make data-driven decisions to directly impact their emissions in real time.
 
 ## How Is Carbon Intensity Calculated?
 
@@ -200,7 +196,15 @@ In a time of climate urgency, understanding when electricity is clean and when i
   const tags = ["Net Zero", "Policy", "Economics", "Carbon Intensity", "Wind", "Solar", "Data", "Technical"];
 
   const renderContent = (content: string) => {
-    return content.split('\n\n').map((paragraph: string, index: number) => {
+    const paragraphs = content.split('\n\n');
+    const renderedElements: React.ReactNode[] = [];
+    let skipNext = false;
+
+    return paragraphs.map((paragraph: string, index: number) => {
+      if (skipNext) {
+        skipNext = false;
+        return null;
+      }
       if (paragraph.startsWith('##')) {
         return (
           <h2 key={index} className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
@@ -209,9 +213,33 @@ In a time of climate urgency, understanding when electricity is clean and when i
         );
       }
       if (paragraph.startsWith('###')) {
+        const title = paragraph.replace('### ', '');
+        // Check if it's a numbered subsection or step
+        if (title.match(/^#\d+\./) || title.match(/^Step \d+:/)) {
+          // Get the next paragraph content if it exists
+          const nextParagraph = paragraphs[index + 1];
+          const hasNextContent = nextParagraph && !nextParagraph.startsWith('#') && !nextParagraph.includes('|') && !nextParagraph.startsWith('**');
+          
+          if (hasNextContent) {
+            skipNext = true;
+          }
+          
+          return (
+            <div key={index} className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mt-6 mb-4">
+              <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-2">
+                {title}
+              </h3>
+              {hasNextContent && (
+                <p className="text-blue-800 dark:text-blue-200 leading-relaxed">
+                  {nextParagraph}
+                </p>
+              )}
+            </div>
+          );
+        }
         return (
           <h3 key={index} className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
-            {paragraph.replace('### ', '')}
+            {title}
           </h3>
         );
       }
@@ -300,7 +328,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
           {paragraph}
         </p>
       );
-    });
+    }).filter(Boolean);
   };
 
   return (
