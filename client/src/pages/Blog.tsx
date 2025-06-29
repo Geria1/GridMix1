@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
+import { ShareButtons } from "@/components/ShareButtons";
 import { useState } from "react";
 
 export default function Blog() {
@@ -375,20 +376,27 @@ In a time of climate urgency, understanding when electricity is clean and when i
                           <p className="text-gray-600 dark:text-gray-300 mb-4 text-lg leading-relaxed">
                             {post.excerpt}
                           </p>
-                          <div className="flex items-center justify-between">
-                            <div className="flex flex-wrap gap-2">
-                              {post.tags.map((tag: string, tagIndex: number) => (
-                                <Badge key={tagIndex} variant="secondary" className="text-xs">
-                                  {tag}
-                                </Badge>
-                              ))}
+                          <div className="space-y-4">
+                            <ShareButtons 
+                              title={post.title}
+                              description={post.excerpt}
+                              className="py-3 border-t border-gray-200 dark:border-gray-700"
+                            />
+                            <div className="flex items-center justify-between">
+                              <div className="flex flex-wrap gap-2">
+                                {post.tags.map((tag: string, tagIndex: number) => (
+                                  <Badge key={tagIndex} variant="secondary" className="text-xs">
+                                    {tag}
+                                  </Badge>
+                                ))}
+                              </div>
+                              <Button 
+                                onClick={() => setShowFullArticle(postIndex)}
+                                className="bg-blue-600 hover:bg-blue-700 text-white"
+                              >
+                                Read Full Article →
+                              </Button>
                             </div>
-                            <Button 
-                              onClick={() => setShowFullArticle(postIndex)}
-                              className="bg-blue-600 hover:bg-blue-700 text-white"
-                            >
-                              Read Full Article →
-                            </Button>
                           </div>
                         </>
                       ) : (
@@ -398,20 +406,26 @@ In a time of climate urgency, understanding when electricity is clean and when i
                               {renderContent(post.content)}
                             </div>
                           </div>
-                          <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-                            <div className="flex flex-wrap gap-2">
-                              {post.tags.map((tag: string, tagIndex: number) => (
-                                <Badge key={tagIndex} variant="secondary" className="text-xs">
-                                  {tag}
-                                </Badge>
-                              ))}
+                          <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 space-y-6">
+                            <ShareButtons 
+                              title={post.title}
+                              description={post.excerpt}
+                            />
+                            <div className="flex items-center justify-between">
+                              <div className="flex flex-wrap gap-2">
+                                {post.tags.map((tag: string, tagIndex: number) => (
+                                  <Badge key={tagIndex} variant="secondary" className="text-xs">
+                                    {tag}
+                                  </Badge>
+                                ))}
+                              </div>
+                              <Button 
+                                variant="outline"
+                                onClick={() => setShowFullArticle(null)}
+                              >
+                                ← Back to Summary
+                              </Button>
                             </div>
-                            <Button 
-                              variant="outline"
-                              onClick={() => setShowFullArticle(null)}
-                            >
-                              ← Back to Summary
-                            </Button>
                           </div>
                         </>
                       )}
