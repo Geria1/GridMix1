@@ -109,6 +109,12 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 28, 2025: Multi-Page Structure Implementation
+  - Created comprehensive multi-page application with Dashboard, About GridMix, Blog, and About Me pages
+  - Added global navigation header with active page highlighting and mobile-responsive design
+  - Moved Technical Notes & Data Sources section from Dashboard to About GridMix page for better organization
+  - Updated footer with navigation links to all pages (Dashboard, About GridMix, Blog, About Me)
+  - Maintained professional GridMix branding and responsive design across all pages
 - June 27, 2025: Enhanced GridMix UI Structure & Professional Dashboard Interface
   - Implemented comprehensive UI redesign based on GridMix structure overview with hero section, tabbed navigation, and analysis panels
   - Created HeroSection component with live countdown to 2050, progress indicators, and journey visualization

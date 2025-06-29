@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Zap, Bell } from 'lucide-react';
 
@@ -22,18 +23,18 @@ export function Footer() {
           <div>
             <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Quick Links</h4>
             <div className="space-y-2">
-              <a href="#" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
-                About Energy Data
-              </a>
-              <a href="#" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
-                API Documentation
-              </a>
-              <a href="#" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
-                Data Export
-              </a>
-              <a href="#" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
-                Embed Code
-              </a>
+              <Link href="/" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
+                Dashboard
+              </Link>
+              <Link href="/about" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
+                About GridMix
+              </Link>
+              <Link href="/blog" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
+                Blog
+              </Link>
+              <Link href="/about-me" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
+                About Me
+              </Link>
             </div>
           </div>
           
