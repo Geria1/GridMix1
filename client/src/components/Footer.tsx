@@ -36,12 +36,6 @@ export function Footer() {
               <Link href="/about-me" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
                 About Me
               </Link>
-              <Link href="/privacy" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="/terms" className="block text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">
-                Terms of Use
-              </Link>
             </div>
           </div>
           
@@ -62,12 +56,12 @@ export function Footer() {
               © 2024 GridMix. Data provided by National Grid ESO.
             </p>
             <div className="flex items-center space-x-4 mt-4 md:mt-0">
-              <a href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 transition-colors">
+              <Link href="/privacy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 transition-colors">
                 Privacy
-              </a>
-              <a href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 transition-colors">
+              </Link>
+              <Link href="/terms" className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 transition-colors">
                 Terms
-              </a>
+              </Link>
               <a href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 transition-colors">
                 Contact
               </a>
