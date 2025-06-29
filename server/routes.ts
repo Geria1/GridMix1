@@ -479,20 +479,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      // Get configuration details for debugging
+      const apiKey = process.env.MAILCHIMP_API_KEY || '';
+      const providedServer = process.env.MAILCHIMP_SERVER || '';
+      const extractedServer = apiKey.includes('-') ? apiKey.split('-').pop() || '' : '';
+      const listId = process.env.MAILCHIMP_AUDIENCE_ID || '';
+
       const connected = await mailchimpService.testConnection();
       
       res.json({
         configured: true,
         connected: connected,
-        message: connected ? "Mailchimp connection successful" : "Mailchimp connection failed"
+        message: connected ? "Mailchimp connection successful" : "Mailchimp connection failed",
+        debug: {
+          hasApiKey: !!apiKey,
+          hasListId: !!listId,
+          providedServer: providedServer,
+          extractedServer: extractedServer,
+          finalServer: extractedServer || providedServer,
+          apiKeyFormat: apiKey ? `${apiKey.substring(0, 8)}...` : 'none'
+        }
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Mailchimp test error:', error);
       res.status(500).json({
         configured: false,
         connected: false,
         message: "Error testing Mailchimp connection",
-        error: error.message
+        error: error.message || 'Unknown error'
       });
     }
   });

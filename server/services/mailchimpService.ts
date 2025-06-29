@@ -26,8 +26,9 @@ export class MailchimpService {
 
   constructor() {
     const apiKey = process.env.MAILCHIMP_API_KEY || '';
-    // Extract server from API key (format: key-us10)
-    const server = apiKey.includes('-') ? apiKey.split('-').pop() || '' : process.env.MAILCHIMP_SERVER || '';
+    // Extract server from API key (format: key-us10) - this takes priority
+    const extractedServer = apiKey.includes('-') ? apiKey.split('-').pop() || '' : '';
+    const server = extractedServer || process.env.MAILCHIMP_SERVER || '';
     
     this.config = {
       apiKey: apiKey,
