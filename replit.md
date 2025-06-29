@@ -109,6 +109,12 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 29, 2025: Production Deployment Complete
+  - Successfully deployed GridMix to custom domain https://gridmix.co.uk
+  - DNS configuration completed with HTTPS SSL certificate active
+  - Verified production build serving optimized assets correctly
+  - API endpoints responding with authentic UK energy data on live domain
+  - Application fully operational for public access worldwide
 - June 29, 2025: Hero Section Copy Update
   - Updated main tagline from "UK Grid Energy + Emissions Dashboard" to "UK Energy Dashboard"
   - Changed description from "Tracking the UK's journey to clean power by 2050" to "Clean energy, carbon emissions, and grid mix — all in one place."
