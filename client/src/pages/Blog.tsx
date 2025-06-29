@@ -421,50 +421,24 @@ In a time of climate urgency, understanding when electricity is clean and when i
               </div>
             </div>
 
-            {/* Coming Soon */}
-            <Card className="border-gray-200 dark:border-gray-700">
-              <CardContent className="p-8 text-center">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                  More Articles Coming Soon
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  We're working on bringing you more insights about the UK's energy transition, 
-                  data analysis techniques, and policy developments.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                  <Input 
-                    placeholder="Enter your email" 
-                    className="flex-1"
-                  />
-                  <Button>
-                    Subscribe for Updates
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Newsletter Signup */}
+            <NewsletterSignup
+              title="More Articles Coming Soon"
+              description="We're working on bringing you more insights about the UK's energy transition, data analysis techniques, and policy developments."
+              source="blog-main"
+              showName={true}
+            />
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Newsletter Signup */}
-            <Card className="border-gray-200 dark:border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Stay Updated
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
-                  Get notified when we publish new articles about UK energy trends and analysis.
-                </p>
-                <div className="space-y-3">
-                  <Input placeholder="Your email address" />
-                  <Button className="w-full">
-                    Sign up for updates
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <NewsletterSignup
+              title="Stay Updated"
+              description="Get notified when we publish new articles about UK energy trends and analysis."
+              source="blog-sidebar"
+              compact={true}
+            />
 
             {/* Tag Filters */}
             <Card className="border-gray-200 dark:border-gray-700">

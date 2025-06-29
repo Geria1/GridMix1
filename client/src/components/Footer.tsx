@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Zap, Bell } from 'lucide-react';
+import { NewsletterSignup } from '@/components/NewsletterSignup';
 
 export function Footer() {
   return (
@@ -39,16 +40,13 @@ export function Footer() {
           </div>
           
           <div>
-            <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Updates</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-              Get notified about significant changes in the UK energy mix.
-            </p>
-            <div className="flex space-x-2">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                <Bell className="mr-1 h-4 w-4" />
-                Enable Alerts
-              </Button>
-            </div>
+            <NewsletterSignup
+              title="Stay Informed"
+              description="Get updates on UK energy trends and carbon intensity insights."
+              source="footer"
+              variant="footer"
+              compact={true}
+            />
           </div>
         </div>
         

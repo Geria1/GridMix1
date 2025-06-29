@@ -1,3 +1,4 @@
+// @ts-ignore - no type definitions available
 import mailchimp from '@mailchimp/mailchimp_marketing';
 
 interface MailchimpConfig {

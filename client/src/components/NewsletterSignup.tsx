@@ -33,25 +33,30 @@ export function NewsletterSignup({
     setStatus("loading");
 
     try {
-      const response = await apiRequest("/api/newsletter/subscribe", {
+      const response = await fetch("/api/newsletter/subscribe", {
         method: "POST",
-        body: {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           email,
           firstName: showName ? firstName : undefined,
           lastName: showName ? lastName : undefined,
           source
-        }
+        })
       });
 
-      if (response.success) {
+      const data = await response.json();
+
+      if (data.success) {
         setStatus("success");
-        setMessage(response.message);
+        setMessage(data.message);
         setEmail("");
         setFirstName("");
         setLastName("");
       } else {
         setStatus("error");
-        setMessage(response.message);
+        setMessage(data.message);
       }
     } catch (error: any) {
       setStatus("error");
