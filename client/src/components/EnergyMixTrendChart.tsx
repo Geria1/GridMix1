@@ -66,7 +66,26 @@ export function EnergyMixTrendChart() {
   const [resolution, setResolution] = useState<TimeResolution>('weekly');
   const [period, setPeriod] = useState(12); // weeks/months depending on resolution
 
-  const { data: timeSeriesData, isLoading, error } = useEnergyMixTimeSeries(resolution, period);
+  const { data: rawTimeSeriesData, isLoading, error } = useEnergyMixTimeSeries(resolution, period);
+
+  // Process and validate the data to ensure proper percentage values
+  const timeSeriesData = rawTimeSeriesData?.map(item => {
+    console.log('Raw data item:', item);
+    return {
+      ...item,
+      // Ensure all values are proper percentages (0-100)
+      wind: Math.min(100, Math.max(0, item.wind)),
+      solar: Math.min(100, Math.max(0, item.solar)),
+      nuclear: Math.min(100, Math.max(0, item.nuclear)),
+      gas: Math.min(100, Math.max(0, item.gas)),
+      coal: Math.min(100, Math.max(0, item.coal)),
+      hydro: Math.min(100, Math.max(0, item.hydro)),
+      biomass: Math.min(100, Math.max(0, item.biomass)),
+      oil: Math.min(100, Math.max(0, item.oil)),
+      imports: Math.min(100, Math.max(0, item.imports)),
+      other: Math.min(100, Math.max(0, item.other))
+    };
+  });
 
   const formatTooltipLabel = (date: string) => {
     const dateObj = new Date(date);
@@ -94,6 +113,7 @@ export function EnergyMixTrendChart() {
     const data = payload[0].payload;
     // Debug log to check data values
     console.log('Tooltip data:', data);
+    console.log('Payload:', payload);
     
     // Calculate renewable share from percentage data
     const renewableGeneration = data.wind + data.solar + data.hydro + data.biomass;
@@ -253,8 +273,9 @@ export function EnergyMixTrendChart() {
               />
               <YAxis 
                 className="text-xs"
-                domain={[0, 100]}
-                tickFormatter={(value) => `${value.toFixed(0)}%`}
+                domain={[0, 60]}
+                ticks={[0, 10, 20, 30, 40, 50, 60]}
+                tickFormatter={(value) => `${value}%`}
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend 
