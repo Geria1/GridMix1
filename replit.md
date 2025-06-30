@@ -109,6 +109,13 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 30, 2025: Energy Mix Trend Chart Fixed - Corrected Percentage Display
+  - Fixed energy mix trend chart showing incorrect values like 12000% instead of proper 0-100% range
+  - Converted from stacked area chart to line chart to display individual energy source percentage trends
+  - Updated server data generation to convert MW values to percentages before sending to frontend
+  - Fixed Y-axis domain and formatting to show realistic percentage values (wind ~48%, nuclear ~22%, etc.)
+  - Enhanced tooltips to display both percentage and MW equivalent values for better clarity
+  - Maintained all interactive time resolution controls and renewable share calculations
 - June 30, 2025: About Me Page Professional Redesign & Energy Mix Percentage Corrections
   - Redesigned About Me page with modern hero section featuring circular profile image with energy icon badge
   - Implemented responsive two-column layout with professional typography and enhanced visual hierarchy

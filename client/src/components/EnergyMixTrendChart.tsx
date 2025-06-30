@@ -11,25 +11,25 @@ const ENERGY_COLORS = {
   solar: '#FFD700',
   nuclear: '#FF6347',
   gas: '#8A2BE2',
-  coal: '#4B4B4B',
-  hydro: '#1E90FF',
-  biomass: '#228B22',
-  oil: '#A52A2A',
-  imports: '#999999',
-  other: '#CCCCCC',
+  coal: '#2F4F4F',
+  hydro: '#4682B4',
+  biomass: '#32CD32',
+  oil: '#000000',
+  imports: '#FF69B4',
+  other: '#708090'
 };
 
 const ENERGY_LABELS = {
   wind: 'Wind',
-  gas: 'Gas',
-  nuclear: 'Nuclear',
   solar: 'Solar',
+  nuclear: 'Nuclear',
+  gas: 'Gas',
+  coal: 'Coal',
   hydro: 'Hydro',
   biomass: 'Biomass',
-  coal: 'Coal',
   oil: 'Oil',
   imports: 'Imports',
-  other: 'Other',
+  other: 'Other'
 };
 
 type TimeResolution = 'daily' | 'weekly' | 'monthly';
@@ -135,13 +135,17 @@ export function EnergyMixTrendChart() {
 
   if (isLoading) {
     return (
-      <Card className="border-gray-200 dark:border-gray-700">
+      <Card className="w-full">
         <CardHeader>
-          <div className="h-6 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-          <div className="h-4 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-2" />
+          <CardTitle className="flex items-center gap-2">
+            <TrendingUp className="w-5 h-5" />
+            Energy Mix Trend
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-96 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+          <div className="h-96 flex items-center justify-center">
+            <div className="text-gray-500">Loading energy mix trends...</div>
+          </div>
         </CardContent>
       </Card>
     );
@@ -149,86 +153,85 @@ export function EnergyMixTrendChart() {
 
   if (error) {
     return (
-      <Card className="border-gray-200 dark:border-gray-700">
+      <Card className="w-full">
         <CardHeader>
-          <CardTitle className="text-red-600 dark:text-red-400">
-            Energy Mix Trends - Data Unavailable
+          <CardTitle className="flex items-center gap-2">
+            <TrendingUp className="w-5 h-5" />
+            Energy Mix Trend
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-600 dark:text-gray-400">
-            Unable to load energy mix time series data. Please check your connection.
-          </p>
+          <div className="h-96 flex items-center justify-center">
+            <div className="text-red-500">Error loading energy mix trends</div>
+          </div>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="border-gray-200 dark:border-gray-700">
+    <Card className="w-full">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
+        <div className="flex flex-col space-y-4">
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5" />
-              UK Energy Mix Trends
+              Energy Mix Trend
             </CardTitle>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              {resolution === 'monthly' ? 'Monthly' : resolution === 'weekly' ? 'Weekly' : 'Daily'} generation patterns from BMRS data
-            </p>
-          </div>
-          <Badge variant="outline" className="text-green-600 dark:text-green-400">
-            Live BMRS Data
-          </Badge>
-        </div>
-        
-        {/* Time Resolution Controls */}
-        <div className="flex flex-wrap gap-2 mt-4">
-          <div className="flex gap-1">
-            <Button
-              variant={resolution === 'weekly' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => {
-                setResolution('weekly');
-                setPeriod(12);
-              }}
-              className="text-xs"
-            >
-              <Clock className="w-3 h-3 mr-1" />
-              12 Weeks
-            </Button>
-            <Button
-              variant={resolution === 'monthly' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => {
-                setResolution('monthly');
-                setPeriod(12);
-              }}
-              className="text-xs"
-            >
-              <Calendar className="w-3 h-3 mr-1" />
-              12 Months
-            </Button>
+            <Badge variant="outline" className="flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              Live Data
+            </Badge>
           </div>
           
-          {/* Period Controls */}
-          <div className="flex gap-1">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setPeriod(resolution === 'monthly' ? 6 : 4)}
-              className="text-xs"
-            >
-              {resolution === 'monthly' ? '6M' : '4W'}
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setPeriod(resolution === 'monthly' ? 24 : 26)}
-              className="text-xs"
-            >
-              {resolution === 'monthly' ? '2Y' : '6M'}
-            </Button>
+          {/* Time Resolution Controls */}
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+            <div className="flex gap-2">
+              <Button
+                variant={resolution === 'weekly' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => {
+                  setResolution('weekly');
+                  setPeriod(12);
+                }}
+              >
+                Weekly
+              </Button>
+              <Button
+                variant={resolution === 'monthly' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => {
+                  setResolution('monthly');
+                  setPeriod(12);
+                }}
+              >
+                Monthly
+              </Button>
+            </div>
+            
+            <div className="flex gap-2">
+              <Button
+                variant={period === 4 ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setPeriod(4)}
+              >
+                {resolution === 'monthly' ? '4M' : '4W'}
+              </Button>
+              <Button
+                variant={period === 12 ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setPeriod(12)}
+              >
+                {resolution === 'monthly' ? '1Y' : '12W'}
+              </Button>
+              <Button
+                variant={period === 24 ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setPeriod(24)}
+              >
+                {resolution === 'monthly' ? '2Y' : '6M'}
+              </Button>
+            </div>
           </div>
         </div>
       </CardHeader>
@@ -237,7 +240,6 @@ export function EnergyMixTrendChart() {
         <div className="h-96">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={timeSeriesData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
               <XAxis 
                 dataKey="date"
@@ -264,75 +266,49 @@ export function EnergyMixTrendChart() {
                 strokeWidth={2}
                 dot={{ r: 3 }}
               />
-              <Area
+              <Line
                 type="monotone"
                 dataKey="solar"
-                stackId="1"
                 stroke={ENERGY_COLORS.solar}
-                fill={`url(#gradient-solar)`}
-                strokeWidth={1}
+                strokeWidth={2}
+                dot={{ r: 3 }}
               />
-              <Area
+              <Line
                 type="monotone"
                 dataKey="hydro"
-                stackId="1"
                 stroke={ENERGY_COLORS.hydro}
-                fill={`url(#gradient-hydro)`}
-                strokeWidth={1}
+                strokeWidth={2}
+                dot={{ r: 3 }}
               />
-              
-              {/* Low-carbon sources */}
-              <Area
-                type="monotone"
-                dataKey="nuclear"
-                stackId="1"
-                stroke={ENERGY_COLORS.nuclear}
-                fill={`url(#gradient-nuclear)`}
-                strokeWidth={1}
-              />
-              <Area
+              <Line
                 type="monotone"
                 dataKey="biomass"
-                stackId="1"
                 stroke={ENERGY_COLORS.biomass}
-                fill={`url(#gradient-biomass)`}
-                strokeWidth={1}
+                strokeWidth={2}
+                dot={{ r: 3 }}
               />
               
-              {/* Fossil fuels */}
-              <Area
+              {/* Non-renewable sources */}
+              <Line
+                type="monotone"
+                dataKey="nuclear"
+                stroke={ENERGY_COLORS.nuclear}
+                strokeWidth={2}
+                dot={{ r: 3 }}
+              />
+              <Line
                 type="monotone"
                 dataKey="gas"
-                stackId="1"
                 stroke={ENERGY_COLORS.gas}
-                fill={`url(#gradient-gas)`}
-                strokeWidth={1}
+                strokeWidth={2}
+                dot={{ r: 3 }}
               />
-              <Area
-                type="monotone"
-                dataKey="coal"
-                stackId="1"
-                stroke={ENERGY_COLORS.coal}
-                fill={`url(#gradient-coal)`}
-                strokeWidth={1}
-              />
-              
-              {/* Other sources */}
-              <Area
+              <Line
                 type="monotone"
                 dataKey="imports"
-                stackId="1"
                 stroke={ENERGY_COLORS.imports}
-                fill={`url(#gradient-imports)`}
-                strokeWidth={1}
-              />
-              <Area
-                type="monotone"
-                dataKey="other"
-                stackId="1"
-                stroke={ENERGY_COLORS.other}
-                fill={`url(#gradient-other)`}
-                strokeWidth={1}
+                strokeWidth={2}
+                dot={{ r: 3 }}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -347,42 +323,32 @@ export function EnergyMixTrendChart() {
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-xs">
               <div>
                 <p className="text-gray-600 dark:text-gray-400">Avg Wind</p>
-                <p className="font-medium">
-                  {(timeSeriesData.reduce((sum, d) => sum + d.wind, 0) / timeSeriesData.length / 1000).toFixed(1)}GW
+                <p className="font-medium text-blue-600 dark:text-blue-400">
+                  {(timeSeriesData.reduce((sum, d) => sum + d.wind, 0) / timeSeriesData.length).toFixed(1)}%
                 </p>
               </div>
               <div>
-                <p className="text-gray-600 dark:text-gray-400">Avg Gas</p>
-                <p className="font-medium">
-                  {(timeSeriesData.reduce((sum, d) => sum + d.gas, 0) / timeSeriesData.length / 1000).toFixed(1)}GW
+                <p className="text-gray-600 dark:text-gray-400">Avg Solar</p>
+                <p className="font-medium text-yellow-600 dark:text-yellow-400">
+                  {(timeSeriesData.reduce((sum, d) => sum + d.solar, 0) / timeSeriesData.length).toFixed(1)}%
                 </p>
               </div>
               <div>
                 <p className="text-gray-600 dark:text-gray-400">Avg Nuclear</p>
-                <p className="font-medium">
-                  {(timeSeriesData.reduce((sum, d) => sum + d.nuclear, 0) / timeSeriesData.length / 1000).toFixed(1)}GW
+                <p className="font-medium text-red-600 dark:text-red-400">
+                  {(timeSeriesData.reduce((sum, d) => sum + d.nuclear, 0) / timeSeriesData.length).toFixed(1)}%
                 </p>
               </div>
               <div>
-                <p className="text-green-600 dark:text-green-400">Avg Renewables</p>
+                <p className="text-gray-600 dark:text-gray-400">Avg Gas</p>
+                <p className="font-medium text-purple-600 dark:text-purple-400">
+                  {(timeSeriesData.reduce((sum, d) => sum + d.gas, 0) / timeSeriesData.length).toFixed(1)}%
+                </p>
+              </div>
+              <div>
+                <p className="text-gray-600 dark:text-gray-400">Avg Renewables</p>
                 <p className="font-medium text-green-600 dark:text-green-400">
-                  {(() => {
-                    const avgRenewableShare = timeSeriesData.reduce((sum, d) => {
-                      const totalGen = d.wind + d.solar + d.nuclear + d.gas + d.coal + d.hydro + d.biomass + d.other;
-                      const renewableGen = d.wind + d.solar + d.hydro + d.biomass;
-                      return sum + (totalGen > 0 ? (renewableGen / totalGen) * 100 : 0);
-                    }, 0) / timeSeriesData.length;
-                    return avgRenewableShare.toFixed(1);
-                  })()}%
-                </p>
-              </div>
-              <div>
-                <p className="text-gray-600 dark:text-gray-400">Avg Generation</p>
-                <p className="font-medium">
-                  {(timeSeriesData.reduce((sum, d) => {
-                    const totalGen = d.wind + d.solar + d.nuclear + d.gas + d.coal + d.hydro + d.biomass + d.other;
-                    return sum + totalGen;
-                  }, 0) / timeSeriesData.length / 1000).toFixed(1)}GW
+                  {(timeSeriesData.reduce((sum, d) => sum + d.wind + d.solar + d.hydro + d.biomass, 0) / timeSeriesData.length).toFixed(1)}%
                 </p>
               </div>
             </div>
