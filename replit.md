@@ -109,6 +109,15 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 30, 2025: Critical Bug Fixes and Enhanced Error Handling System
+  - Fixed Energy Mix Trend chart displaying incorrect percentages (14000% instead of 55%)
+  - Implemented comprehensive DataSourceManager for intelligent data source monitoring and fallback handling
+  - Added production-safe error boundaries and graceful degradation when BMRS API endpoints fail
+  - Created diagnostic tools to identify and troubleshoot API authentication issues
+  - Enhanced frontend with DataSourceAlert component to notify users of data source status
+  - Resolved chart Y-axis domain issues and tooltip formatting for proper percentage display
+  - Application now operates seamlessly with Carbon Intensity API when BMRS endpoints are unavailable
+  - Maintained authentic UK energy data integrity throughout all components
 - June 30, 2025: Production Deployment Preparation Complete - Enterprise-Level Stability Achieved
   - Implemented comprehensive production-safe logging system with development/production mode separation
   - Added security hardening: console.log override in production, input validation (10MB limits), error sanitization

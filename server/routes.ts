@@ -50,27 +50,23 @@ async function generateEnergyMixTimeSeries(resolution: string, period: number) {
     // Apply seasonal variations to create realistic historical patterns
     const adjustedGeneration = applySeasonalVariations(baseGeneration, seasonalFactors, date);
     
-    // Calculate total demand for percentage conversion
+    // Calculate total demand for reference
     const totalDemand = Object.values(adjustedGeneration).reduce((sum: number, val: number) => sum + val, 0);
     
-    // Convert MW values to percentages for the chart
-    const percentageData = {
-      wind: (adjustedGeneration.wind / totalDemand) * 100,
-      solar: (adjustedGeneration.solar / totalDemand) * 100,
-      nuclear: (adjustedGeneration.nuclear / totalDemand) * 100,
-      gas: (adjustedGeneration.gas / totalDemand) * 100,
-      coal: (adjustedGeneration.coal / totalDemand) * 100,
-      hydro: (adjustedGeneration.hydro / totalDemand) * 100,
-      biomass: (adjustedGeneration.biomass / totalDemand) * 100,
-      oil: (adjustedGeneration.oil / totalDemand) * 100,
-      imports: (adjustedGeneration.imports / totalDemand) * 100,
-      other: (adjustedGeneration.other / totalDemand) * 100
-    };
-    
+    // Use raw MW values (much clearer than percentages)
     timeSeriesData.push({
       date: date.toISOString().split('T')[0],
       timestamp: date,
-      ...percentageData,
+      wind: adjustedGeneration.wind,
+      solar: adjustedGeneration.solar,
+      nuclear: adjustedGeneration.nuclear,
+      gas: adjustedGeneration.gas,
+      coal: adjustedGeneration.coal,
+      hydro: adjustedGeneration.hydro,
+      biomass: adjustedGeneration.biomass,
+      oil: adjustedGeneration.oil,
+      imports: adjustedGeneration.imports,
+      other: adjustedGeneration.other,
       totalDemand: totalDemand
     });
   }

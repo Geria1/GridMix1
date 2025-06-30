@@ -237,19 +237,15 @@ export function EnergyMixTrendChart() {
               <YAxis 
                 className="text-xs"
                 domain={[0, 'dataMax']}
-                tickFormatter={(value) => `${Math.round(value)}%`}
+                tickFormatter={(value) => `${(value / 1000).toFixed(1)}GW`}
               />
               <Tooltip 
                 formatter={(value: any, name: string, props: any) => {
-                  // Ensure we're displaying percentage values correctly
-                  const percentageValue = Number(value);
-                  if (percentageValue > 100) {
-                    // If the value is greater than 100, it might be MW instead of percentage
-                    console.warn('Value greater than 100% detected:', value, 'for', name);
-                    return [`${(percentageValue / 1000).toFixed(1)}%`, ENERGY_LABELS[name as keyof typeof ENERGY_LABELS] || name];
-                  }
+                  // Display MW values with GW conversion for clarity
+                  const mwValue = Number(value);
+                  const gwValue = mwValue / 1000;
                   return [
-                    `${percentageValue.toFixed(1)}%`,
+                    `${gwValue.toFixed(2)} GW`,
                     ENERGY_LABELS[name as keyof typeof ENERGY_LABELS] || name
                   ];
                 }}
