@@ -104,14 +104,19 @@ export function EnergyMixTrendChart() {
           {formatTooltipLabel(label)}
         </p>
         <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-          Total Generation: {totalGeneration?.toLocaleString()} MW
+          Total Demand: {(data.totalDemand || (data.wind + data.solar + data.nuclear + data.gas + data.coal + data.hydro + data.biomass + data.other + data.imports))?.toLocaleString()} MW
+        </p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+          Domestic Generation: {totalGeneration?.toLocaleString()} MW
         </p>
         <p className="text-sm text-green-600 dark:text-green-400 mb-2 font-medium">
-          Renewables: {renewableShare}%
+          Renewables: {renewableShare}% (of domestic generation)
         </p>
         <div className="space-y-1">
           {payload.map((entry: any) => {
-            const percentage = totalGeneration > 0 ? ((entry.value / totalGeneration) * 100).toFixed(1) : '0.0';
+            // Calculate percentage based on total demand (includes imports)
+            const totalDemand = data.totalDemand || (data.wind + data.solar + data.nuclear + data.gas + data.coal + data.hydro + data.biomass + data.other + data.imports);
+            const percentage = totalDemand > 0 ? ((entry.value / totalDemand) * 100).toFixed(1) : '0.0';
             return (
               <div key={entry.dataKey} className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">

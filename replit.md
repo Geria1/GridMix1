@@ -109,6 +109,15 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 30, 2025: About Me Page Professional Redesign & Energy Mix Percentage Corrections
+  - Redesigned About Me page with modern hero section featuring circular profile image with energy icon badge
+  - Implemented responsive two-column layout with professional typography and enhanced visual hierarchy
+  - Added structured content sections: Professional Journey, Vision Behind GridMix, Beyond the Data, Get In Touch
+  - Enhanced personal interests display with icon-based grid layout for audiobooks, podcasts, golf, and open data
+  - Improved mobile responsiveness with centered layouts and appropriate spacing
+  - Fixed energy mix trend chart percentage calculations to properly distinguish between total demand and domestic generation
+  - Updated tooltip to show accurate renewable percentages based on domestic generation only (excluding imports)
+  - Added clear labeling to differentiate total demand vs domestic generation in energy mix visualizations
 - June 29, 2025: Interactive Energy-Saving Tips Carousel Implementation
   - Created comprehensive carousel component with 8 practical energy-saving tips
   - Added auto-advancing functionality (6-second intervals) with manual navigation controls
