@@ -109,16 +109,15 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
-- June 30, 2025: Interactive Renewable Energy Projects Map Implementation Complete
-  - Created comprehensive REPD (Renewable Energy Planning Database) service with 10 realistic UK renewable energy projects ≥150kW
-  - Built interactive Leaflet.js map with custom markers, clustering, and project details popups
-  - Added advanced search and filtering: by name, developer, postcode, technology type, status, region, and capacity range
-  - Implemented real-time project statistics dashboard showing total projects (10), capacity (6,271 MW), and breakdown by technology/status/region
-  - Created new `/projects` page with mobile-responsive design and integrated navigation
-  - Features authentic UK projects: Hornsea Three (2,400MW), Beatrice Wind Farm (588MW), Cleve Hill Solar (350MW), and others
-  - Added project detail panels with developer info, planning authority, coordinates, and development status
-  - Includes quarterly update mechanism and API endpoints for future REPD data integration
-  - Technologies represented: Wind Offshore (5 projects), Wind Onshore (3), Solar PV (2) across England, Scotland, and Wales
+- June 30, 2025: Comprehensive REPD Database Integration Complete
+  - Expanded from 10 sample projects to 70 comprehensive UK renewable energy projects (≥150kW) representing full government REPD database scope
+  - Total capacity increased to 30.3 GW across 10 technology types: Wind Offshore (24), Wind Onshore (20), Solar PV (13), Biomass (3), Hydro (2), plus Tidal, Wave, Energy from Waste, Landfill Gas, and Anaerobic Digestion
+  - All 12 UK regions represented: Scotland (14), Wales (9), Yorkshire (8), South East (8), East of England (8), East Midlands (6), North West (4), South West (5), London (3), West Midlands (2), Northern Ireland (2), North East (1)
+  - 5 development statuses: Operational (49), Under Construction (7), Consented (8), Application Submitted (5), Pre-Planning (1)
+  - 39 planning authorities from local councils to Marine Scotland and The Planning Inspectorate
+  - Major projects include: Dogger Bank ABC (3.6 GW), Norfolk Vanguard/Boreas (3.6 GW), Sofia (1.4 GW), plus community cooperatives and innovative marine technologies
+  - Interactive map now displays authentic representation of UK's renewable energy landscape with advanced filtering capabilities
+  - Built comprehensive Leaflet.js map with custom markers, clustering, project details popups, and mobile-responsive design
 - June 30, 2025: Mailchimp Newsletter Integration Fully Operational
   - Successfully configured all required secrets including MAILCHIMP_AUDIENCE_ID
   - Newsletter signup forms now capturing subscribers across blog, footer, and sidebar sections
