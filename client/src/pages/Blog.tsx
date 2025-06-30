@@ -62,7 +62,7 @@ Let's break it down:
 ### 1. Competitive Pressure on Industry
 UK manufacturers may pay more to decarbonise (e.g., steel, cement, chemicals) while U.S. firms cut costs by sticking with fossil fuels.
 
-**Impact:**
+Impact:
 - £billions in annual trade disadvantages if no protections (like carbon border taxes) are in place
 - Job risk in exposed sectors
 
@@ -72,14 +72,14 @@ Without U.S. demand scaling up clean tech, the UK may pay more for early access 
 - Grid-scale battery storage
 - Carbon capture systems
 
-**Impact:**
+Impact:
 - 5–10% higher infrastructure costs through 2035
 - Slower adoption of critical innovations
 
 ### 3. Capital & Investment Flow Risks
 If U.S. investors pivot away from green finance, UK assets tied to net zero (e.g., green bonds, ESG funds) could see reduced global interest.
 
-**Impact:**
+Impact:
 - Higher cost of capital for green startups and infrastructure
 - Pressure on the pound if green growth falters
 
@@ -90,16 +90,16 @@ Consumers may face higher upfront costs (heat pumps, EVs, insulation) compared t
 
 Despite the turbulence, sticking to net zero is likely to benefit the UK in the long term. Here's why:
 
-**✔️ Green Jobs & Industrial Leadership**
+✔️ Green Jobs & Industrial Leadership
 The UK is poised to become a global exporter of clean tech — especially in offshore wind, battery storage, and energy software. Up to 700,000 new jobs are expected in the green sector by 2035.
 
-**✔️ Energy Independence**
+✔️ Energy Independence
 The 2022 gas price spike showed how vulnerable fossil-reliant economies are. Net zero = resilience against global shocks.
 
-**✔️ Trade With Future-Facing Economies**
+✔️ Trade With Future-Facing Economies
 The EU, Canada, Japan, and Australia are still advancing net zero. Aligning with them future-proofs trade access, investment, and supply chains.
 
-**✔️ Regulatory Power**
+✔️ Regulatory Power
 Countries that lead the green transition will help set carbon border tax policies, digital emissions standards, and green finance rules. A net-zero UK can shape those conversations — and benefit from them.
 
 ## Final Thought: A Risk Worth Taking
