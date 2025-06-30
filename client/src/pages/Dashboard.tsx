@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { HeroSection } from '@/components/HeroSection';
 import { KeyMetrics } from '@/components/KeyMetrics';
 import { EnergyMixDashboard } from '@/components/EnergyMixDashboard';

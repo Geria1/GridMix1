@@ -1,3 +1,5 @@
+import { logger } from '../utils/logger';
+
 interface CarbonIntensityForecastResponse {
   data: Array<{
     from: string;
@@ -37,18 +39,19 @@ export class AuthenticCarbonForecastService {
   private baseUrl = 'https://api.carbonintensity.org.uk';
   private cache: CarbonForecastData | null = null;
   private lastFetch: Date | null = null;
-  private readonly cacheTimeout = 30 * 60 * 1000; // 30 minutes
+  private readonly cacheTimeout = 30 * 60 * 1000; // 30 minutes cache
+  private readonly updateInterval = 6 * 60 * 60 * 1000; // 6 hours updates
 
   constructor() {
     // Initialize with first fetch
     this.updateForecast();
     
-    // Set up periodic updates every 30 minutes
+    // Set up periodic updates every 6 hours for production stability
     setInterval(() => {
       this.updateForecast().catch(err => 
-        console.error('Background carbon forecast update failed:', err)
+        logger.error('Background carbon forecast update failed:', { error: err.message })
       );
-    }, 30 * 60 * 1000);
+    }, this.updateInterval);
   }
 
   async fetchCarbonIntensityForecast(hours: number = 48): Promise<CarbonIntensityForecastResponse> {
@@ -150,15 +153,15 @@ export class AuthenticCarbonForecastService {
 
   async updateForecast(): Promise<boolean> {
     try {
-      console.log('Fetching carbon intensity forecast from authentic API...');
+      logger.info('Fetching carbon intensity forecast from authentic API...');
       const apiData = await this.fetchCarbonIntensityForecast(48); // Get 48 hours of data
-      console.log(`Received ${apiData.data?.length || 0} forecast data points`);
+      logger.info(`Received ${apiData.data?.length || 0} forecast data points`);
       this.cache = this.processForecastData(apiData);
       this.lastFetch = new Date();
-      console.log(`Processed forecast: ${this.cache.forecast.length} hourly points, ${this.cache.cleanest_periods.length} clean periods`);
+      logger.info(`Processed forecast: ${this.cache.forecast.length} hourly points, ${this.cache.cleanest_periods.length} clean periods`);
       return true;
     } catch (error) {
-      console.error('Error updating carbon forecast:', error);
+      logger.error('Error updating carbon forecast:', { error: error instanceof Error ? error.message : 'Unknown error' });
       return false;
     }
   }
