@@ -373,7 +373,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
                     <CardContent>
                       {showFullArticle !== postIndex ? (
                         <>
-                          <p className="blog-body-text text-gray-600 dark:text-gray-300 mb-4 text-lg leading-relaxed">
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
                             {post.excerpt}
                           </p>
                           <div className="space-y-4">
@@ -401,8 +401,8 @@ In a time of climate urgency, understanding when electricity is clean and when i
                         </>
                       ) : (
                         <>
-                          <div className="prose prose-lg dark:prose-invert max-w-none">
-                            <div className="text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+                          <div className="prose prose-sm dark:prose-invert max-w-none">
+                            <div className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed space-y-4">
                               {renderContent(post.content)}
                             </div>
                           </div>
@@ -461,7 +461,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
                   Browse by Topic
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6">
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag: string, index: number) => (
                     <Badge 
@@ -483,19 +483,19 @@ In a time of climate urgency, understanding when electricity is clean and when i
                   Quick Stats
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6">
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="blog-body-text text-gray-600 dark:text-gray-300">Wind Share Today:</span>
-                    <span className="blog-body-text font-medium text-gray-900 dark:text-white">~20%</span>
+                    <span className="text-gray-600 dark:text-gray-400">Wind Share Today:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">~20%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="blog-body-text text-gray-600 dark:text-gray-300">Renewable Share:</span>
-                    <span className="blog-body-text font-medium text-gray-900 dark:text-white">~55%</span>
+                    <span className="text-gray-600 dark:text-gray-400">Renewable Share:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">~55%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="blog-body-text text-gray-600 dark:text-gray-300">Grid Demand:</span>
-                    <span className="blog-body-text font-medium text-gray-900 dark:text-white">42.0 GW</span>
+                    <span className="text-gray-600 dark:text-gray-400">Grid Demand:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">42.0 GW</span>
                   </div>
                   <div className="pt-2 border-t border-gray-200 dark:border-gray-600">
                     <Button variant="ghost" size="sm" className="w-full text-blue-600 dark:text-blue-400">

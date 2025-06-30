@@ -257,7 +257,7 @@ export default function AboutMe() {
                   Personal Interests
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6">
                 <div className="space-y-2">
                   <Badge variant="outline" className="block text-center">Audiobooks</Badge>
                   <Badge variant="outline" className="block text-center">Podcasts</Badge>
@@ -274,7 +274,7 @@ export default function AboutMe() {
                   GridMix at a Glance
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6">
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-300">Launch Date:</span>
