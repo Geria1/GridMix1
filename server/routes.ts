@@ -8,6 +8,7 @@ import { enhancedDataService } from "./services/enhancedDataService";
 import { ukEmissionsApiService } from "./services/ukEmissionsApi";
 import { mailchimpService } from "./services/mailchimpService";
 import { insertEnergyDataSchema } from "@shared/schema";
+import { repdService, type REPDSearchFilters } from "./services/repdService";
 
 let dataUpdateInterval: NodeJS.Timeout;
 
@@ -554,6 +555,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
         configured: false,
         message: "Error checking status"
       });
+    }
+  });
+
+  // REPD (Renewable Energy Planning Database) routes
+  app.get("/api/repd/projects", async (req, res) => {
+    try {
+      const filters: REPDSearchFilters = {
+        searchTerm: req.query.search as string,
+        technologyTypes: req.query.technology ? (Array.isArray(req.query.technology) ? req.query.technology as string[] : [req.query.technology as string]) : undefined,
+        statuses: req.query.status ? (Array.isArray(req.query.status) ? req.query.status as string[] : [req.query.status as string]) : undefined,
+        regions: req.query.region ? (Array.isArray(req.query.region) ? req.query.region as string[] : [req.query.region as string]) : undefined,
+        minCapacity: req.query.minCapacity ? parseFloat(req.query.minCapacity as string) : undefined,
+        maxCapacity: req.query.maxCapacity ? parseFloat(req.query.maxCapacity as string) : undefined,
+        planningAuthority: req.query.authority as string
+      };
+
+      const projects = await repdService.searchProjects(filters);
+      res.json(projects);
+    } catch (error) {
+      console.error('Error fetching REPD projects:', error);
+      res.status(500).json({ error: 'Failed to fetch renewable energy projects' });
+    }
+  });
+
+  app.get("/api/repd/projects/:id", async (req, res) => {
+    try {
+      const project = await repdService.getProjectById(req.params.id);
+      if (!project) {
+        return res.status(404).json({ error: 'Project not found' });
+      }
+      res.json(project);
+    } catch (error) {
+      console.error('Error fetching REPD project:', error);
+      res.status(500).json({ error: 'Failed to fetch project details' });
+    }
+  });
+
+  app.get("/api/repd/filters", async (req, res) => {
+    try {
+      const filters = await repdService.getAvailableFilters();
+      res.json(filters);
+    } catch (error) {
+      console.error('Error fetching REPD filters:', error);
+      res.status(500).json({ error: 'Failed to fetch filter options' });
+    }
+  });
+
+  app.get("/api/repd/statistics", async (req, res) => {
+    try {
+      const stats = await repdService.getStatistics();
+      res.json(stats);
+    } catch (error) {
+      console.error('Error fetching REPD statistics:', error);
+      res.status(500).json({ error: 'Failed to fetch project statistics' });
+    }
+  });
+
+  app.post("/api/repd/update", async (req, res) => {
+    try {
+      const result = await repdService.updateFromREPD();
+      res.json(result);
+    } catch (error) {
+      console.error('Error updating REPD data:', error);
+      res.status(500).json({ error: 'Failed to update renewable energy data' });
     }
   });
 

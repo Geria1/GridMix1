@@ -1,0 +1,173 @@
+Develop and integrate a new feature into www.gridmix.co.uk that displays an interactive map of all UK renewable energy projects with a capacity of 150kW and above, using the Renewable Energy Planning Database (REPD). The map must be searchable, clickable, and auto-updating quarterly to reflect new REPD releases.
+Data Source
+Primary Dataset: Renewable Energy Planning Database (REPD) Monthly Extract – CSV/XLS format.
+
+
+Update Frequency: Quarterly.
+
+
+Supplementary Datasets (Optional, for enrichment):
+
+
+BEIS datasets (e.g., local authority renewable statistics)
+
+
+Ofgem project-level datasets
+
+
+UK Companies House API (for developer info)
+
+
+ONS postcode and boundary data for mapping and searching.
+
+
+
+Feature Overview
+1. Interactive UK Map
+Use a mapping library such as Leaflet.js, Mapbox, or Google Maps API.
+
+
+Only display projects with Installed Capacity ≥ 150 kW.
+
+
+Cluster or density map if zoomed out; individual project pins when zoomed in.
+
+
+2. Project Details on Click
+When a user clicks on a map marker, show a modal or sidebar with:
+Project Name
+
+
+Installed Capacity (MW)
+
+
+Developer Name
+
+
+Technology Type (e.g., Wind Onshore, Solar PV)
+
+
+Development Status (e.g., Application Submitted, Under Construction)
+
+
+Full Address
+
+
+Postcode (searchable)
+
+
+Coordinates (Lat/Lng)
+
+
+Planning Authority
+
+
+(Optional Enrichment) Estimated commissioning date, CO₂ savings, local employment impact
+
+
+3. Search & Filter Options
+Text search: by project name, developer, postcode.
+
+
+Filters:
+
+
+Technology Type (checkboxes or dropdown)
+
+
+Status
+
+
+Region or Planning Authority
+
+
+Capacity range (slider)
+
+
+4. Automated Data Updates
+Programmatically check the REPD URL for new releases quarterly (e.g., using scheduled GitHub Actions, server-side cron jobs, or an ETL pipeline).
+
+
+On update:
+
+
+Parse and clean the data.
+
+
+Apply filters (≥150kW).
+
+
+Update the map and dataset used by the web app (via JSON or a backend DB).
+
+
+5. Design Integration
+Maintain consistency with GridMix UI/UX design.
+
+
+Ideally place this feature on a new tab/page: /projects or /map.
+
+
+Mobile responsive, clean interface with fast load time.
+
+
+
+🧠 Intelligence Layer (Optional Enhancements)
+Use machine learning or external APIs to:
+
+
+Predict commissioning likelihood or timeline based on status and historical data.
+
+
+Estimate CO₂ emissions saved per project.
+
+
+Aggregate local economic impacts (e.g., local jobs created).
+
+
+Identify stalled or inactive projects.
+
+
+
+⚙️ Technical Notes
+Backend: Python (Flask/Django) or Node.js, if needed.
+
+
+Database: Store processed REPD dataset (e.g., in PostgreSQL with PostGIS for spatial queries).
+
+
+Frontend: Use React, Vue, or static HTML+JS based on current stack.
+
+
+Hosting: Must integrate smoothly with current GridMix deployment (likely on Replit or GCP).
+
+
+Performance: Use lazy loading or pagination if the dataset is large.
+
+
+
+✅ Deliverables
+Interactive energy project map embedded in the site
+
+
+Working search & filter functionality
+
+
+Project detail viewer
+
+
+Automated quarterly update mechanism
+
+
+Documentation for:
+
+
+How to update/enrich dataset manually
+
+
+How the auto-updater works
+
+
+Map and API architecture
+
+
+
