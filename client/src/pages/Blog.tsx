@@ -338,10 +338,10 @@ In a time of climate urgency, understanding when electricity is clean and when i
       {/* Header */}
       <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="blog-subheading text-4xl font-bold text-gray-900 dark:text-white mb-2">
             GridMix Blog
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
+          <p className="blog-body-text text-xl text-gray-600 dark:text-gray-300">
             Insights, updates, and analysis from the UK energy system
           </p>
         </div>
@@ -373,7 +373,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
                     <CardContent>
                       {showFullArticle !== postIndex ? (
                         <>
-                          <p className="text-gray-600 dark:text-gray-300 mb-4 text-lg leading-relaxed">
+                          <p className="blog-body-text text-gray-600 dark:text-gray-300 mb-4 text-lg leading-relaxed">
                             {post.excerpt}
                           </p>
                           <div className="space-y-4">
@@ -457,7 +457,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
             {/* Tag Filters */}
             <Card className="border-gray-200 dark:border-gray-700">
               <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
+                <CardTitle className="blog-subheading text-lg font-semibold text-gray-900 dark:text-white">
                   Browse by Topic
                 </CardTitle>
               </CardHeader>
@@ -479,23 +479,23 @@ In a time of climate urgency, understanding when electricity is clean and when i
             {/* Recent Energy Stats */}
             <Card className="border-gray-200 dark:border-gray-700">
               <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
+                <CardTitle className="blog-subheading text-lg font-semibold text-gray-900 dark:text-white">
                   Quick Stats
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-300">Wind Share Today:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">~20%</span>
+                    <span className="blog-body-text text-gray-600 dark:text-gray-300">Wind Share Today:</span>
+                    <span className="blog-body-text font-medium text-gray-900 dark:text-white">~20%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-300">Renewable Share:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">~55%</span>
+                    <span className="blog-body-text text-gray-600 dark:text-gray-300">Renewable Share:</span>
+                    <span className="blog-body-text font-medium text-gray-900 dark:text-white">~55%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-300">Grid Demand:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">42.0 GW</span>
+                    <span className="blog-body-text text-gray-600 dark:text-gray-300">Grid Demand:</span>
+                    <span className="blog-body-text font-medium text-gray-900 dark:text-white">42.0 GW</span>
                   </div>
                   <div className="pt-2 border-t border-gray-200 dark:border-gray-600">
                     <Button variant="ghost" size="sm" className="w-full text-blue-600 dark:text-blue-400">
