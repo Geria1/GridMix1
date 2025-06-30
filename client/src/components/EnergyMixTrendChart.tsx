@@ -92,10 +92,9 @@ export function EnergyMixTrendChart() {
     if (!active || !payload?.length) return null;
 
     const data = payload[0].payload;
-    // Calculate total generation (excluding imports)
-    const totalGeneration = data.wind + data.solar + data.nuclear + data.gas + data.coal + data.hydro + data.biomass + data.other;
-    // Calculate renewable share
+    // Calculate renewable share from percentage data
     const renewableGeneration = data.wind + data.solar + data.hydro + data.biomass;
+    const totalGeneration = 100 - data.imports; // Total domestic generation percentage
     const renewableShare = totalGeneration > 0 ? ((renewableGeneration / totalGeneration) * 100).toFixed(1) : '0.0';
 
     return (
@@ -104,19 +103,16 @@ export function EnergyMixTrendChart() {
           {formatTooltipLabel(label)}
         </p>
         <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-          Total Demand: {(data.totalDemand || (data.wind + data.solar + data.nuclear + data.gas + data.coal + data.hydro + data.biomass + data.other + data.imports))?.toLocaleString()} MW
-        </p>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-          Domestic Generation: {totalGeneration?.toLocaleString()} MW
+          Total Demand: {data.totalDemand?.toLocaleString()} MW
         </p>
         <p className="text-sm text-green-600 dark:text-green-400 mb-2 font-medium">
           Renewables: {renewableShare}% (of domestic generation)
         </p>
         <div className="space-y-1">
           {payload.map((entry: any) => {
-            // Calculate percentage based on total demand (includes imports)
-            const totalDemand = data.totalDemand || (data.wind + data.solar + data.nuclear + data.gas + data.coal + data.hydro + data.biomass + data.other + data.imports);
-            const percentage = totalDemand > 0 ? ((entry.value / totalDemand) * 100).toFixed(1) : '0.0';
+            const percentage = entry.value?.toFixed(1) || '0.0';
+            // Convert percentage back to approximate MW for display
+            const mwValue = data.totalDemand ? Math.round((entry.value / 100) * data.totalDemand) : 0;
             return (
               <div key={entry.dataKey} className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
@@ -127,7 +123,7 @@ export function EnergyMixTrendChart() {
                   <span>{ENERGY_LABELS[entry.dataKey as keyof typeof ENERGY_LABELS]}</span>
                 </div>
                 <span className="font-medium">
-                  {entry.value?.toLocaleString()} MW ({percentage}%)
+                  {percentage}% ({mwValue?.toLocaleString()} MW)
                 </span>
               </div>
             );
@@ -259,7 +255,7 @@ export function EnergyMixTrendChart() {
               />
               <YAxis 
                 className="text-xs"
-                tickFormatter={(value) => `${(value / 1000).toFixed(0)}GW`}
+                tickFormatter={(value) => `${value.toFixed(0)}%`}
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend 
