@@ -392,17 +392,17 @@ export function EnhancedProjectsMap() {
             <div className="space-y-2">
               <Label>Technology Type</Label>
               <Select 
-                value={filters.technologyTypes?.[0] || ''} 
+                value={filters.technologyTypes?.[0] || 'all'} 
                 onValueChange={(value) => setFilters(prev => ({ 
                   ...prev, 
-                  technologyTypes: value ? [value] : undefined 
+                  technologyTypes: value === 'all' ? undefined : [value]
                 }))}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All technologies" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All technologies</SelectItem>
+                  <SelectItem value="all">All technologies</SelectItem>
                   {filterOptions?.technologyTypes?.map((type: string) => (
                     <SelectItem key={type} value={type}>
                       <div className="flex items-center gap-2">
@@ -429,7 +429,7 @@ export function EnhancedProjectsMap() {
                   <SelectValue placeholder="All statuses" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All statuses</SelectItem>
+                  <SelectItem value="all">All statuses</SelectItem>
                   {filterOptions?.statuses?.map((status: string) => (
                     <SelectItem key={status} value={status}>{status}</SelectItem>
                   ))}
@@ -451,7 +451,7 @@ export function EnhancedProjectsMap() {
                   <SelectValue placeholder="All regions" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All regions</SelectItem>
+                  <SelectItem value="all">All regions</SelectItem>
                   {filterOptions?.regions?.map((region: string) => (
                     <SelectItem key={region} value={region}>{region}</SelectItem>
                   ))}

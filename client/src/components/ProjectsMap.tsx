@@ -375,8 +375,8 @@ export function ProjectsMap() {
             <div>
               <Label>Technology</Label>
               <Select 
-                value={filters.technologyTypes[0] || ''} 
-                onValueChange={(value) => handleFilterChange('technologyTypes', value ? [value] : [])}
+                value={filters.technologyTypes[0] || 'all'} 
+                onValueChange={(value) => handleFilterChange('technologyTypes', value === 'all' ? [] : [value])}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All technologies" />
@@ -394,8 +394,8 @@ export function ProjectsMap() {
             <div>
               <Label>Status</Label>
               <Select 
-                value={filters.statuses[0] || ''} 
-                onValueChange={(value) => handleFilterChange('statuses', value ? [value] : [])}
+                value={filters.statuses[0] || 'all'} 
+                onValueChange={(value) => handleFilterChange('statuses', value === 'all' ? [] : [value])}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All statuses" />
@@ -413,14 +413,14 @@ export function ProjectsMap() {
             <div>
               <Label>Region</Label>
               <Select 
-                value={filters.regions[0] || ''} 
-                onValueChange={(value) => handleFilterChange('regions', value ? [value] : [])}
+                value={filters.regions[0] || 'all'} 
+                onValueChange={(value) => handleFilterChange('regions', value === 'all' ? [] : [value])}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All regions" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All regions</SelectItem>
+                  <SelectItem value="all">All regions</SelectItem>
                   {filterOptions?.regions?.map((region: string) => (
                     <SelectItem key={region} value={region}>{region}</SelectItem>
                   ))}
