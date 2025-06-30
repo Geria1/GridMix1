@@ -30,6 +30,7 @@ interface CarbonForecastData {
   cleanest_periods: CleanestPeriod[];
   last_updated: string | null;
   next_update?: string;
+  error?: string;
 }
 
 export class AuthenticCarbonForecastService {
@@ -62,8 +63,7 @@ export class AuthenticCarbonForecastService {
     
     try {
       const response = await fetch(url, { 
-        headers: { 'Accept': 'application/json' },
-        timeout: 15000 
+        headers: { 'Accept': 'application/json' }
       });
       
       if (!response.ok) {
@@ -150,9 +150,12 @@ export class AuthenticCarbonForecastService {
 
   async updateForecast(): Promise<boolean> {
     try {
+      console.log('Fetching carbon intensity forecast from authentic API...');
       const apiData = await this.fetchCarbonIntensityForecast(48); // Get 48 hours of data
+      console.log(`Received ${apiData.data?.length || 0} forecast data points`);
       this.cache = this.processForecastData(apiData);
       this.lastFetch = new Date();
+      console.log(`Processed forecast: ${this.cache.forecast.length} hourly points, ${this.cache.cleanest_periods.length} clean periods`);
       return true;
     } catch (error) {
       console.error('Error updating carbon forecast:', error);

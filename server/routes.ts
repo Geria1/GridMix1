@@ -9,7 +9,7 @@ import { ukEmissionsApiService } from "./services/ukEmissionsApi";
 import { mailchimpService } from "./services/mailchimpService";
 import { insertEnergyDataSchema } from "@shared/schema";
 import { repdService, type REPDSearchFilters } from "./services/repdService";
-import { carbonForecastService } from "./services/carbonForecastService";
+import { authenticCarbonForecastService } from "./services/authenticCarbonForecast";
 
 let dataUpdateInterval: NodeJS.Timeout;
 
@@ -647,7 +647,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Carbon Intensity Forecasting routes
   app.get("/api/carbon-forecast", async (req, res) => {
     try {
-      const forecastData = await carbonForecastService.getForecast();
+      const forecastData = await authenticCarbonForecastService.getForecast();
       res.json(forecastData);
     } catch (error) {
       console.error('Error fetching carbon forecast:', error);
@@ -662,14 +662,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/carbon-forecast/summary", async (req, res) => {
     try {
-      const summary = await carbonForecastService.getForecastSummary();
+      const summary = await authenticCarbonForecastService.getForecastSummary();
       res.json(summary);
     } catch (error) {
       console.error('Error fetching carbon forecast summary:', error);
       res.status(500).json({ 
         error: 'Failed to fetch forecast summary',
         next24Hours: { min: 0, max: 0, avg: 0 },
-        next72Hours: { min: 0, max: 0, avg: 0 },
+        next48Hours: { min: 0, max: 0, avg: 0 },
         cleanestPeriodToday: null
       });
     }
@@ -677,7 +677,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/carbon-forecast/cleanest", async (req, res) => {
     try {
-      const cleanestPeriods = await carbonForecastService.getCleanestPeriods();
+      const cleanestPeriods = await authenticCarbonForecastService.getCleanestPeriods();
       res.json(cleanestPeriods);
     } catch (error) {
       console.error('Error fetching cleanest periods:', error);
@@ -690,7 +690,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/carbon-forecast/status", async (req, res) => {
     try {
-      const status = await carbonForecastService.getServiceStatus();
+      const status = await authenticCarbonForecastService.getServiceStatus();
       res.json(status);
     } catch (error) {
       console.error('Error checking forecast service status:', error);
@@ -706,7 +706,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/carbon-forecast/update", async (req, res) => {
     try {
-      const success = await carbonForecastService.updateForecast();
+      const success = await authenticCarbonForecastService.updateForecast();
       res.json({ 
         success,
         message: success ? 'Forecast updated successfully' : 'Failed to update forecast'
