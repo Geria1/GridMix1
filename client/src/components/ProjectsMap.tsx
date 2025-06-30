@@ -21,6 +21,16 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
+interface LiveGeneration {
+  currentOutput: number;
+  capacityFactor: number;
+  lastUpdated: Date;
+  status: 'online' | 'offline' | 'maintenance' | 'unavailable';
+  dailyOutput: number;
+  monthlyOutput: number;
+  annualOutput: number;
+}
+
 interface REPDProject {
   id: string;
   projectName: string;
@@ -35,6 +45,7 @@ interface REPDProject {
   planningAuthority: string;
   region: string;
   country: string;
+  liveGeneration?: LiveGeneration;
 }
 
 interface SearchFilters {

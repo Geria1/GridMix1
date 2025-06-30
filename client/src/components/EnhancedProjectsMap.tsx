@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, MarkerClusterGroup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -35,8 +36,6 @@ import {
 import { cn } from '@/lib/utils';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import 'react-leaflet-cluster/lib/assets/MarkerCluster.css';
-import 'react-leaflet-cluster/lib/assets/MarkerCluster.Default.css';
 
 // Fix for default markers in production
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -193,13 +192,19 @@ export function EnhancedProjectsMap() {
   }, []);
 
   // Fetch projects data
-  const { data: projects = [], isLoading: projectsLoading } = useQuery({
+  const { data: projects = [], isLoading: projectsLoading } = useQuery<REPDProject[]>({
     queryKey: ['/api/repd/projects'],
     refetchInterval: 30000, // Refresh every 30 seconds for live data
   });
 
   // Fetch filter options
-  const { data: filterOptions } = useQuery({
+  const { data: filterOptions } = useQuery<{
+    technologyTypes: string[];
+    statuses: string[];
+    regions: string[];
+    planningAuthorities: string[];
+    capacityRange: { min: number; max: number };
+  }>({
     queryKey: ['/api/repd/filters'],
   });
 
@@ -210,7 +215,7 @@ export function EnhancedProjectsMap() {
   });
 
   // Filter projects based on current filters
-  const filteredProjects = projects.filter((project: REPDProject) => {
+  const filteredProjects = projects.filter((project) => {
     if (filters.searchTerm) {
       const term = filters.searchTerm.toLowerCase();
       if (!project.projectName.toLowerCase().includes(term) &&
@@ -460,7 +465,7 @@ export function EnhancedProjectsMap() {
               <div className="px-2">
                 <Slider
                   value={capacityRange}
-                  onValueChange={setCapacityRange}
+                  onValueChange={(value) => setCapacityRange(value as [number, number])}
                   max={2400}
                   min={0}
                   step={10}
