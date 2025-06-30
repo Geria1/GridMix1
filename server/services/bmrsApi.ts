@@ -1,3 +1,5 @@
+import { logger } from '../utils/logger';
+
 interface BMRSDemandResponse {
   settlementDate: string;
   settlementPeriod: number;
@@ -89,11 +91,11 @@ export class BMRSApiService {
         },
       });
 
-      console.log(`BMRS Demand API response status: ${response.status}`);
+      logger.debug(`BMRS Demand API response status: ${response.status}`);
       
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`BMRS Demand API error response: ${errorText.substring(0, 200)}...`);
+        logger.error(`BMRS Demand API error response: ${errorText.substring(0, 200)}...`);
         throw new Error(`BMRS Demand API error: ${response.status} ${response.statusText}`);
       }
 

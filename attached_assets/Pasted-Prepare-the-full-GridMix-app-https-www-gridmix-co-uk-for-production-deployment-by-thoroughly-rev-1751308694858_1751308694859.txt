@@ -1,0 +1,93 @@
+Prepare the full GridMix app (https://www.gridmix.co.uk) for production deployment by thoroughly reviewing and upgrading all systems — backend, frontend, data pipelines, models, APIs, and UI — to ensure performance, security, maintainability, and reliability.
+
+⸻
+
+✅ TASKS FOR THE AI AGENT
+
+⸻
+
+🧪 1. Codebase Review & Refactoring
+	•	Remove all unused imports, functions, test code, or legacy assets
+	•	Refactor repetitive code into clean, modular functions
+	•	Enforce naming conventions and consistent file structure
+	•	Verify .env or config variables are used properly (e.g., API keys, secrets)
+
+⸻
+
+🔐 2. Security Hardening
+	•	Sanitize all external data inputs (e.g., query parameters, search fields)
+	•	Remove hardcoded credentials; use Replit secrets manager or environment variables
+	•	Secure API endpoints (limit rate, validate input)
+	•	Prevent directory traversal or unauthorized file access
+	•	Hide internal debug info and stack traces in production
+
+⸻
+
+🔄 3. Data Pipeline & Forecast Model Validation
+	•	Ensure automated carbon intensity forecast model:
+	•	Runs every 6 hours
+	•	Produces accurate, recent output
+	•	Stores forecast JSON reliably
+	•	Validate weather/demand/carbon forecast data ingestion works even if APIs are delayed
+	•	Add fallback logic or cache if external API is temporarily unavailable
+
+⸻
+
+📦 4. API & Backend Stability
+	•	Ensure all backend endpoints (e.g., /api/carbon-forecast) return correct, typed JSON
+	•	Implement basic error handling (500s, timeouts, validation)
+	•	Minimize backend response time (<500ms where possible)
+	•	Cache heavy API responses if needed
+
+⸻
+
+🌐 5. Frontend Quality Check
+	•	Ensure responsive design (works well on mobile, tablet, desktop)
+	•	Optimize asset loading (minify CSS/JS, lazy-load charts/data)
+	•	Fix layout or rendering issues in all major browsers
+	•	Use alt text for images and accessible markup where needed
+
+⸻
+
+📊 6. Charting & Forecast UI Test
+	•	Ensure carbon forecast chart:
+	•	Loads reliably on every page refresh
+	•	Displays shaded confidence bands correctly
+	•	Highlights clean energy hours
+	•	Make sure tooltip and forecast summary text are accurate
+
+⸻
+
+📈 7. Performance Optimisation
+	•	Check page load time (target <2s)
+	•	Bundle or minify JS/CSS
+	•	Reduce unnecessary API calls or duplicate renders
+
+⸻
+
+🛠️ 8. Deployment Readiness
+	•	Ensure HTTPS is enforced for all requests
+	•	Set a custom domain (www.gridmix.co.uk) with SSL/TLS active
+	•	Configure uptime monitor (optional: use UptimeRobot or similar)
+	•	Set up error logging (basic logging in Replit console is fine)
+	•	Enable email alerting for forecast job failures (optional)
+
+⸻
+
+🧾 9. Final User Acceptance
+	•	Generate a “Release Checklist” or changelog
+	•	Run through full user journey:
+	•	Load app
+	•	Browse energy dashboard
+	•	Use map
+	•	View carbon forecast
+	•	Try a search or filter
+	•	Get final test feedback from a friend or beta user
+
+⸻
+
+✅ Deliverables from this Prompt
+	•	A fully tested and production-ready GridMix app
+	•	All scripts and tasks running smoothly (especially forecast jobs)
+	•	Clean codebase and secured deployment
+	•	Confidence that the app is resilient, informative, and user-friendly
