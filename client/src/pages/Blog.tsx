@@ -221,7 +221,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
       if (paragraph.startsWith('###')) {
         const title = paragraph.replace('### ', '');
         // Check if it's a numbered subsection or step
-        if (title.match(/^#\d+\./) || title.match(/^Step \d+:/)) {
+        if (title.match(/^Step \d+:/)) {
           // Get the next paragraph content if it exists
           const nextParagraph = paragraphs[index + 1];
           const hasNextContent = nextParagraph && !nextParagraph.startsWith('#') && !nextParagraph.includes('|') && !nextParagraph.startsWith('**');
