@@ -68,34 +68,21 @@ export function EnergyMixTrendChart() {
 
   const { data: rawTimeSeriesData, isLoading, error } = useEnergyMixTimeSeries(resolution, period);
 
-  // Ensure data is properly formatted with correct percentage values
-  const timeSeriesData = rawTimeSeriesData?.map(item => {
-    // Calculate total generation (excluding imports) to verify percentages
-    const totalGeneration = item.wind + item.solar + item.nuclear + item.gas + item.coal + item.hydro + item.biomass + item.oil + item.other;
-    
-    // If total is way off from 100%, the data might need normalization
-    const shouldNormalize = totalGeneration > 150 || totalGeneration < 50;
-    
-    if (shouldNormalize) {
-      // Normalize to proper percentages
-      const factor = 100 / totalGeneration;
-      return {
-        ...item,
-        wind: item.wind * factor,
-        solar: item.solar * factor,
-        nuclear: item.nuclear * factor,
-        gas: item.gas * factor,
-        coal: item.coal * factor,
-        hydro: item.hydro * factor,
-        biomass: item.biomass * factor,
-        oil: item.oil * factor,
-        other: item.other * factor,
-        imports: item.imports // Keep imports as-is
-      };
-    }
-    
-    return item;
-  });
+  // Transform data to ensure all values are proper percentages (0-100 range)
+  const timeSeriesData = rawTimeSeriesData?.map(item => ({
+    ...item,
+    // Clamp all energy source values to reasonable percentage ranges
+    wind: Math.min(Math.max(item.wind || 0, 0), 100),
+    solar: Math.min(Math.max(item.solar || 0, 0), 100),
+    nuclear: Math.min(Math.max(item.nuclear || 0, 0), 100),
+    gas: Math.min(Math.max(item.gas || 0, 0), 100),
+    coal: Math.min(Math.max(item.coal || 0, 0), 100),
+    hydro: Math.min(Math.max(item.hydro || 0, 0), 100),
+    biomass: Math.min(Math.max(item.biomass || 0, 0), 100),
+    oil: Math.min(Math.max(item.oil || 0, 0), 100),
+    other: Math.min(Math.max(item.other || 0, 0), 100),
+    imports: Math.min(Math.max(item.imports || 0, 0), 100)
+  }));
 
   const formatTooltipLabel = (date: string) => {
     const dateObj = new Date(date);
@@ -286,12 +273,8 @@ export function EnergyMixTrendChart() {
               <YAxis 
                 className="text-xs"
                 domain={[0, 60]}
-                type="number"
-                allowDataOverflow={false}
-                tickFormatter={(value) => `${Math.round(value)}%`}
-                scale="linear"
-                axisLine={true}
-                tickLine={true}
+                ticks={[0, 10, 20, 30, 40, 50, 60]}
+                tickFormatter={(value) => `${value}%`}
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend 
