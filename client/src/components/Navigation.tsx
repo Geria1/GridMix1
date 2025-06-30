@@ -11,6 +11,7 @@ export function Navigation() {
     { path: "/", label: "Dashboard", active: location === "/" },
     { path: "/about", label: "About GridMix", active: location === "/about" },
     { path: "/blog", label: "Blog", active: location === "/blog" },
+    { path: "/projects", label: "Projects", active: location === "/projects" },
     { path: "/about-me", label: "About Me", active: location === "/about-me" }
   ];
 

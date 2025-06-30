@@ -109,6 +109,23 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 30, 2025: Interactive Renewable Energy Projects Map Implementation Complete
+  - Created comprehensive REPD (Renewable Energy Planning Database) service with 10 realistic UK renewable energy projects ≥150kW
+  - Built interactive Leaflet.js map with custom markers, clustering, and project details popups
+  - Added advanced search and filtering: by name, developer, postcode, technology type, status, region, and capacity range
+  - Implemented real-time project statistics dashboard showing total projects (10), capacity (6,271 MW), and breakdown by technology/status/region
+  - Created new `/projects` page with mobile-responsive design and integrated navigation
+  - Features authentic UK projects: Hornsea Three (2,400MW), Beatrice Wind Farm (588MW), Cleve Hill Solar (350MW), and others
+  - Added project detail panels with developer info, planning authority, coordinates, and development status
+  - Includes quarterly update mechanism and API endpoints for future REPD data integration
+  - Technologies represented: Wind Offshore (5 projects), Wind Onshore (3), Solar PV (2) across England, Scotland, and Wales
+- June 30, 2025: Mailchimp Newsletter Integration Fully Operational
+  - Successfully configured all required secrets including MAILCHIMP_AUDIENCE_ID
+  - Newsletter signup forms now capturing subscribers across blog, footer, and sidebar sections
+  - Email validation and subscriber management working correctly with proper error handling
+- June 30, 2025: Wales Added to Regional Highlights
+  - Added Wales wind generation data with mountain icon to Regional Highlights component
+  - Regional data now displays Scotland (wind), England (nuclear), Wales (wind), and South England (solar)
 - June 30, 2025: Energy Mix Trend Chart Fixed - Corrected Percentage Display
   - Fixed energy mix trend chart showing incorrect values like 12000% instead of proper 0-100% range
   - Converted from stacked area chart to line chart to display individual energy source percentage trends
