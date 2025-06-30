@@ -68,24 +68,7 @@ export function EnergyMixTrendChart() {
 
   const { data: rawTimeSeriesData, isLoading, error } = useEnergyMixTimeSeries(resolution, period);
 
-  // Process and validate the data to ensure proper percentage values
-  const timeSeriesData = rawTimeSeriesData?.map(item => {
-    console.log('Raw data item:', item);
-    return {
-      ...item,
-      // Ensure all values are proper percentages (0-100)
-      wind: Math.min(100, Math.max(0, item.wind)),
-      solar: Math.min(100, Math.max(0, item.solar)),
-      nuclear: Math.min(100, Math.max(0, item.nuclear)),
-      gas: Math.min(100, Math.max(0, item.gas)),
-      coal: Math.min(100, Math.max(0, item.coal)),
-      hydro: Math.min(100, Math.max(0, item.hydro)),
-      biomass: Math.min(100, Math.max(0, item.biomass)),
-      oil: Math.min(100, Math.max(0, item.oil)),
-      imports: Math.min(100, Math.max(0, item.imports)),
-      other: Math.min(100, Math.max(0, item.other))
-    };
-  });
+  const timeSeriesData = rawTimeSeriesData;
 
   const formatTooltipLabel = (date: string) => {
     const dateObj = new Date(date);
@@ -111,10 +94,6 @@ export function EnergyMixTrendChart() {
     if (!active || !payload?.length) return null;
 
     const data = payload[0].payload;
-    // Debug log to check data values
-    console.log('Tooltip data:', data);
-    console.log('Payload:', payload);
-    
     // Calculate renewable share from percentage data
     const renewableGeneration = data.wind + data.solar + data.hydro + data.biomass;
     const totalGeneration = 100 - data.imports; // Total domestic generation percentage
@@ -136,7 +115,7 @@ export function EnergyMixTrendChart() {
             const percentage = entry.value?.toFixed(1) || '0.0';
             // Convert percentage back to approximate MW for display
             const mwValue = data.totalDemand ? Math.round((entry.value / 100) * data.totalDemand) : 0;
-            console.log(`${entry.dataKey}: ${entry.value} -> ${percentage}%`);
+
             return (
               <div key={entry.dataKey} className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
@@ -273,9 +252,10 @@ export function EnergyMixTrendChart() {
               />
               <YAxis 
                 className="text-xs"
+                type="number"
                 domain={[0, 60]}
-                ticks={[0, 10, 20, 30, 40, 50, 60]}
-                tickFormatter={(value) => `${value}%`}
+                tickCount={7}
+                tickFormatter={(value) => `${Math.round(value)}%`}
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend 
