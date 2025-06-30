@@ -32,7 +32,7 @@ interface ForecastData {
 
 interface ForecastSummary {
   next24Hours: { min: number; max: number; avg: number };
-  next72Hours: { min: number; max: number; avg: number };
+  next48Hours: { min: number; max: number; avg: number };
   cleanestPeriodToday: CleanestPeriod | null;
 }
 
@@ -161,7 +161,7 @@ export function CarbonForecastChart() {
   return (
     <div className="space-y-6">
       {/* Summary Cards */}
-      {summaryData && (
+      {summaryData && summaryData.next24Hours && summaryData.next48Hours && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card>
             <CardContent className="p-4">
@@ -182,12 +182,12 @@ export function CarbonForecastChart() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <TrendingDown className="h-4 w-4 text-green-600 dark:text-green-400" />
-                <span className="text-sm font-medium">72-Hour Outlook</span>
+                <span className="text-sm font-medium">48-Hour Outlook</span>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl font-bold">{summaryData.next72Hours.avg} <span className="text-sm font-normal text-gray-500">gCO₂/kWh</span></p>
+                <p className="text-2xl font-bold">{summaryData.next48Hours.avg} <span className="text-sm font-normal text-gray-500">gCO₂/kWh</span></p>
                 <p className="text-xs text-gray-500">
-                  Range: {summaryData.next72Hours.min}–{summaryData.next72Hours.max} gCO₂/kWh
+                  Range: {summaryData.next48Hours.min}–{summaryData.next48Hours.max} gCO₂/kWh
                 </p>
               </div>
             </CardContent>
