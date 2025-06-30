@@ -92,6 +92,9 @@ export function EnergyMixTrendChart() {
     if (!active || !payload?.length) return null;
 
     const data = payload[0].payload;
+    // Debug log to check data values
+    console.log('Tooltip data:', data);
+    
     // Calculate renewable share from percentage data
     const renewableGeneration = data.wind + data.solar + data.hydro + data.biomass;
     const totalGeneration = 100 - data.imports; // Total domestic generation percentage
@@ -113,6 +116,7 @@ export function EnergyMixTrendChart() {
             const percentage = entry.value?.toFixed(1) || '0.0';
             // Convert percentage back to approximate MW for display
             const mwValue = data.totalDemand ? Math.round((entry.value / 100) * data.totalDemand) : 0;
+            console.log(`${entry.dataKey}: ${entry.value} -> ${percentage}%`);
             return (
               <div key={entry.dataKey} className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
