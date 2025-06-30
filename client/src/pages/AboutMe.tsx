@@ -180,9 +180,11 @@ export default function AboutMe() {
                   <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-lg">
                     📧 hello@gridmix.co.uk
                   </Button>
-                  <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950 px-6 py-3 text-lg">
-                    View Dashboard →
-                  </Button>
+                  <a href="https://gridmix.co.uk" target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950 px-6 py-3 text-lg">
+                      View Dashboard →
+                    </Button>
+                  </a>
                 </div>
               </CardContent>
             </Card>

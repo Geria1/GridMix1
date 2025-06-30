@@ -9,10 +9,10 @@ export function Navigation() {
 
   const navItems = [
     { path: "/", label: "Dashboard", active: location === "/" },
-    { path: "/about", label: "About GridMix", active: location === "/about" },
-    { path: "/blog", label: "Blog", active: location === "/blog" },
     { path: "/projects", label: "Projects", active: location === "/projects" },
     { path: "/forecast", label: "Forecast", active: location === "/forecast" },
+    { path: "/about", label: "About GridMix", active: location === "/about" },
+    { path: "/blog", label: "Blog", active: location === "/blog" },
     { path: "/about-me", label: "About Me", active: location === "/about-me" }
   ];
 

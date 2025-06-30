@@ -342,7 +342,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
             GridMix Blog
           </h1>
           <p className="blog-body-text text-xl text-gray-600 dark:text-gray-300">
-            Insights, updates, and analysis from the UK energy system
+            UK energy decoded
           </p>
         </div>
       </div>

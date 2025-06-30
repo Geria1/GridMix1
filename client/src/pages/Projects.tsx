@@ -24,7 +24,7 @@ export function Projects() {
             </p>
             
             <p className="text-xs text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-              Source: Official government REPD Renewable Energy Planning Database (REPD), UK
+              Source: Renewable Energy Planning Database (REPD), UK
             </p>
 
             <div className="flex flex-wrap justify-center gap-6 text-sm">
