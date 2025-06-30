@@ -419,10 +419,10 @@ export function EnhancedProjectsMap() {
             <div className="space-y-2">
               <Label>Development Status</Label>
               <Select 
-                value={filters.statuses?.[0] || ''} 
+                value={filters.statuses?.[0] || 'all'} 
                 onValueChange={(value) => setFilters(prev => ({ 
                   ...prev, 
-                  statuses: value ? [value] : undefined 
+                  statuses: value === 'all' ? undefined : [value]
                 }))}
               >
                 <SelectTrigger>
@@ -441,10 +441,10 @@ export function EnhancedProjectsMap() {
             <div className="space-y-2">
               <Label>Region</Label>
               <Select 
-                value={filters.regions?.[0] || ''} 
+                value={filters.regions?.[0] || 'all'} 
                 onValueChange={(value) => setFilters(prev => ({ 
                   ...prev, 
-                  regions: value ? [value] : undefined 
+                  regions: value === 'all' ? undefined : [value]
                 }))}
               >
                 <SelectTrigger>
