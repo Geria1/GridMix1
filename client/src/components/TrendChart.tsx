@@ -30,12 +30,12 @@ export function TrendChart() {
 
       return {
         time: timeLabel,
-        wind: Number((item.energyMix.wind || 0).toFixed(1)),
-        gas: Number((item.energyMix.gas || 0).toFixed(1)),
-        nuclear: Number((item.energyMix.nuclear || 0).toFixed(1)),
-        solar: Number((item.energyMix.solar || 0).toFixed(1)),
-        hydro: Number((item.energyMix.hydro || 0).toFixed(1)),
-        biomass: Number((item.energyMix.biomass || 0).toFixed(1)),
+        wind: Number(((item.energyMix.wind || 0) / 1000).toFixed(2)),
+        gas: Number(((item.energyMix.gas || 0) / 1000).toFixed(2)),
+        nuclear: Number(((item.energyMix.nuclear || 0) / 1000).toFixed(2)),
+        solar: Number(((item.energyMix.solar || 0) / 1000).toFixed(2)),
+        hydro: Number(((item.energyMix.hydro || 0) / 1000).toFixed(2)),
+        biomass: Number(((item.energyMix.biomass || 0) / 1000).toFixed(2)),
       };
     });
   };
@@ -71,7 +71,7 @@ export function TrendChart() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
-              Energy Mix Trend
+              Energy Mix Trend (GW)
             </CardTitle>
             <div className="flex items-center space-x-2">
               {[24, 168, 720].map((range) => (
@@ -109,7 +109,7 @@ export function TrendChart() {
                   <YAxis 
                     stroke="var(--muted-foreground)"
                     fontSize={12}
-                    tickFormatter={(value) => `${value}%`}
+                    tickFormatter={(value) => `${value}GW`}
                   />
                   <Tooltip
                     contentStyle={{
@@ -117,7 +117,7 @@ export function TrendChart() {
                       border: '1px solid var(--border)',
                       borderRadius: '8px',
                     }}
-                    formatter={(value: number, name: string) => [`${value}%`, name]}
+                    formatter={(value: number, name: string) => [`${value} GW`, name]}
                   />
                   <Legend />
                   {Object.entries(TREND_COLORS).map(([key, color]) => (
