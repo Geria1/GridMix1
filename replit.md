@@ -109,7 +109,9 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
-- June 30, 2025: Live Generation Data Integration & Enhanced Responsive UI/UX Complete
+- June 30, 2025: Projects Page Description Updated & Live Generation Data Integration Complete
+  - Updated Projects page description to concise "Explore live data and locations of renewable energy sites [>150kW] across the UK"
+  - Added proper source acknowledgment: "Official government REPD Renewable Energy Planning Database (REPD), UK"
   - Integrated authentic live generation data from all 70 operational renewable energy facilities across the UK
   - Real-time monitoring: 4,114.2 MW current output, 41.6% average capacity factor, 45 online projects, 4 offline projects
   - Enhanced Projects page with live generation summary dashboard featuring animated status indicators and real-time refresh every 10 seconds

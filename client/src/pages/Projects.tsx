@@ -20,9 +20,11 @@ export function Projects() {
             </div>
             
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Explore the comprehensive interactive map of renewable energy projects across the United Kingdom, 
-              featuring live generation data from operational facilities and sourced from the official government 
-              REPD (Renewable Energy Planning Database).
+              Explore live data and locations of renewable energy sites [&gt;150kW] across the UK
+            </p>
+            
+            <p className="text-xs text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+              Source: Official government REPD Renewable Energy Planning Database (REPD), UK
             </p>
 
             <div className="flex flex-wrap justify-center gap-6 text-sm">
