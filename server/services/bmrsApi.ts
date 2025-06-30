@@ -64,7 +64,9 @@ export class BMRSApiService {
 
   constructor() {
     if (!this.apiKey) {
-      console.warn('BMRS_API_KEY not found - BMRS API calls will fail');
+      logger.warn('BMRS_API_KEY not found - BMRS API calls will fail');
+    } else {
+      logger.info('BMRS API service initialized with authentication key');
     }
   }
 

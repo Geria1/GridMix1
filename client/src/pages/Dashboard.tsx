@@ -11,6 +11,7 @@ import { EnhancedDataSources } from '@/components/EnhancedDataSources';
 import { EnergySavingTipsCarousel } from '@/components/EnergySavingTipsCarousel';
 import { Footer } from '@/components/Footer';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { DataSourceAlert } from '@/components/DataSourceAlert';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { useCurrentEnergyData } from '@/hooks/useEnergyData';

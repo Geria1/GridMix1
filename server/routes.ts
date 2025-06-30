@@ -10,6 +10,7 @@ import { mailchimpService } from "./services/mailchimpService";
 import { insertEnergyDataSchema } from "@shared/schema";
 import { repdService, type REPDSearchFilters } from "./services/repdService";
 import { authenticCarbonForecastService } from "./services/authenticCarbonForecast";
+import { dataSourceManager } from "./services/dataSourceManager";
 
 let dataUpdateInterval: NodeJS.Timeout;
 
@@ -395,6 +396,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error fetching enhanced status:', error);
       res.status(500).json({ error: 'Failed to fetch enhanced status' });
+    }
+  })
+
+  // System health monitoring endpoint
+  app.get("/api/system/status", async (req, res) => {
+    try {
+      // Check health of all data sources
+      await dataSourceManager.checkDataSourceHealth();
+      
+      // Get comprehensive system status
+      const systemStatus = dataSourceManager.getSystemStatus();
+      
+      res.json(systemStatus);
+    } catch (error) {
+      console.error('Error fetching system status:', error);
+      res.status(500).json({ 
+        status: 'error',
+        message: 'Unable to determine system status',
+        sources: []
+      });
     }
   });
 
