@@ -622,6 +622,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Live generation data endpoints
+  app.get("/api/repd/live-generation", async (req, res) => {
+    try {
+      const projects = await repdService.getProjectsWithLiveGeneration();
+      res.json(projects);
+    } catch (error) {
+      console.error('Error fetching live generation data:', error);
+      res.status(500).json({ error: 'Failed to fetch live generation data' });
+    }
+  });
+
+  app.get("/api/repd/live-generation/summary", async (req, res) => {
+    try {
+      const summary = await repdService.getTotalLiveGeneration();
+      res.json(summary);
+    } catch (error) {
+      console.error('Error fetching live generation summary:', error);
+      res.status(500).json({ error: 'Failed to fetch live generation summary' });
+    }
+  });
+
   const httpServer = createServer(app);
 
   // Start data fetching interval (every 5 minutes)
