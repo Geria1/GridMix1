@@ -314,7 +314,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
                 {rows.map((row: string[], rIndex: number) => (
                   <tr key={rIndex} className="border-b border-gray-200 dark:border-gray-700">
                     {row.map((cell: string, cIndex: number) => (
-                      <td key={cIndex} className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300">
+                      <td key={cIndex} className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm text-gray-600 dark:text-gray-400">
                         {cell}
                       </td>
                     ))}
@@ -326,7 +326,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
         );
       }
       return (
-        <p key={index} className="blog-body-text mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
+        <p key={index} className="mb-4 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
           {paragraph}
         </p>
       );
@@ -341,7 +341,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
           <h1 className="blog-subheading text-4xl font-bold text-gray-900 dark:text-white mb-2">
             GridMix Blog
           </h1>
-          <p className="blog-body-text text-xl text-gray-600 dark:text-gray-300">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             UK energy decoded
           </p>
         </div>
