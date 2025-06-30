@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Calendar, Clock, TrendingUp } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 
@@ -236,15 +236,7 @@ export function EnergyMixTrendChart() {
       <CardContent>
         <div className="h-96">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={timeSeriesData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              <defs>
-                {Object.entries(ENERGY_COLORS).map(([key, color]) => (
-                  <linearGradient key={key} id={`gradient-${key}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={color} stopOpacity={0.8} />
-                    <stop offset="95%" stopColor={color} stopOpacity={0.2} />
-                  </linearGradient>
-                ))}
-              </defs>
+            <LineChart data={timeSeriesData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
               
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
               <XAxis 
@@ -255,6 +247,7 @@ export function EnergyMixTrendChart() {
               />
               <YAxis 
                 className="text-xs"
+                domain={[0, 100]}
                 tickFormatter={(value) => `${value.toFixed(0)}%`}
               />
               <Tooltip content={<CustomTooltip />} />
@@ -263,14 +256,13 @@ export function EnergyMixTrendChart() {
                 formatter={(value) => ENERGY_LABELS[value as keyof typeof ENERGY_LABELS] || value}
               />
               
-              {/* Renewable sources first (bottom of stack) */}
-              <Area
+              {/* Renewable sources */}
+              <Line
                 type="monotone"
                 dataKey="wind"
-                stackId="1"
                 stroke={ENERGY_COLORS.wind}
-                fill={`url(#gradient-wind)`}
-                strokeWidth={1}
+                strokeWidth={2}
+                dot={{ r: 3 }}
               />
               <Area
                 type="monotone"
@@ -342,7 +334,7 @@ export function EnergyMixTrendChart() {
                 fill={`url(#gradient-other)`}
                 strokeWidth={1}
               />
-            </AreaChart>
+            </LineChart>
           </ResponsiveContainer>
         </div>
         
