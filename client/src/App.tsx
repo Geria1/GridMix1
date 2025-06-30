@@ -10,6 +10,7 @@ import About from "@/pages/About";
 import Blog from "@/pages/Blog";
 import AboutMe from "@/pages/AboutMe";
 import { Projects } from "@/pages/Projects";
+import { Forecast } from "@/pages/Forecast";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
 import NotFound from "@/pages/not-found";
@@ -24,6 +25,7 @@ function Router() {
         <Route path="/blog" component={Blog} />
         <Route path="/about-me" component={AboutMe} />
         <Route path="/projects" component={Projects} />
+        <Route path="/forecast" component={Forecast} />
         <Route path="/privacy" component={Privacy} />
         <Route path="/terms" component={Terms} />
         <Route component={NotFound} />

@@ -57,7 +57,7 @@ class CarbonForecastService:
                 return df
                 
         except Exception as e:
-            print(f"Error fetching historical data: {e}")
+            pass
             
         return pd.DataFrame()
     
@@ -167,13 +167,10 @@ class CarbonForecastService:
     def update_forecast(self):
         """Update the carbon intensity forecast."""
         try:
-            print("Updating carbon intensity forecast...")
-            
             # Fetch historical data
             historical_df = self.fetch_historical_data(days_back=30)
             
             if len(historical_df) < 48:
-                print("Insufficient historical data for forecasting")
                 return False
             
             # Train model
@@ -209,11 +206,9 @@ class CarbonForecastService:
             with open('/tmp/carbon_forecast.json', 'w') as f:
                 json.dump(self.forecast_cache, f, indent=2)
             
-            print(f"✓ Carbon forecast updated successfully ({len(forecast_data)} data points)")
             return True
             
         except Exception as e:
-            print(f"Error updating forecast: {e}")
             return False
     
     def get_forecast(self) -> Dict:
