@@ -70,6 +70,29 @@ export function EnergyMixTrendChart() {
 
   // Data is already in percentage format from the server
   const timeSeriesData = rawTimeSeriesData;
+  
+  // Debug: Log data to check if we're getting percentages or MW values
+  if (timeSeriesData && timeSeriesData.length > 0) {
+    const firstDataPoint = timeSeriesData[0];
+    console.log('Energy Mix Trend Data Sample:', {
+      wind: firstDataPoint.wind,
+      nuclear: firstDataPoint.nuclear,
+      gas: firstDataPoint.gas,
+      totalDemand: firstDataPoint.totalDemand
+    });
+    
+    // Check if values look like percentages (0-100) or MW values (thousands)
+    const maxValue = Math.max(
+      firstDataPoint.wind || 0,
+      firstDataPoint.nuclear || 0,
+      firstDataPoint.gas || 0,
+      firstDataPoint.solar || 0
+    );
+    
+    if (maxValue > 1000) {
+      console.warn('Data appears to be in MW, not percentages. Max value:', maxValue);
+    }
+  }
 
   const formatTooltipLabel = (date: string) => {
     const dateObj = new Date(date);
@@ -217,10 +240,19 @@ export function EnergyMixTrendChart() {
                 tickFormatter={(value) => `${Math.round(value)}%`}
               />
               <Tooltip 
-                formatter={(value: any, name: string) => [
-                  `${Number(value).toFixed(1)}%`,
-                  ENERGY_LABELS[name as keyof typeof ENERGY_LABELS] || name
-                ]}
+                formatter={(value: any, name: string, props: any) => {
+                  // Ensure we're displaying percentage values correctly
+                  const percentageValue = Number(value);
+                  if (percentageValue > 100) {
+                    // If the value is greater than 100, it might be MW instead of percentage
+                    console.warn('Value greater than 100% detected:', value, 'for', name);
+                    return [`${(percentageValue / 1000).toFixed(1)}%`, ENERGY_LABELS[name as keyof typeof ENERGY_LABELS] || name];
+                  }
+                  return [
+                    `${percentageValue.toFixed(1)}%`,
+                    ENERGY_LABELS[name as keyof typeof ENERGY_LABELS] || name
+                  ];
+                }}
                 labelFormatter={formatTooltipLabel}
                 contentStyle={{
                   backgroundColor: 'var(--background)',
