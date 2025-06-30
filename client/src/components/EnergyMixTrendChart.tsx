@@ -242,7 +242,11 @@ export function EnergyMixTrendChart() {
       <CardContent>
         <div className="h-96">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={timeSeriesData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+            <LineChart 
+              data={timeSeriesData} 
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+              syncId="energyMix"
+            >
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
               <XAxis 
                 dataKey="date"
@@ -252,10 +256,11 @@ export function EnergyMixTrendChart() {
               />
               <YAxis 
                 className="text-xs"
-                type="number"
                 domain={[0, 60]}
-                tickCount={7}
-                tickFormatter={(value) => `${Math.round(value)}%`}
+                type="number"
+                ticks={[0, 10, 20, 30, 40, 50, 60]}
+                tickFormatter={(value) => `${value}%`}
+                allowDataOverflow={false}
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend 
