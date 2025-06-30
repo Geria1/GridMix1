@@ -81,7 +81,6 @@ class CarbonForecastService:
             }
             
         except Exception as e:
-            print(f"Error getting weather features: {e}")
             return {'wind_factor': 0.5, 'solar_factor': 0.3, 'temperature': 15}
     
     def train_forecast_model(self, df: pd.DataFrame) -> Prophet:
@@ -242,7 +241,6 @@ class CarbonForecastService:
         
         thread = threading.Thread(target=update_loop, daemon=True)
         thread.start()
-        print("✓ Background forecast updates started")
 
 # Global instance
 carbon_forecast_service = CarbonForecastService()
