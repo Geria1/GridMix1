@@ -68,21 +68,8 @@ export function EnergyMixTrendChart() {
 
   const { data: rawTimeSeriesData, isLoading, error } = useEnergyMixTimeSeries(resolution, period);
 
-  // Transform data to ensure all values are proper percentages (0-100 range)
-  const timeSeriesData = rawTimeSeriesData?.map(item => ({
-    ...item,
-    // Clamp all energy source values to reasonable percentage ranges
-    wind: Math.min(Math.max(item.wind || 0, 0), 100),
-    solar: Math.min(Math.max(item.solar || 0, 0), 100),
-    nuclear: Math.min(Math.max(item.nuclear || 0, 0), 100),
-    gas: Math.min(Math.max(item.gas || 0, 0), 100),
-    coal: Math.min(Math.max(item.coal || 0, 0), 100),
-    hydro: Math.min(Math.max(item.hydro || 0, 0), 100),
-    biomass: Math.min(Math.max(item.biomass || 0, 0), 100),
-    oil: Math.min(Math.max(item.oil || 0, 0), 100),
-    other: Math.min(Math.max(item.other || 0, 0), 100),
-    imports: Math.min(Math.max(item.imports || 0, 0), 100)
-  }));
+  // Data is already in percentage format from the server
+  const timeSeriesData = rawTimeSeriesData;
 
   const formatTooltipLabel = (date: string) => {
     const dateObj = new Date(date);
@@ -226,9 +213,8 @@ export function EnergyMixTrendChart() {
               />
               <YAxis 
                 className="text-xs"
-                domain={[0, 60]}
-                ticks={[0, 10, 20, 30, 40, 50, 60]}
-                tickFormatter={(value) => `${value}%`}
+                domain={[0, 'dataMax']}
+                tickFormatter={(value) => `${Math.round(value)}%`}
               />
               <Tooltip 
                 formatter={(value: any, name: string) => [
