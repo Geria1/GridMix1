@@ -72,7 +72,7 @@ export function KeyMetrics() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
       {metrics.map((metric, index) => (
         <Card key={index} className="border-gray-200 dark:border-gray-700 transition-colors">
           <CardContent className="p-6">

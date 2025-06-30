@@ -75,7 +75,7 @@ export default function Dashboard() {
         <AnalysisInsightsPanel />
 
         {/* Regional and System Status */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
           <RegionalHighlights />
           <SystemStatus />
         </div>

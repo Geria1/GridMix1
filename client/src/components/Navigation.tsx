@@ -1,11 +1,13 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "./ThemeProvider";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Menu, X } from "lucide-react";
+import { useState } from "react";
 
 export function Navigation() {
   const [location] = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
     { path: "/", label: "Dashboard", active: location === "/" },
@@ -32,7 +34,7 @@ export function Navigation() {
             </div>
           </Link>
 
-          {/* Navigation Links */}
+          {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
               <Link key={item.path} href={item.path}>
@@ -47,37 +49,59 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Theme Toggle */}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleTheme}
-            className="p-2"
-          >
-            {theme === "light" ? (
-              <Moon className="h-4 w-4" />
-            ) : (
-              <Sun className="h-4 w-4" />
-            )}
-          </Button>
-        </div>
+          {/* Mobile Menu Button & Theme Toggle */}
+          <div className="flex items-center space-x-2">
+            {/* Theme Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleTheme}
+              className="p-2"
+            >
+              {theme === "light" ? (
+                <Moon className="h-4 w-4" />
+              ) : (
+                <Sun className="h-4 w-4" />
+              )}
+            </Button>
 
-        {/* Mobile Navigation */}
-        <div className="md:hidden pb-4">
-          <div className="flex flex-wrap gap-2">
-            {navItems.map((item) => (
-              <Link key={item.path} href={item.path}>
-                <Button
-                  variant={item.active ? "default" : "ghost"}
-                  size="sm"
-                  className={item.active ? "bg-blue-600 hover:bg-blue-700 text-white" : ""}
-                >
-                  {item.label}
-                </Button>
-              </Link>
-            ))}
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 md:hidden"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </Button>
           </div>
         </div>
+
+        {/* Mobile Navigation Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {navItems.map((item) => (
+                <Link key={item.path} href={item.path}>
+                  <Button
+                    variant={item.active ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`w-full justify-start ${
+                      item.active ? "bg-blue-600 hover:bg-blue-700 text-white" : ""
+                    }`}
+                  >
+                    {item.label}
+                  </Button>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );

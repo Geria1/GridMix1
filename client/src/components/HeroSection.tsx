@@ -66,7 +66,7 @@ export function HeroSection() {
         </div>
 
         {/* Key Stats Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
           {/* Current Energy Mix */}
           <Card className="border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-900/20">
             <CardContent className="p-6 text-center">
