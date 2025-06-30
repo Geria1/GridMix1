@@ -209,7 +209,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
       }
       if (paragraph.startsWith('##')) {
         return (
-          <h2 key={index} className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
+          <h2 key={index} className="blog-subheading text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
             {paragraph.replace('## ', '')}
           </h2>
         );
@@ -240,7 +240,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
           );
         }
         return (
-          <h3 key={index} className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
+          <h3 key={index} className="blog-subheading text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
             {title}
           </h3>
         );
@@ -326,7 +326,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
         );
       }
       return (
-        <p key={index} className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
+        <p key={index} className="blog-body-text mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
           {paragraph}
         </p>
       );
