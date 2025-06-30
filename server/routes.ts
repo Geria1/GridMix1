@@ -9,6 +9,7 @@ import { ukEmissionsApiService } from "./services/ukEmissionsApi";
 import { mailchimpService } from "./services/mailchimpService";
 import { insertEnergyDataSchema } from "@shared/schema";
 import { repdService, type REPDSearchFilters } from "./services/repdService";
+import { carbonForecastService } from "./services/carbonForecastService";
 
 let dataUpdateInterval: NodeJS.Timeout;
 
@@ -640,6 +641,82 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error fetching live generation summary:', error);
       res.status(500).json({ error: 'Failed to fetch live generation summary' });
+    }
+  });
+
+  // Carbon Intensity Forecasting routes
+  app.get("/api/carbon-forecast", async (req, res) => {
+    try {
+      const forecastData = await carbonForecastService.getForecast();
+      res.json(forecastData);
+    } catch (error) {
+      console.error('Error fetching carbon forecast:', error);
+      res.status(500).json({ 
+        error: 'Failed to fetch carbon intensity forecast',
+        forecast: [],
+        cleanest_periods: [],
+        last_updated: null
+      });
+    }
+  });
+
+  app.get("/api/carbon-forecast/summary", async (req, res) => {
+    try {
+      const summary = await carbonForecastService.getForecastSummary();
+      res.json(summary);
+    } catch (error) {
+      console.error('Error fetching carbon forecast summary:', error);
+      res.status(500).json({ 
+        error: 'Failed to fetch forecast summary',
+        next24Hours: { min: 0, max: 0, avg: 0 },
+        next72Hours: { min: 0, max: 0, avg: 0 },
+        cleanestPeriodToday: null
+      });
+    }
+  });
+
+  app.get("/api/carbon-forecast/cleanest", async (req, res) => {
+    try {
+      const cleanestPeriods = await carbonForecastService.getCleanestPeriods();
+      res.json(cleanestPeriods);
+    } catch (error) {
+      console.error('Error fetching cleanest periods:', error);
+      res.status(500).json({ 
+        error: 'Failed to fetch cleanest periods',
+        periods: []
+      });
+    }
+  });
+
+  app.get("/api/carbon-forecast/status", async (req, res) => {
+    try {
+      const status = await carbonForecastService.getServiceStatus();
+      res.json(status);
+    } catch (error) {
+      console.error('Error checking forecast service status:', error);
+      res.status(500).json({ 
+        isAvailable: false,
+        lastUpdate: null,
+        nextUpdate: null,
+        dataPoints: 0,
+        error: 'Service status check failed'
+      });
+    }
+  });
+
+  app.post("/api/carbon-forecast/update", async (req, res) => {
+    try {
+      const success = await carbonForecastService.updateForecast();
+      res.json({ 
+        success,
+        message: success ? 'Forecast updated successfully' : 'Failed to update forecast'
+      });
+    } catch (error) {
+      console.error('Error manually updating forecast:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to trigger forecast update'
+      });
     }
   });
 

@@ -1,0 +1,117 @@
+Feature: Carbon Intensity Forecasting (Short-term & Long-term)
+
+ Add a new section to https://www.gridmix.co.uk that displays a 72-hour carbon intensity forecast for the UK electricity grid, with confidence bands and smart energy timing advice. The system should update automatically every few hours.
+Backend Tasks (Python)
+Set up a data pipeline that fetches:
+
+
+Historical carbon intensity from Carbon Intensity API
+
+
+National Grid ESO demand forecast (from their data portal)
+
+
+Weather data (wind speed, irradiance – use OpenWeatherMap or similar)
+
+
+Train a forecasting model using Prophet:
+
+
+Input: historical carbon intensity, time of day, day of week, weather, and demand forecast
+
+
+Output: carbon intensity prediction for every hour in the next 72 hours
+
+
+Include confidence intervals (upper & lower bound)
+
+
+Expose an API endpoint:
+
+
+GET /api/carbon-forecast
+
+
+Returns JSON: { timestamp, forecast, upper, lower }[]
+
+
+Set up a background job or cron (Replit-compatible):
+
+
+Auto-refresh forecast every 6 hours
+
+
+Store latest predictions in a local file (JSON) or in memory
+
+
+
+ Frontend Tasks (HTML/CSS/JS or React)
+Add a new section or page: /forecast or tab: "Carbon Forecast"
+
+
+Build a line chart with forecast data:
+
+
+Use Chart.js or Highcharts (already works in Replit)
+
+
+Line = forecast
+
+
+Shaded area = confidence band
+
+
+Tooltip: show timestamp + forecast + range
+
+
+Smart summary text above chart:
+
+
+Calculate the cleanest 3-hour block (lowest forecast average)
+
+
+Example:
+
+
+ “⚡ The cleanest hours to use electricity in the next 24h: 1am–4am (avg. 82gCO₂/kWh)”
+
+
+
+Make the component responsive for mobile.
+
+
+Extra (Optional) Features
+Add a toggle to compare today vs. tomorrow
+
+
+Add a small history chart to compare forecast vs actual (data is available from the same API)
+
+
+Offer downloadable CSV of forecast
+
+
+File Structure Suggestion on Replit
+bash
+CopyEdit
+/main.py                # Flask or FastAPI app
+/forecast_model.py      # Python model using Prophet
+/static/js/forecast.js  # Chart rendering logic
+/templates/forecast.html # Page layout
+/data/forecast.json     # Cached forecast output
+
+
+Tips for Replit Agent
+Use replit.tasks or asyncio for periodic background forecasting jobs
+
+
+Store the latest forecast in memory or as a .json file
+
+
+If using Flask, serve the HTML template and include the chart via <script src="static/js/forecast.js">
+
+
+
+Final Goal
+GridMix should now display a real-time forecast of carbon intensity across the next 72 hours, with visual guidance on when to use energy cleanly. It should refresh predictions every 6 hours automatically, and present users with actionable, beautifully visualised insights.
+
+
