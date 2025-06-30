@@ -159,7 +159,7 @@ export function EnergyMixTrendChart() {
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5" />
-              Energy Mix Trend
+              Energy Mix Trend (GW)
             </CardTitle>
             <Badge variant="outline" className="flex items-center gap-1">
               <Clock className="w-3 h-3" />
