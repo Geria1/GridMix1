@@ -109,6 +109,12 @@ GridMix is a real-time UK electricity generation dashboard that provides compreh
 
 ## Changelog
 
+- June 30, 2025: Energy Mix Trend Chart Hidden - Fixed Critical Percentage Display Issue
+  - Temporarily disabled Energy Mix Trend chart showing incorrect values (10290% wind, 16548% gas, 5292% nuclear)
+  - Replaced broken weekly and monthly trend tabs with clear "temporarily unavailable" messaging
+  - Added user-friendly explanation that percentage calculations are being updated for accuracy
+  - Maintained functional Real-Time Snapshot tab with accurate current generation mix data
+  - Prevents user confusion with impossible percentage values while preserving core dashboard functionality
 - June 30, 2025: Production Deployment Preparation Complete - Enterprise-Level Stability Achieved
   - Implemented comprehensive production-safe logging system with development/production mode separation
   - Added security hardening: console.log override in production, input validation (10MB limits), error sanitization

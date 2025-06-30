@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { EnergyMixChart } from '@/components/EnergyMixChart';
-import { EnergyMixTrendChart } from '@/components/EnergyMixTrendChart';
+
 import { TrendChart } from '@/components/TrendChart';
 import { Calendar, BarChart3, Clock } from 'lucide-react';
 
@@ -100,33 +100,42 @@ export function EnergyMixDashboard() {
             </TabsContent>
 
             <TabsContent value="weekly" className="mt-0">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                  Weekly Energy Mix Patterns
-                </h3>
-                <EnergyMixTrendChart />
+              <div className="text-center py-12">
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
+                    Weekly Trends Temporarily Unavailable
+                  </h3>
+                  <p className="text-yellow-700 dark:text-yellow-300">
+                    We're currently updating our weekly energy mix visualization to ensure accurate percentage calculations. 
+                    This feature will return soon with improved data accuracy.
+                  </p>
+                </div>
               </div>
               
               <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  <span className="font-medium">Weekly Analysis:</span> This dashboard shows how the UK's electricity generation changes 
-                  over weekly periods. You can observe how renewable sources fluctuate with weather patterns and how 
-                  gas generation fills gaps during low wind/solar periods.
+                  <span className="font-medium">Coming Soon:</span> Weekly analysis will show how the UK's electricity generation changes 
+                  over weekly periods, including renewable source fluctuations with weather patterns and gas generation filling gaps.
                 </p>
               </div>
             </TabsContent>
 
             <TabsContent value="monthly" className="mt-0">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                  Monthly & Seasonal Trends
-                </h3>
-                <EnergyMixTrendChart />
+              <div className="text-center py-12">
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
+                    Monthly Trends Temporarily Unavailable
+                  </h3>
+                  <p className="text-yellow-700 dark:text-yellow-300">
+                    We're currently updating our monthly energy mix visualization to ensure accurate percentage calculations. 
+                    This feature will return soon with improved data accuracy.
+                  </p>
+                </div>
               </div>
               
               <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  <span className="font-medium">Seasonal Insights:</span> Monthly aggregation reveals clear seasonal patterns - 
+                  <span className="font-medium">Coming Soon:</span> Monthly aggregation will reveal clear seasonal patterns - 
                   higher wind generation in winter months, solar peaks in summer, and increased gas usage during 
                   heating seasons. Nuclear provides consistent baseload throughout the year.
                 </p>
