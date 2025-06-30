@@ -50,7 +50,7 @@ export function EnergyMixDashboard() {
                 <TabsTrigger 
                   key={tab.value}
                   value={tab.value}
-                  className="text-xs md:text-sm py-2 px-3 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700"
+                  className="text-xs md:text-sm py-3 px-3 touch-target data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700"
                 >
                   <tab.icon className="w-4 h-4 mr-1" />
                   <span className="hidden sm:inline">{tab.label}</span>

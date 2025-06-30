@@ -90,6 +90,24 @@
   .pulse-dot {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
+  
+  /* Mobile improvements */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .mobile-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+  
+  .mobile-text {
+    @apply text-base sm:text-lg;
+  }
+  
+  .mobile-card {
+    @apply p-4 sm:p-6;
+  }
 }
 
 /* Custom scrollbar */
