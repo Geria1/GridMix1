@@ -68,7 +68,34 @@ export function EnergyMixTrendChart() {
 
   const { data: rawTimeSeriesData, isLoading, error } = useEnergyMixTimeSeries(resolution, period);
 
-  const timeSeriesData = rawTimeSeriesData;
+  // Ensure data is properly formatted with correct percentage values
+  const timeSeriesData = rawTimeSeriesData?.map(item => {
+    // Calculate total generation (excluding imports) to verify percentages
+    const totalGeneration = item.wind + item.solar + item.nuclear + item.gas + item.coal + item.hydro + item.biomass + item.oil + item.other;
+    
+    // If total is way off from 100%, the data might need normalization
+    const shouldNormalize = totalGeneration > 150 || totalGeneration < 50;
+    
+    if (shouldNormalize) {
+      // Normalize to proper percentages
+      const factor = 100 / totalGeneration;
+      return {
+        ...item,
+        wind: item.wind * factor,
+        solar: item.solar * factor,
+        nuclear: item.nuclear * factor,
+        gas: item.gas * factor,
+        coal: item.coal * factor,
+        hydro: item.hydro * factor,
+        biomass: item.biomass * factor,
+        oil: item.oil * factor,
+        other: item.other * factor,
+        imports: item.imports // Keep imports as-is
+      };
+    }
+    
+    return item;
+  });
 
   const formatTooltipLabel = (date: string) => {
     const dateObj = new Date(date);
@@ -112,9 +139,11 @@ export function EnergyMixTrendChart() {
         </p>
         <div className="space-y-1">
           {payload.map((entry: any) => {
-            const percentage = entry.value?.toFixed(1) || '0.0';
+            // Clamp the value to reasonable percentage range (0-100%)
+            const clampedValue = Math.min(Math.max(entry.value || 0, 0), 100);
+            const percentage = clampedValue.toFixed(1);
             // Convert percentage back to approximate MW for display
-            const mwValue = data.totalDemand ? Math.round((entry.value / 100) * data.totalDemand) : 0;
+            const mwValue = data.totalDemand ? Math.round((clampedValue / 100) * data.totalDemand) : 0;
 
             return (
               <div key={entry.dataKey} className="flex items-center justify-between text-xs">
@@ -258,9 +287,11 @@ export function EnergyMixTrendChart() {
                 className="text-xs"
                 domain={[0, 60]}
                 type="number"
-                ticks={[0, 10, 20, 30, 40, 50, 60]}
-                tickFormatter={(value) => `${value}%`}
                 allowDataOverflow={false}
+                tickFormatter={(value) => `${Math.round(value)}%`}
+                scale="linear"
+                axisLine={true}
+                tickLine={true}
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend 
