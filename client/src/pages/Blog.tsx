@@ -220,31 +220,9 @@ In a time of climate urgency, understanding when electricity is clean and when i
       }
       if (paragraph.startsWith('###')) {
         const title = paragraph.replace('### ', '');
-        // Check if it's a numbered subsection or step
-        if (title.match(/^Step \d+:/)) {
-          // Get the next paragraph content if it exists
-          const nextParagraph = paragraphs[index + 1];
-          const hasNextContent = nextParagraph && !nextParagraph.startsWith('#') && !nextParagraph.includes('|') && !nextParagraph.startsWith('**');
-          
-          if (hasNextContent) {
-            skipNext = true;
-          }
-          
-          return (
-            <div key={index} className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mt-6 mb-4">
-              <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-2">
-                {title}
-              </h3>
-              {hasNextContent && (
-                <p className="text-blue-800 dark:text-blue-200 leading-relaxed">
-                  {nextParagraph}
-                </p>
-              )}
-            </div>
-          );
-        }
+        // Always render ### headers as regular subsection headers
         return (
-          <h3 key={index} className="blog-subheading text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
+          <h3 key={index} className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
             {title}
           </h3>
         );
