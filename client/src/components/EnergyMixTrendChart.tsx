@@ -104,53 +104,7 @@ export function EnergyMixTrendChart() {
     return dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric' });
   };
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (!active || !payload?.length) return null;
 
-    const data = payload[0].payload;
-    // Calculate renewable share from percentage data
-    const renewableGeneration = data.wind + data.solar + data.hydro + data.biomass;
-    const totalGeneration = 100 - data.imports; // Total domestic generation percentage
-    const renewableShare = totalGeneration > 0 ? ((renewableGeneration / totalGeneration) * 100).toFixed(1) : '0.0';
-
-    return (
-      <div className="bg-white dark:bg-gray-800 p-4 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
-        <p className="font-medium text-gray-900 dark:text-white mb-2">
-          {formatTooltipLabel(label)}
-        </p>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-          Total Demand: {data.totalDemand?.toLocaleString()} MW
-        </p>
-        <p className="text-sm text-green-600 dark:text-green-400 mb-2 font-medium">
-          Renewables: {renewableShare}% (of domestic generation)
-        </p>
-        <div className="space-y-1">
-          {payload.map((entry: any) => {
-            // Clamp the value to reasonable percentage range (0-100%)
-            const clampedValue = Math.min(Math.max(entry.value || 0, 0), 100);
-            const percentage = clampedValue.toFixed(1);
-            // Convert percentage back to approximate MW for display
-            const mwValue = data.totalDemand ? Math.round((clampedValue / 100) * data.totalDemand) : 0;
-
-            return (
-              <div key={entry.dataKey} className="flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2">
-                  <div 
-                    className="w-3 h-3 rounded-sm" 
-                    style={{ backgroundColor: entry.color }}
-                  />
-                  <span>{ENERGY_LABELS[entry.dataKey as keyof typeof ENERGY_LABELS]}</span>
-                </div>
-                <span className="font-medium">
-                  {percentage}% ({mwValue?.toLocaleString()} MW)
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
 
   if (isLoading) {
     return (
@@ -276,7 +230,18 @@ export function EnergyMixTrendChart() {
                 ticks={[0, 10, 20, 30, 40, 50, 60]}
                 tickFormatter={(value) => `${value}%`}
               />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip 
+                formatter={(value: any, name: string) => [
+                  `${Number(value).toFixed(1)}%`,
+                  ENERGY_LABELS[name as keyof typeof ENERGY_LABELS] || name
+                ]}
+                labelFormatter={formatTooltipLabel}
+                contentStyle={{
+                  backgroundColor: 'var(--background)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '8px'
+                }}
+              />
               <Legend 
                 wrapperStyle={{ fontSize: '12px' }}
                 formatter={(value) => ENERGY_LABELS[value as keyof typeof ENERGY_LABELS] || value}
