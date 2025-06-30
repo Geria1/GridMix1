@@ -175,6 +175,12 @@ export function ProjectsMap() {
     }
   });
 
+  // Fetch live generation summary
+  const { data: liveSummary } = useQuery({
+    queryKey: ['/api/repd/live-generation/summary'],
+    refetchInterval: 10000, // Refresh every 10 seconds
+  });
+
   // Fetch available filter options
   const { data: filterOptions } = useQuery({
     queryKey: ['/api/repd/filters'],
@@ -239,6 +245,47 @@ export function ProjectsMap() {
 
   return (
     <div className="h-screen flex flex-col">
+      {/* Live Generation Summary */}
+      {liveSummary && (
+        <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-b border-green-200 dark:border-green-700 p-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-7xl mx-auto">
+            <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-green-200 dark:border-green-700 shadow-sm">
+              <div className="flex items-center justify-center gap-1 mb-1">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-xs text-gray-600 dark:text-gray-400">Live Output</span>
+              </div>
+              <div className="text-xl font-bold text-green-600 dark:text-green-400">
+                {liveSummary.totalCurrentOutput.toLocaleString()} MW
+              </div>
+            </div>
+            <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 shadow-sm">
+              <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Capacity Factor</div>
+              <div className="text-xl font-bold text-blue-600 dark:text-blue-400">
+                {liveSummary.averageCapacityFactor}%
+              </div>
+            </div>
+            <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-purple-200 dark:border-purple-700 shadow-sm">
+              <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Total Capacity</div>
+              <div className="text-xl font-bold text-purple-600 dark:text-purple-400">
+                {liveSummary.totalInstalledCapacity.toLocaleString()} MW
+              </div>
+            </div>
+            <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-green-200 dark:border-green-700 shadow-sm">
+              <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Online</div>
+              <div className="text-xl font-bold text-green-600 dark:text-green-400">
+                {liveSummary.onlineProjects}
+              </div>
+            </div>
+            <div className="text-center p-3 bg-white dark:bg-gray-800 rounded-lg border border-orange-200 dark:border-orange-700 shadow-sm">
+              <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Offline</div>
+              <div className="text-xl font-bold text-orange-600 dark:text-orange-400">
+                {liveSummary.offlineProjects}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -335,7 +382,7 @@ export function ProjectsMap() {
                   <SelectValue placeholder="All technologies" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All technologies</SelectItem>
+                  <SelectItem value="all">All technologies</SelectItem>
                   {filterOptions?.technologyTypes?.map((tech: string) => (
                     <SelectItem key={tech} value={tech}>{tech}</SelectItem>
                   ))}
@@ -354,7 +401,7 @@ export function ProjectsMap() {
                   <SelectValue placeholder="All statuses" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All statuses</SelectItem>
+                  <SelectItem value="all">All statuses</SelectItem>
                   {filterOptions?.statuses?.map((status: string) => (
                     <SelectItem key={status} value={status}>{status}</SelectItem>
                   ))}
@@ -439,9 +486,9 @@ export function ProjectsMap() {
                 }}
               >
                 <Popup>
-                  <div className="min-w-[250px]">
+                  <div className="min-w-[280px]">
                     <h3 className="font-semibold text-lg mb-2">{project.projectName}</h3>
-                    <div className="space-y-1 text-sm">
+                    <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-gray-600">Capacity:</span>
                         <span className="font-medium">{project.installedCapacity} MW</span>
@@ -464,6 +511,45 @@ export function ProjectsMap() {
                         <span className="text-gray-600">Location:</span>
                         <span className="font-medium">{project.region}</span>
                       </div>
+                      
+                      {project.liveGeneration && (
+                        <div className="mt-3 pt-3 border-t border-gray-200">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span className="font-medium text-green-600">Live Generation</span>
+                          </div>
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Output:</span>
+                              <span className="font-medium text-green-600">
+                                {project.liveGeneration.currentOutput} MW
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Factor:</span>
+                              <span className="font-medium">
+                                {project.liveGeneration.capacityFactor}%
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Daily:</span>
+                              <span className="font-medium">
+                                {project.liveGeneration.dailyOutput.toLocaleString()} MWh
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Status:</span>
+                              <Badge className={`text-xs px-1 py-0 ${
+                                project.liveGeneration.status === 'online' ? 'bg-green-100 text-green-800' :
+                                project.liveGeneration.status === 'maintenance' ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-red-100 text-red-800'
+                              }`}>
+                                {project.liveGeneration.status}
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </Popup>
