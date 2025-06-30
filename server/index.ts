@@ -1,10 +1,20 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import ProductionUtils from "./utils/production";
+import { logger } from "./utils/logger";
+
+// Initialize production environment and validate configuration
+const envValidation = ProductionUtils.validateEnvironment();
+if (!envValidation.valid) {
+  logger.error(`Environment validation failed. Missing: ${envValidation.missing.join(', ')}`);
+}
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
+// Security middleware with request size limits
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -36,15 +46,40 @@ app.use((req, res, next) => {
   next();
 });
 
+// Health monitoring endpoint for production
+app.get('/health', (req, res) => {
+  const systemStatus = ProductionUtils.getSystemStatus();
+  res.status(systemStatus.healthy ? 200 : 503).json(systemStatus);
+});
+
+// System info endpoint (secured for production)
+app.get('/api/system/status', (req, res) => {
+  const status = ProductionUtils.getSystemStatus();
+  const publicStatus = ProductionUtils.sanitizeForProduction(status);
+  res.json(publicStatus);
+});
+
 (async () => {
   const server = await registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
 
-    res.status(status).json({ message });
-    throw err;
+    // Log error for monitoring
+    logger.error(`${req.method} ${req.path} - ${message}`, {
+      status,
+      stack: ProductionUtils.getConfig().isProduction ? undefined : err.stack,
+      userAgent: req.get('User-Agent'),
+      ip: req.ip
+    });
+
+    // Don't expose stack traces in production
+    const response = ProductionUtils.getConfig().isProduction 
+      ? { error: status >= 500 ? "Internal Server Error" : message }
+      : { error: message, stack: err.stack };
+
+    res.status(status).json(response);
   });
 
   // importantly only setup vite in development and after

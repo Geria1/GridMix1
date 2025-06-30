@@ -107,7 +107,7 @@ export class BMRSApiService {
       }
 
       const data: BMRSDemandResponse[] = JSON.parse(responseText);
-      console.log(`BMRS demand data received: ${data.length} records`);
+      logger.debug(`BMRS demand data received: ${data.length} records`);
       return data;
     } catch (error) {
       console.error('Error fetching BMRS demand data:', error);
