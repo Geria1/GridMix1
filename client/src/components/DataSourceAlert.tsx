@@ -25,7 +25,7 @@ export function DataSourceAlert() {
     staleTime: 60 * 1000, // Consider stale after 1 minute
   });
 
-  if (error || !systemStatus) {
+  if (error || !systemStatus || !systemStatus.sources) {
     return null; // Don't show alert if we can't determine status
   }
 

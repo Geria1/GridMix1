@@ -44,6 +44,11 @@ export default function Dashboard() {
       <HeroSection />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Data Source Health Alert */}
+        <ErrorBoundary>
+          <DataSourceAlert />
+        </ErrorBoundary>
+
         {/* Alert Banner */}
         {!error && getRenewableAlert() && (
           <Alert className="mb-6 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">

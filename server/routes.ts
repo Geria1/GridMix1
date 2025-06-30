@@ -399,7 +399,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   })
 
-  // System health monitoring endpoint
+  // System health monitoring endpoint  
   app.get("/api/system/status", async (req, res) => {
     try {
       // Check health of all data sources
@@ -415,6 +415,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         status: 'error',
         message: 'Unable to determine system status',
         sources: []
+      });
+    }
+  });
+
+  // Health check endpoint for production monitoring
+  app.get("/api/health", async (req, res) => {
+    try {
+      const { ProductionUtils } = await import('./utils/production');
+      const healthStatus = ProductionUtils.getSystemStatus();
+      res.json(healthStatus);
+    } catch (error) {
+      console.error('Error fetching health status:', error);
+      res.status(500).json({ 
+        status: 'error',
+        message: 'Health check failed'
       });
     }
   });
