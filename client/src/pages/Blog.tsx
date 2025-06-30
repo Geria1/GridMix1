@@ -129,16 +129,16 @@ Because the UK's electricity comes from a dynamic mix of sources—like wind, so
 
 ## Why Carbon Intensity Matters
 
-**1. Smarter Energy Use**
+1. Smarter Energy Use
 Using electricity when it's cleanest—typically when renewables dominate—means a lower personal or corporate carbon footprint.
 
-**2. Greener Operations**
+2. Greener Operations
 Businesses can integrate carbon intensity into sustainability strategies, scheduling energy-heavy tasks during low-carbon periods.
 
-**3. Informed Policy and Planning**
+3. Informed Policy and Planning
 Carbon intensity is a vital metric for tracking decarbonisation progress and making grid and infrastructure decisions.
 
-**4. Real-Time Climate Action**
+4. Real-Time Climate Action
 With tools like GridMix, users can make data-driven decisions to directly impact their emissions in real time.
 
 ## How Is Carbon Intensity Calculated?
