@@ -31,7 +31,7 @@ export default function AboutMe() {
                 Hey, I'm John Igwebuike
               </h1>
               <p className="text-2xl text-gray-600 dark:text-gray-300 mb-6 font-light">
-                The creator behind GridMix
+                The mind behind GridMix
               </p>
               <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
                 <Badge variant="secondary" className="px-4 py-2 text-sm">Chemical Engineer</Badge>
