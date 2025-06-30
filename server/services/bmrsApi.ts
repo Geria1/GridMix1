@@ -82,13 +82,20 @@ export class BMRSApiService {
 
   async getActualDemand(from: string, to: string): Promise<BMRSDemandResponse[]> {
     try {
-      const url = `${this.baseUrl}/demand/actual/total?from=${from}&to=${to}&APIKey=${this.apiKey}`;
+      const url = `${this.baseUrl}/demand/actual/total?from=${from}&to=${to}`;
+      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+      
+      if (this.apiKey) {
+        headers['X-API-Key'] = this.apiKey;
+      }
       
       const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers,
+        signal: AbortSignal.timeout(10000), // 10 second timeout
       });
 
       logger.debug(`BMRS Demand API response status: ${response.status}`);
@@ -96,6 +103,12 @@ export class BMRSApiService {
       if (!response.ok) {
         const errorText = await response.text();
         logger.error(`BMRS Demand API error response: ${errorText.substring(0, 200)}...`);
+        
+        // Check if response is HTML (authentication failure)
+        if (errorText.includes('<!doctype') || errorText.includes('<html>')) {
+          throw new Error('BMRS API authentication failed - check API key');
+        }
+        
         throw new Error(`BMRS Demand API error: ${response.status} ${response.statusText}`);
       }
 
@@ -117,20 +130,32 @@ export class BMRSApiService {
 
   async getActualGenerationByType(settlementDate: string): Promise<BMRSGenerationResponse[]> {
     try {
-      const url = `${this.baseUrl}/generation/actual/per-type/day-total?settlementDate=${settlementDate}&APIKey=${this.apiKey}`;
+      const url = `${this.baseUrl}/generation/actual/per-type/day-total?settlementDate=${settlementDate}`;
+      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+      
+      if (this.apiKey) {
+        headers['X-API-Key'] = this.apiKey;
+      }
       
       const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers,
+        signal: AbortSignal.timeout(10000),
       });
 
-      console.log(`BMRS Generation API response status: ${response.status}`);
+      logger.debug(`BMRS Generation API response status: ${response.status}`);
       
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`BMRS Generation API error response: ${errorText.substring(0, 200)}...`);
+        logger.error(`BMRS Generation API error response: ${errorText.substring(0, 200)}...`);
+        
+        if (errorText.includes('<!doctype') || errorText.includes('<html>')) {
+          throw new Error('BMRS API authentication failed - check API key');
+        }
+        
         throw new Error(`BMRS Generation API error: ${response.status} ${response.statusText}`);
       }
 
