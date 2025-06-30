@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 import profileImage from "@assets/IMG_0090_1751238030881.jpeg";
 
 export default function AboutMe() {
@@ -26,7 +27,7 @@ export default function AboutMe() {
             
             {/* Introduction Text - Right Columns */}
             <div className="lg:col-span-2 text-center lg:text-left">
-              <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                 Hey, I'm John Igwebuike
               </h1>
               <p className="text-2xl text-gray-600 dark:text-gray-300 mb-6 font-light">
@@ -286,9 +287,11 @@ export default function AboutMe() {
                     <span className="font-medium text-gray-900 dark:text-white">GB Grid</span>
                   </div>
                   <div className="pt-2 border-t border-gray-200 dark:border-gray-600">
-                    <Button variant="ghost" size="sm" className="w-full text-blue-600 dark:text-blue-400">
-                      View Dashboard →
-                    </Button>
+                    <Link href="/">
+                      <Button variant="ghost" size="sm" className="w-full text-blue-600 dark:text-blue-400">
+                        View Dashboard →
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </CardContent>
