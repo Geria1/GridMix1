@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Wind, Zap, Sun } from 'lucide-react';
+import { Wind, Zap, Sun, Mountain } from 'lucide-react';
 import { useCurrentEnergyData } from '@/hooks/useEnergyData';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -37,6 +37,14 @@ export function RegionalHighlights() {
       unit: 'MW',
       icon: Zap,
       iconColor: 'text-purple-600',
+    },
+    {
+      name: 'Wales',
+      type: 'Wind Generation',
+      value: regionalData?.wales?.wind || 0,
+      unit: 'MW',
+      icon: Mountain,
+      iconColor: 'text-green-600',
     },
     {
       name: 'South England',
