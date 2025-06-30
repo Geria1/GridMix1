@@ -20,7 +20,7 @@ interface SystemStatus {
 
 export function DataSourceAlert() {
   const { data: systemStatus, error } = useQuery<SystemStatus>({
-    queryKey: ['/api/system/status'],
+    queryKey: ['/api/data-sources/status'],
     refetchInterval: 2 * 60 * 1000, // Check every 2 minutes
     staleTime: 60 * 1000, // Consider stale after 1 minute
   });

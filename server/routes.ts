@@ -399,8 +399,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   })
 
-  // System health monitoring endpoint  
-  app.get("/api/system/status", async (req, res) => {
+  // Data source health monitoring endpoint
+  app.get("/api/data-sources/status", async (req, res) => {
     try {
       // Check health of all data sources
       await dataSourceManager.checkDataSourceHealth();
@@ -410,7 +410,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json(systemStatus);
     } catch (error) {
-      console.error('Error fetching system status:', error);
+      console.error('Error fetching data source status:', error);
       res.status(500).json({ 
         status: 'error',
         message: 'Unable to determine system status',
