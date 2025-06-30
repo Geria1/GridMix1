@@ -38,7 +38,7 @@ export default function AboutMe() {
                 <Badge variant="secondary" className="px-4 py-2 text-sm">Sustainable Energy MSc</Badge>
                 <Badge variant="secondary" className="px-4 py-2 text-sm">Energy Sector Professional</Badge>
               </div>
-              <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed max-w-2xl">
+              <p className="text-sm text-gray-600 dark:text-gray-400 max-w-2xl">
                 Passionate about clean energy, open data, and building tools that make complex energy systems 
                 accessible to everyone. GridMix is my way of democratizing access to real-time UK energy insights.
               </p>
@@ -61,17 +61,17 @@ export default function AboutMe() {
                   My Professional Journey
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="prose prose-lg dark:prose-invert max-w-none">
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+              <CardContent className="p-6">
+                <div className="space-y-6">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
                     I trained as a <strong>Chemical Engineer</strong> and went on to earn an <strong>MSc in Sustainable Energy & Entrepreneurship</strong> at the University of Nottingham. This academic foundation gave me a deep understanding of both the technical and business aspects of the energy transition.
                   </p>
                   
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
                     Currently working in the <strong>UK renewable energy sector</strong>, I've witnessed firsthand how rapidly our energy landscape is evolving. From wind farms generating record amounts of clean electricity to innovative storage solutions transforming grid stability, these changes are reshaping how we think about energy every single day.
                   </p>
                   
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                     I also have a strong interest in <strong>property entrepreneurship</strong>, which has taught me valuable lessons about making complex markets more transparent and accessible—lessons I've applied directly to GridMix's design and user experience.
                   </p>
                 </div>
@@ -88,20 +88,20 @@ export default function AboutMe() {
                   The Vision Behind GridMix
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6">
                 <div className="space-y-6">
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
                     GridMix emerged from my curiosity about <strong>climate policy</strong>, <strong>renewable energy science</strong>, 
                     and a firm belief that everyone should have easy access to real-time, transparent insights into how our energy grid is changing.
                   </p>
                   
                   <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-950 dark:to-green-950 p-6 rounded-xl border border-blue-200 dark:border-blue-800">
-                    <p className="text-lg font-medium text-gray-800 dark:text-gray-200 leading-relaxed">
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
                       "To make energy data not just accessible — but understandable and actionable. Whether you're a policy maker tracking renewable progress, a researcher analyzing trends, or simply someone curious about where your electricity comes from."
                     </p>
                   </div>
                   
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                     GridMix is my way of helping others explore and make sense of the energy transition happening all around us. 
                     Every chart, every data point, every insight is designed to make the invisible visible.
                   </p>
@@ -116,8 +116,8 @@ export default function AboutMe() {
                   My Goal with GridMix
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <CardContent className="p-6">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                   To make energy data not just accessible — but understandable and actionable. 
                   Whether you're a policy maker tracking renewable progress, a researcher analyzing trends, 
                   or simply someone curious about where your electricity comes from, GridMix aims to provide 
@@ -136,8 +136,8 @@ export default function AboutMe() {
                   Beyond the Data
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+              <CardContent className="p-6">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
                   Outside of work, I'm usually listening to <strong>audiobooks</strong> or <strong>podcasts</strong>—there's always something new to learn about technology, business, or the energy sector. And while I'm still getting the hang of it, you'll often find me at the driving range in the evenings, working on my golf swing.
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -171,8 +171,8 @@ export default function AboutMe() {
                   Get In Touch
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-lg text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+              <CardContent className="p-6">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
                   I'd love to hear your thoughts on GridMix, suggestions for improvements, or ideas for new features. 
                   Feel free to reach out if you have questions about the data, want to collaborate, or just want to chat about the energy transition.
                 </p>
@@ -199,8 +199,8 @@ export default function AboutMe() {
                   Tools & Technologies
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+              <CardContent className="p-6">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                   Built on Replit with the help of AI assistance, using live data from official UK energy APIs.
                 </p>
                 <div className="space-y-3">
@@ -238,7 +238,7 @@ export default function AboutMe() {
                   Professional Background
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-6">
                 <div className="space-y-2">
                   <Badge variant="secondary" className="block text-center">Chemical Engineering</Badge>
                   <Badge variant="secondary" className="block text-center">Sustainable Energy MSc</Badge>
