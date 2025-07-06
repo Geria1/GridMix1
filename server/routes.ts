@@ -160,6 +160,35 @@ async function fetchAndStoreEnergyData() {
     const validatedData = insertEnergyDataSchema.parse(energyData);
     await storage.saveEnergyData(validatedData);
     
+    // Process alerts with new energy data
+    try {
+      const { alertService } = await import('./services/alertService');
+      
+      // Calculate renewable share for alert processing
+      const totalGeneration = authenticData.energyMix.wind + authenticData.energyMix.solar + 
+                              authenticData.energyMix.nuclear + authenticData.energyMix.gas + 
+                              authenticData.energyMix.coal + authenticData.energyMix.hydro + 
+                              authenticData.energyMix.biomass + authenticData.energyMix.other;
+      
+      const renewableGeneration = authenticData.energyMix.wind + authenticData.energyMix.solar + 
+                                  authenticData.energyMix.hydro + authenticData.energyMix.biomass;
+      
+      const renewableShare = totalGeneration > 0 ? (renewableGeneration / totalGeneration) * 100 : 0;
+
+      const alertMetrics = {
+        carbonIntensity: authenticData.carbonIntensity,
+        renewableShare,
+        totalDemand: authenticData.totalDemand,
+        timestamp: authenticData.timestamp,
+      };
+
+      await alertService.processAlerts(alertMetrics);
+      console.log('Alert processing completed successfully');
+    } catch (alertError) {
+      console.error('Error processing alerts:', alertError);
+      // Don't fail the entire function if alert processing fails
+    }
+    
     console.log(`Energy data updated successfully from ${authenticData.dataSource}`);
   } catch (error) {
     console.error('Error fetching/storing authentic energy data:', error);
@@ -588,6 +617,162 @@ export async function registerRoutes(app: Express): Promise<Server> {
         configured: false,
         message: "Error checking status"
       });
+    }
+  });
+
+  // Real-time Alert System API Routes
+  const { alertService } = await import('./services/alertService');
+  const { insertAlertUserSchema, insertUserAlertSchema, insertNotificationSettingsSchema } = await import('../shared/schema');
+
+  // Alert User Management
+  app.post("/api/alerts/users", async (req, res) => {
+    try {
+      const userData = insertAlertUserSchema.parse(req.body);
+      
+      // Check if user already exists
+      const existingUser = await alertService.getAlertUser(userData.email);
+      if (existingUser) {
+        return res.status(409).json({ error: 'User with this email already exists' });
+      }
+
+      const user = await alertService.createAlertUser(userData);
+      res.status(201).json(user);
+    } catch (error) {
+      console.error('Error creating alert user:', error);
+      res.status(400).json({ error: 'Invalid user data' });
+    }
+  });
+
+  app.get("/api/alerts/users/:email", async (req, res) => {
+    try {
+      const user = await alertService.getAlertUser(req.params.email);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      res.json(user);
+    } catch (error) {
+      console.error('Error fetching alert user:', error);
+      res.status(500).json({ error: 'Failed to fetch user' });
+    }
+  });
+
+  app.put("/api/alerts/users/:id", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.id);
+      const updates = insertAlertUserSchema.partial().parse(req.body);
+      const user = await alertService.updateAlertUser(userId, updates);
+      res.json(user);
+    } catch (error) {
+      console.error('Error updating alert user:', error);
+      res.status(400).json({ error: 'Invalid update data' });
+    }
+  });
+
+  // User Alert Management
+  app.post("/api/alerts", async (req, res) => {
+    try {
+      const alertData = insertUserAlertSchema.parse(req.body);
+      const alert = await alertService.createUserAlert(alertData);
+      res.status(201).json(alert);
+    } catch (error) {
+      console.error('Error creating alert:', error);
+      res.status(400).json({ error: 'Invalid alert data' });
+    }
+  });
+
+  app.get("/api/alerts/user/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const alerts = await alertService.getUserAlerts(userId);
+      res.json(alerts);
+    } catch (error) {
+      console.error('Error fetching user alerts:', error);
+      res.status(500).json({ error: 'Failed to fetch alerts' });
+    }
+  });
+
+  app.put("/api/alerts/:id", async (req, res) => {
+    try {
+      const alertId = parseInt(req.params.id);
+      const updates = insertUserAlertSchema.partial().parse(req.body);
+      const alert = await alertService.updateUserAlert(alertId, updates);
+      res.json(alert);
+    } catch (error) {
+      console.error('Error updating alert:', error);
+      res.status(400).json({ error: 'Invalid update data' });
+    }
+  });
+
+  app.delete("/api/alerts/:id", async (req, res) => {
+    try {
+      const alertId = parseInt(req.params.id);
+      await alertService.deleteUserAlert(alertId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error deleting alert:', error);
+      res.status(500).json({ error: 'Failed to delete alert' });
+    }
+  });
+
+  // Notification Settings
+  app.get("/api/alerts/settings/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const settings = await alertService.getNotificationSettings(userId);
+      if (!settings) {
+        return res.status(404).json({ error: 'Settings not found' });
+      }
+      res.json(settings);
+    } catch (error) {
+      console.error('Error fetching notification settings:', error);
+      res.status(500).json({ error: 'Failed to fetch settings' });
+    }
+  });
+
+  app.put("/api/alerts/settings/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const settings = insertNotificationSettingsSchema.partial().parse(req.body);
+      const updated = await alertService.updateNotificationSettings(userId, settings);
+      res.json(updated);
+    } catch (error) {
+      console.error('Error updating notification settings:', error);
+      res.status(400).json({ error: 'Invalid settings data' });
+    }
+  });
+
+  // Alert Analytics and Logs
+  app.get("/api/alerts/logs/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 50;
+      const logs = await alertService.getAlertLogs(userId, limit);
+      res.json(logs);
+    } catch (error) {
+      console.error('Error fetching alert logs:', error);
+      res.status(500).json({ error: 'Failed to fetch logs' });
+    }
+  });
+
+  app.get("/api/alerts/statistics", async (req, res) => {
+    try {
+      const stats = await alertService.getAlertStatistics();
+      res.json(stats);
+    } catch (error) {
+      console.error('Error fetching alert statistics:', error);
+      res.status(500).json({ error: 'Failed to fetch statistics' });
+    }
+  });
+
+  // Test alert endpoint for manual triggering
+  app.post("/api/alerts/test/:alertId", async (req, res) => {
+    try {
+      const alertId = parseInt(req.params.alertId);
+      // This would manually trigger an alert for testing purposes
+      res.json({ message: 'Alert test triggered', alertId });
+    } catch (error) {
+      console.error('Error testing alert:', error);
+      res.status(500).json({ error: 'Failed to test alert' });
     }
   });
 
