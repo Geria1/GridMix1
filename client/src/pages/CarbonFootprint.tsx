@@ -119,9 +119,22 @@ export default function CarbonFootprint() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  // Initialize user if not exists
+  // Get user by email (the API endpoint expects this format)
   const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ['/api/carbon/users', DEMO_USER.email],
+    queryFn: async () => {
+      try {
+        const response = await fetch(`/api/carbon/users/${DEMO_USER.email}`);
+        if (response.status === 404) {
+          return null; // User doesn't exist yet
+        }
+        if (!response.ok) throw new Error('Failed to fetch user');
+        return response.json();
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        return null;
+      }
+    },
     enabled: !!DEMO_USER.email,
     retry: false,
   });
