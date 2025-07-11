@@ -776,6 +776,225 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Carbon Footprint Tracking API Routes
+  const { carbonTrackingService } = await import('./services/carbonTrackingService');
+  const { 
+    insertCarbonUserSchema, 
+    insertUserProfileSchema, 
+    insertLifestyleDataSchema,
+    insertCarbonGoalSchema 
+  } = await import('../shared/schema');
+
+  // Carbon User Management
+  app.post("/api/carbon/users", async (req, res) => {
+    try {
+      const userData = insertCarbonUserSchema.parse(req.body);
+      
+      // Check if user already exists
+      const existingUser = await carbonTrackingService.getCarbonUser(userData.email);
+      if (existingUser) {
+        return res.status(409).json({ error: 'User with this email already exists' });
+      }
+
+      const user = await carbonTrackingService.createCarbonUser(userData);
+      res.status(201).json(user);
+    } catch (error) {
+      console.error('Error creating carbon user:', error);
+      res.status(400).json({ error: 'Invalid user data' });
+    }
+  });
+
+  app.get("/api/carbon/users/:email", async (req, res) => {
+    try {
+      const user = await carbonTrackingService.getCarbonUser(req.params.email);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      res.json(user);
+    } catch (error) {
+      console.error('Error fetching carbon user:', error);
+      res.status(500).json({ error: 'Failed to fetch user' });
+    }
+  });
+
+  // User Profile Management
+  app.post("/api/carbon/profile", async (req, res) => {
+    try {
+      const profileData = insertUserProfileSchema.parse(req.body);
+      const profile = await carbonTrackingService.createUserProfile(profileData);
+      res.status(201).json(profile);
+    } catch (error) {
+      console.error('Error creating user profile:', error);
+      res.status(400).json({ error: 'Invalid profile data' });
+    }
+  });
+
+  app.get("/api/carbon/profile/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const profile = await carbonTrackingService.getUserProfile(userId);
+      if (!profile) {
+        return res.status(404).json({ error: 'Profile not found' });
+      }
+      res.json(profile);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      res.status(500).json({ error: 'Failed to fetch profile' });
+    }
+  });
+
+  app.put("/api/carbon/profile/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const updates = insertUserProfileSchema.partial().parse(req.body);
+      const profile = await carbonTrackingService.updateUserProfile(userId, updates);
+      res.json(profile);
+    } catch (error) {
+      console.error('Error updating user profile:', error);
+      res.status(400).json({ error: 'Invalid update data' });
+    }
+  });
+
+  // Lifestyle Data Management
+  app.post("/api/carbon/lifestyle", async (req, res) => {
+    try {
+      const lifestyleData = insertLifestyleDataSchema.parse(req.body);
+      const data = await carbonTrackingService.addLifestyleData(lifestyleData);
+      res.status(201).json(data);
+    } catch (error) {
+      console.error('Error adding lifestyle data:', error);
+      res.status(400).json({ error: 'Invalid lifestyle data' });
+    }
+  });
+
+  app.get("/api/carbon/lifestyle/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const dateFrom = req.query.from as string || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      const dateTo = req.query.to as string || new Date().toISOString().split('T')[0];
+      
+      const data = await carbonTrackingService.getLifestyleData(userId, dateFrom, dateTo);
+      res.json(data);
+    } catch (error) {
+      console.error('Error fetching lifestyle data:', error);
+      res.status(500).json({ error: 'Failed to fetch lifestyle data' });
+    }
+  });
+
+  app.put("/api/carbon/lifestyle/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const updates = insertLifestyleDataSchema.partial().parse(req.body);
+      const data = await carbonTrackingService.updateLifestyleData(id, updates);
+      res.json(data);
+    } catch (error) {
+      console.error('Error updating lifestyle data:', error);
+      res.status(400).json({ error: 'Invalid update data' });
+    }
+  });
+
+  app.delete("/api/carbon/lifestyle/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await carbonTrackingService.deleteLifestyleData(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error deleting lifestyle data:', error);
+      res.status(500).json({ error: 'Failed to delete data' });
+    }
+  });
+
+  // Carbon Footprint Calculations
+  app.post("/api/carbon/calculate/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const date = req.body.date || new Date().toISOString().split('T')[0];
+      
+      // Get current grid carbon intensity
+      const currentEnergyData = await storage.getLatestEnergyData();
+      const gridIntensity = currentEnergyData?.carbonIntensity || 193; // fallback to UK average
+      
+      const footprint = await carbonTrackingService.calculateDailyFootprint(userId, date, gridIntensity);
+      
+      // Check for badges
+      const badges = await carbonTrackingService.checkAndAwardBadges(userId, footprint);
+      
+      res.json({ footprint, badges });
+    } catch (error) {
+      console.error('Error calculating carbon footprint:', error);
+      res.status(500).json({ error: 'Failed to calculate footprint' });
+    }
+  });
+
+  app.get("/api/carbon/footprint/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const dateFrom = req.query.from as string || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      const dateTo = req.query.to as string || new Date().toISOString().split('T')[0];
+      
+      const footprints = await carbonTrackingService.getCarbonFootprints(userId, dateFrom, dateTo);
+      res.json(footprints);
+    } catch (error) {
+      console.error('Error fetching carbon footprints:', error);
+      res.status(500).json({ error: 'Failed to fetch footprints' });
+    }
+  });
+
+  // Goals Management
+  app.post("/api/carbon/goals", async (req, res) => {
+    try {
+      const goalData = insertCarbonGoalSchema.parse(req.body);
+      const goal = await carbonTrackingService.createCarbonGoal(goalData);
+      res.status(201).json(goal);
+    } catch (error) {
+      console.error('Error creating carbon goal:', error);
+      res.status(400).json({ error: 'Invalid goal data' });
+    }
+  });
+
+  app.get("/api/carbon/goals/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const goals = await carbonTrackingService.getCarbonGoals(userId);
+      res.json(goals);
+    } catch (error) {
+      console.error('Error fetching carbon goals:', error);
+      res.status(500).json({ error: 'Failed to fetch goals' });
+    }
+  });
+
+  // Badges
+  app.get("/api/carbon/badges/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const badges = await carbonTrackingService.getUserBadges(userId);
+      res.json(badges);
+    } catch (error) {
+      console.error('Error fetching badges:', error);
+      res.status(500).json({ error: 'Failed to fetch badges' });
+    }
+  });
+
+  // Insights and Suggestions
+  app.get("/api/carbon/insights/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      
+      // Get current grid data
+      const currentEnergyData = await storage.getLatestEnergyData();
+      const gridData = {
+        carbonIntensity: currentEnergyData?.carbonIntensity || 193,
+        energyMix: currentEnergyData?.energyMix || {},
+      };
+      
+      const insights = await carbonTrackingService.generateCarbonInsights(userId, gridData);
+      res.json(insights);
+    } catch (error) {
+      console.error('Error generating insights:', error);
+      res.status(500).json({ error: 'Failed to generate insights' });
+    }
+  });
+
   // REPD (Renewable Energy Planning Database) routes
   app.get("/api/repd/projects", async (req, res) => {
     try {

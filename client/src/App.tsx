@@ -12,6 +12,7 @@ import AboutMe from "@/pages/AboutMe";
 import { Projects } from "@/pages/Projects";
 import { Forecast } from "@/pages/Forecast";
 import Alerts from "@/pages/Alerts";
+import CarbonFootprint from "@/pages/CarbonFootprint";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
 import NotFound from "@/pages/not-found";
@@ -28,6 +29,7 @@ function Router() {
         <Route path="/projects" component={Projects} />
         <Route path="/forecast" component={Forecast} />
         <Route path="/alerts" component={Alerts} />
+        <Route path="/carbon" component={CarbonFootprint} />
         <Route path="/privacy" component={Privacy} />
         <Route path="/terms" component={Terms} />
         <Route component={NotFound} />

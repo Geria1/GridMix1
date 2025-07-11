@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, jsonb, varchar, decimal } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, jsonb, varchar, decimal, date } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -102,6 +102,109 @@ export const insertNotificationSettingsSchema = createInsertSchema(notificationS
   updatedAt: true,
 });
 
+// Carbon Footprint Tracking Tables
+export const carbonUsers = pgTable("carbon_users", {
+  id: serial("id").primaryKey(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  firstName: varchar("first_name", { length: 100 }),
+  lastName: varchar("last_name", { length: 100 }),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const userProfiles = pgTable("user_profiles", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => carbonUsers.id).notNull(),
+  householdSize: integer("household_size").default(1),
+  homeType: varchar("home_type", { length: 50 }), // flat, house, etc.
+  heatingType: varchar("heating_type", { length: 50 }), // gas, electric, heat_pump
+  hasSmartMeter: boolean("has_smart_meter").default(false),
+  annualEnergyUsage: decimal("annual_energy_usage", { precision: 10, scale: 2 }), // kWh
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const lifestyleData = pgTable("lifestyle_data", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => carbonUsers.id).notNull(),
+  category: varchar("category", { length: 50 }).notNull(), // transport, diet, energy, shopping
+  subcategory: varchar("subcategory", { length: 100 }), // car_petrol, flights_domestic, meat_beef
+  value: decimal("value", { precision: 10, scale: 2 }).notNull(), // miles, kg, kWh, etc.
+  unit: varchar("unit", { length: 20 }).notNull(), // miles, kg, kWh
+  frequency: varchar("frequency", { length: 20 }).notNull(), // daily, weekly, monthly, annually
+  date: date("date").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const carbonFootprints = pgTable("carbon_footprints", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => carbonUsers.id).notNull(),
+  date: date("date").notNull(),
+  totalEmissions: decimal("total_emissions", { precision: 10, scale: 3 }).notNull(), // kg CO2e
+  energyEmissions: decimal("energy_emissions", { precision: 10, scale: 3 }).notNull(),
+  transportEmissions: decimal("transport_emissions", { precision: 10, scale: 3 }).notNull(),
+  dietEmissions: decimal("diet_emissions", { precision: 10, scale: 3 }).notNull(),
+  shoppingEmissions: decimal("shopping_emissions", { precision: 10, scale: 3 }).notNull(),
+  gridCarbonIntensity: decimal("grid_carbon_intensity", { precision: 10, scale: 3 }), // gCO2/kWh
+  energyUsage: decimal("energy_usage", { precision: 10, scale: 2 }), // kWh
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const carbonGoals = pgTable("carbon_goals", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => carbonUsers.id).notNull(),
+  goalType: varchar("goal_type", { length: 50 }).notNull(), // weekly, monthly, annual
+  targetReduction: decimal("target_reduction", { precision: 5, scale: 2 }).notNull(), // percentage
+  currentReduction: decimal("current_reduction", { precision: 5, scale: 2 }).default("0"),
+  startDate: date("start_date").notNull(),
+  endDate: date("end_date").notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const carbonBadges = pgTable("carbon_badges", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => carbonUsers.id).notNull(),
+  badgeType: varchar("badge_type", { length: 50 }).notNull(), // first_week, low_carbon_day, etc.
+  badgeName: varchar("badge_name", { length: 100 }).notNull(),
+  description: text("description"),
+  earnedAt: timestamp("earned_at").defaultNow(),
+});
+
+// Insert schemas for carbon footprint tables
+export const insertCarbonUserSchema = createInsertSchema(carbonUsers).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertUserProfileSchema = createInsertSchema(userProfiles).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertLifestyleDataSchema = createInsertSchema(lifestyleData).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertCarbonFootprintSchema = createInsertSchema(carbonFootprints).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertCarbonGoalSchema = createInsertSchema(carbonGoals).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertCarbonBadgeSchema = createInsertSchema(carbonBadges).omit({
+  id: true,
+  earnedAt: true,
+});
+
 // Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -116,6 +219,20 @@ export type AlertLog = typeof alertLogs.$inferSelect;
 export type InsertAlertLog = z.infer<typeof insertAlertLogSchema>;
 export type NotificationSettings = typeof notificationSettings.$inferSelect;
 export type InsertNotificationSettings = z.infer<typeof insertNotificationSettingsSchema>;
+
+// Carbon Footprint Types
+export type CarbonUser = typeof carbonUsers.$inferSelect;
+export type InsertCarbonUser = z.infer<typeof insertCarbonUserSchema>;
+export type UserProfile = typeof userProfiles.$inferSelect;
+export type InsertUserProfile = z.infer<typeof insertUserProfileSchema>;
+export type LifestyleData = typeof lifestyleData.$inferSelect;
+export type InsertLifestyleData = z.infer<typeof insertLifestyleDataSchema>;
+export type CarbonFootprint = typeof carbonFootprints.$inferSelect;
+export type InsertCarbonFootprint = z.infer<typeof insertCarbonFootprintSchema>;
+export type CarbonGoal = typeof carbonGoals.$inferSelect;
+export type InsertCarbonGoal = z.infer<typeof insertCarbonGoalSchema>;
+export type CarbonBadge = typeof carbonBadges.$inferSelect;
+export type InsertCarbonBadge = z.infer<typeof insertCarbonBadgeSchema>;
 
 export const EnergyMixSchema = z.object({
   gas: z.number(),
