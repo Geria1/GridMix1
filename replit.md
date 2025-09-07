@@ -2,265 +2,67 @@
 
 ## Overview
 
-GridMix is a real-time UK electricity generation dashboard that provides comprehensive energy data visualization. The application displays live energy mix information, carbon intensity tracking, and renewable energy statistics sourced from the UK's Carbon Intensity API. Built as a full-stack web application, it offers an intuitive interface for monitoring the UK's electrical grid in real-time.
-
-## System Architecture
-
-### Frontend Architecture
-- **Framework**: React 18 with TypeScript
-- **Routing**: Wouter for client-side routing
-- **State Management**: TanStack Query (React Query) for server state management
-- **UI Components**: Shadcn/ui component library with Radix UI primitives
-- **Styling**: Tailwind CSS with custom energy-themed color variables
-- **Charts**: Recharts for data visualization (pie charts, line charts, trend analysis)
-- **Theme System**: Custom theme provider with light/dark mode support
-
-### Backend Architecture
-- **Runtime**: Node.js with TypeScript
-- **Framework**: Express.js for API server
-- **Database ORM**: Drizzle ORM with PostgreSQL dialect
-- **Database Provider**: Neon Database (serverless PostgreSQL)
-- **External API**: UK Carbon Intensity API integration
-- **Data Validation**: Zod schemas for type-safe data validation
-- **Build System**: Vite for frontend bundling, esbuild for server bundling
-
-### Data Flow
-1. **Data Ingestion**: Scheduled intervals fetch data from UK Carbon Intensity API
-2. **Data Processing**: Raw API data is transformed and validated using Zod schemas
-3. **Data Storage**: Processed data is stored in PostgreSQL via Drizzle ORM
-4. **API Layer**: Express routes serve formatted data to frontend
-5. **Real-time Updates**: Frontend polls API endpoints every 5 minutes for fresh data
-6. **Visualization**: React components render charts and metrics using processed data
-
-## Key Components
-
-### Database Schema
-- **Users Table**: Authentication and user management (currently using in-memory storage)
-- **Energy Data Table**: Core energy metrics storage
-  - Timestamp, total demand, carbon intensity
-  - Energy mix breakdown (gas, nuclear, wind, solar, hydro, biomass, coal, imports)
-  - Regional data and system status (JSON fields)
-
-### API Endpoints
-- `/api/energy/current` - Latest energy data snapshot
-- `/api/energy/history` - Historical data with configurable time ranges
-- `/api/energy/status` - System health and API status information
-
-### Frontend Components
-- **Dashboard**: Main application view with comprehensive energy overview
-- **KeyMetrics**: Real-time metrics display (demand, carbon intensity, renewable percentage)
-- **EnergyMixChart**: Interactive pie chart showing current energy generation sources
-- **TrendChart**: Historical trend analysis with multiple time ranges (24h, 7d, 30d)
-- **CarbonIntensityChart**: Carbon intensity tracking over time
-- **RegionalHighlights**: Regional energy generation breakdown
-- **SystemStatus**: Grid stability and system health indicators
-
-### External Dependencies
-- **UK Carbon Intensity API**: Primary data source for real-time energy information
-- **Neon Database**: Serverless PostgreSQL for data persistence
-- **Replit Infrastructure**: Development and deployment platform
-
-## Data Storage Solutions
-
-### Primary Database
-- **Type**: PostgreSQL (via Neon serverless)
-- **ORM**: Drizzle ORM for type-safe database operations
-- **Schema Management**: Drizzle Kit for migrations and schema evolution
-- **Connection**: Environment variable-based configuration
-
-### Fallback Storage
-- **In-Memory Storage**: MemStorage class for development/fallback scenarios
-- **Interface**: IStorage interface ensures consistent API across storage implementations
-
-## External Service Integrations
-
-### UK Carbon Intensity API
-- **Base URL**: `https://api.carbonintensity.org.uk`
-- **Endpoints Used**:
-  - `/intensity` - Current carbon intensity
-  - `/generation` - Generation mix data
-  - `/demand` - Current demand data
-  - Regional and system status endpoints
-- **Rate Limiting**: Respectful polling intervals to avoid API limits
-- **Error Handling**: Graceful degradation when API is unavailable
-
-### Replit Platform Integration
-- **Development**: Cartographer plugin for enhanced development experience
-- **Runtime Error Handling**: Runtime error overlay for development
-- **Deployment**: Autoscale deployment target configuration
-
-## Deployment Strategy
-
-### Development Environment
-- **Command**: `npm run dev`
-- **Hot Reload**: Vite development server with HMR
-- **Database**: Automatic connection to Neon database via environment variables
-
-### Production Build
-- **Frontend**: Vite build process creates optimized static assets
-- **Backend**: esbuild bundles server code for production deployment
-- **Static Assets**: Served from `/dist/public` directory
-- **Process**: Express server serves both API and static files
-
-### Configuration
-- **Port**: 5000 (configurable via environment)
-- **Database**: PostgreSQL connection via `DATABASE_URL` environment variable
-- **Environment Detection**: `NODE_ENV` for development/production behavior switching
-
-## Changelog
-
-- June 30, 2025: Critical Bug Fixes and Enhanced Error Handling System
-  - Fixed Energy Mix Trend chart displaying incorrect percentages (14000% instead of proper GW values)
-  - Fixed 24-hour trend chart displaying MW values as percentages (8790% → 8.79 GW)
-  - Converted all trend charts to display natural MW/GW values instead of problematic percentage calculations
-  - Updated both EnergyMixTrendChart and TrendChart components for consistent GW display formatting
-  - Enhanced tooltips and Y-axis labels to show clear "GW" units across all time ranges (24H, 7D, 30D)
-  - Implemented comprehensive DataSourceManager for intelligent data source monitoring and fallback handling
-  - Added production-safe error boundaries and graceful degradation when BMRS API endpoints fail
-  - Created diagnostic tools to identify and troubleshoot API authentication issues
-  - Enhanced frontend with DataSourceAlert component to notify users of data source status
-  - Application now operates seamlessly with Carbon Intensity API when BMRS endpoints are unavailable
-  - Maintained authentic UK energy data integrity throughout all components
-- June 30, 2025: Production Deployment Preparation Complete - Enterprise-Level Stability Achieved
-  - Implemented comprehensive production-safe logging system with development/production mode separation
-  - Added security hardening: console.log override in production, input validation (10MB limits), error sanitization
-  - Created system health monitoring with `/health` endpoint and real-time error tracking
-  - Optimized carbon forecast service: 6-hour update cycles, robust fallback mechanisms, authentic API integration
-  - Enhanced frontend with React error boundaries for all critical components and performance optimizations
-  - Validated responsive design across mobile, tablet, and desktop with accessible markup
-  - Confirmed <2s page load times and <500ms API response times for production performance
-  - All 96+ carbon forecast data points operational with 48-hour authentic UK National Grid predictions
-  - Live generation monitoring of 4,100+ MW across 70 renewable energy facilities fully operational
-  - Production-ready security: stack trace hiding, environment validation, request sanitization
-  - Created comprehensive PRODUCTION_CHECKLIST.md documenting full enterprise deployment readiness
-- June 30, 2025: Projects Page Description Updated & Live Generation Data Integration Complete
-  - Updated Projects page description to concise "Explore live data and locations of renewable energy sites [>150kW] across the UK"
-  - Added proper source acknowledgment: "Official government REPD Renewable Energy Planning Database (REPD), UK"
-  - Integrated authentic live generation data from all 70 operational renewable energy facilities across the UK
-  - Real-time monitoring: 4,114.2 MW current output, 41.6% average capacity factor, 45 online projects, 4 offline projects
-  - Enhanced Projects page with live generation summary dashboard featuring animated status indicators and real-time refresh every 10 seconds
-  - Significantly improved responsive design for mobile, tablet, and desktop with adaptive layouts and intuitive navigation
-  - Enhanced map popups displaying live generation data: current output, capacity factor, daily/monthly/annual generation, operational status
-  - Added comprehensive live generation API endpoints: /api/repd/live-generation and /api/repd/live-generation/summary
-  - Implemented realistic capacity factor calculations based on technology type, seasonal variations, and time-of-day patterns
-  - Solar projects show accurate daytime generation curves, wind projects reflect seasonal patterns (higher winter output)
-  - Live status indicators with color-coded badges (online/offline/maintenance) and animated pulse effects for active generation
-  - Accessible design principles with proper contrast, screen reader support, and keyboard navigation
-  - Smooth transitions and performance optimizations for seamless user experience across all device types
-- June 30, 2025: Mailchimp Newsletter Integration Fully Operational
-  - Successfully configured all required secrets including MAILCHIMP_AUDIENCE_ID
-  - Newsletter signup forms now capturing subscribers across blog, footer, and sidebar sections
-  - Email validation and subscriber management working correctly with proper error handling
-- June 30, 2025: Wales Added to Regional Highlights
-  - Added Wales wind generation data with mountain icon to Regional Highlights component
-  - Regional data now displays Scotland (wind), England (nuclear), Wales (wind), and South England (solar)
-- June 30, 2025: Energy Mix Trend Chart Fixed - Corrected Percentage Display
-  - Fixed energy mix trend chart showing incorrect values like 12000% instead of proper 0-100% range
-  - Converted from stacked area chart to line chart to display individual energy source percentage trends
-  - Updated server data generation to convert MW values to percentages before sending to frontend
-  - Fixed Y-axis domain and formatting to show realistic percentage values (wind ~48%, nuclear ~22%, etc.)
-  - Enhanced tooltips to display both percentage and MW equivalent values for better clarity
-  - Maintained all interactive time resolution controls and renewable share calculations
-- June 30, 2025: About Me Page Professional Redesign & Energy Mix Percentage Corrections
-  - Redesigned About Me page with modern hero section featuring circular profile image with energy icon badge
-  - Implemented responsive two-column layout with professional typography and enhanced visual hierarchy
-  - Added structured content sections: Professional Journey, Vision Behind GridMix, Beyond the Data, Get In Touch
-  - Enhanced personal interests display with icon-based grid layout for audiobooks, podcasts, golf, and open data
-  - Improved mobile responsiveness with centered layouts and appropriate spacing
-  - Fixed energy mix trend chart percentage calculations to properly distinguish between total demand and domestic generation
-  - Updated tooltip to show accurate renewable percentages based on domestic generation only (excluding imports)
-  - Added clear labeling to differentiate total demand vs domestic generation in energy mix visualizations
-- June 29, 2025: Interactive Energy-Saving Tips Carousel Implementation
-  - Created comprehensive carousel component with 8 practical energy-saving tips
-  - Added auto-advancing functionality (6-second intervals) with manual navigation controls
-  - Implemented categorized tips (Heating, Lighting, Appliances, Transport) with difficulty levels
-  - Displayed potential annual savings, implementation costs, and carbon footprint reduction for each tip
-  - Redesigned layout to match dashboard aesthetic with dark theme and compact grid structure
-  - Integrated carousel into main dashboard between Regional/System Status and Data Sources sections
-  - Added interactive dot indicators and previous/next navigation buttons
-  - Features tips like LED bulb replacement (£40-80/year savings), smart thermostats (10-23% heating reduction), and transport alternatives (£500-1,000/year savings)
-- June 29, 2025: Legal Pages and Social Sharing Implementation
-  - Created comprehensive Privacy Policy page with UK GDPR compliance and professional styling
-  - Added Terms of Use page with intellectual property, data sources, and usage guidelines
-  - Integrated ShareButtons component with Twitter, LinkedIn, Facebook, email, and copy-link functionality
-  - Added social media sharing to all blog posts for enhanced content distribution
-  - Updated footer navigation with Privacy Policy and Terms of Use links
-  - Applied consistent GridMix branding and responsive design across all legal pages
-- June 29, 2025: Mailchimp Newsletter Integration Complete - Fully Operational
-  - Integrated @mailchimp/mailchimp_marketing package for automated email capture
-  - Added NewsletterSignup component with variants for blog, footer, and inline use
-  - Implemented comprehensive mailchimpService with subscriber management and GDPR compliance
-  - Deployed newsletter forms across multiple site locations: blog main section, sidebar, and footer
-  - Added source tagging (blog-main, blog-sidebar, footer) for subscriber segmentation
-  - Created responsive email capture forms with proper error handling and success messaging
-  - Fixed server configuration to properly extract datacenter from API key (us10)
-  - Updated Mailchimp API credentials - now successfully connecting and capturing subscribers
-  - Added diagnostic endpoints for troubleshooting API connectivity
-  - Status: Fully operational - newsletter forms are live and capturing email subscriptions
-- June 29, 2025: Blog Content Update - Two Featured Articles
-  - Added comprehensive article on UK Net Zero policy and U.S. climate shifts
-  - Added technical guide on Carbon Intensity calculation and practical applications
-  - Implemented interactive article display with expand/collapse functionality for full content reading
-  - Enhanced formatting with proper table rendering, color-coded sections, and markdown support
-  - Updated tag system to include "Net Zero", "Policy", "Economics", "Carbon Intensity", and "Technical" topics
-- June 29, 2025: About Me Page Personal Bio Update
-  - Updated About Me page with John's complete professional background and personal story
-  - Added Chemical Engineering degree and MSc in Sustainable Energy & Entrepreneurship from University of Nottingham
-  - Included personal interests: audiobooks, podcasts, golf, and energy sector work
-  - Enhanced sidebar with professional background and personal interests sections
-- June 29, 2025: Production Deployment Complete
-  - Successfully deployed GridMix to custom domain https://gridmix.co.uk
-  - DNS configuration completed with HTTPS SSL certificate active
-  - Verified production build serving optimized assets correctly
-  - API endpoints responding with authentic UK energy data on live domain
-  - Application fully operational for public access worldwide
-- June 29, 2025: Hero Section Copy Update
-  - Updated main tagline from "UK Grid Energy + Emissions Dashboard" to "UK Energy Dashboard"
-  - Changed description from "Tracking the UK's journey to clean power by 2050" to "Clean energy, carbon emissions, and grid mix — all in one place."
-  - Applied more concise, user-friendly messaging for better clarity
-- June 29, 2025: Enhanced BMRS and Elexon API Integration
-  - Expanded BMRS API service with comprehensive grid monitoring endpoints (frequency, balancing, imbalance, reserve margin, interconnectors)
-  - Created EnhancedDataService with intelligent data source selection and quality assessment
-  - Added multiple new API endpoints: /api/energy/enhanced/*, /api/bmrs/* for advanced grid data
-  - Implemented data quality scoring (high/medium/low) with automatic fallback mechanisms
-  - Enhanced system status monitoring with grid stability assessment and interconnector flow tracking
-  - Added EnhancedDataSources component showcasing multiple data integration capabilities
-  - Improved error handling and authentication management for BMRS API connections
-- June 28, 2025: Multi-Page Structure Implementation
-  - Created comprehensive multi-page application with Dashboard, About GridMix, Blog, and About Me pages
-  - Added global navigation header with active page highlighting and mobile-responsive design
-  - Moved Technical Notes & Data Sources section from Dashboard to About GridMix page for better organization
-  - Updated footer with navigation links to all pages (Dashboard, About GridMix, Blog, About Me)
-  - Maintained professional GridMix branding and responsive design across all pages
-- June 27, 2025: Enhanced GridMix UI Structure & Professional Dashboard Interface
-  - Implemented comprehensive UI redesign based on GridMix structure overview with hero section, tabbed navigation, and analysis panels
-  - Created HeroSection component with live countdown to 2050, progress indicators, and journey visualization
-  - Built EnergyMixDashboard with tabbed interface: Real-Time Snapshot, Weekly Fluctuations, Monthly Trends
-  - Added AnalysisInsightsPanel with real-time fuel type trends, volatility assessment, policy milestones, and regional highlights
-  - Implemented TechnicalNotesSection with collapsible data source documentation and API status information
-  - Enhanced visual hierarchy with gradient backgrounds, color-coded sections, and responsive grid layouts
-- June 27, 2025: Extended Multi-Resolution Energy Mix Visualization & Corrected Renewable Share Calculations
-  - Created comprehensive energy mix trend visualization with weekly/monthly/seasonal patterns using BMRS-derived data
-  - Fixed renewable energy share percentage calculation: now correctly excludes imports and calculates true generation percentages
-  - Added stacked area charts showing energy source variations over 4 weeks to 24 months with seasonal factors
-  - Enhanced tooltips displaying accurate renewable percentages (currently ~66.6% with wind at 17.5GW)
-  - Integrated time resolution controls for daily, weekly, and monthly energy mix pattern analysis
-  - Applied realistic UK seasonal variations: higher wind in winter, solar peaks in summer, gas heating demand patterns
-- June 27, 2025: Integrated Net-Zero Countdown Visualization with Live Timer
-  - Created comprehensive UK journey to net-zero dashboard combining emissions data with real-time countdown
-  - Live countdown clock to December 31, 2050 updating every second (25 years remaining)
-  - Complete emissions trajectory 1990-2050: official data through 2022, BMRS estimates 2023-2025, blank space to 2050
-  - Key milestone annotations: 1990 baseline, 2025 "You Are Here", 2050 net-zero target
-  - Responsive design with mobile-optimized countdown display and professional policy-ready visualization
-  - Integrated authentic UK government data with Climate Change Act legal framework context
-- June 27, 2025: Fixed Energy Mix Component - Authentic UK Electricity Data Integration
-  - Resolved energy mix display issue with proper Carbon Intensity API data processing
-  - Implemented specified color scheme (Wind: #00BFFF, Solar: #FFD700, Nuclear: #FF6347, etc.)
-  - Added MWh absolute values and percentages in tooltips as requested
-  - Current authentic data: Wind 54.2% (16,260 MWh), Gas 21.2% (6,360 MWh), Nuclear 15.7% (4,710 MWh)
-  - Enhanced BMRS API authentication with proper fallback to Carbon Intensity API
-- June 26, 2025: Initial setup
+GridMix is a real-time UK electricity generation dashboard providing comprehensive energy data visualization. It displays live energy mix information, carbon intensity tracking, and renewable energy statistics sourced from the UK's Carbon Intensity API. This full-stack web application offers an intuitive interface for monitoring the UK's electrical grid, aiming to track the UK's journey to clean power by 2050.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+
+## System Architecture
+
+GridMix is a full-stack web application designed for real-time energy data visualization.
+
+### UI/UX Decisions
+- **Color Scheme**: Energy-themed color variables with specific colors for energy sources (e.g., Wind: #00BFFF, Solar: #FFD700).
+- **Theme**: Custom theme provider supporting light/dark mode.
+- **Visualizations**: Interactive charts (pie charts, line charts) from Recharts for energy mix, trends, and carbon intensity.
+- **Layout**: Comprehensive dashboard with hero section, tabbed navigation, analysis panels, and responsive design for mobile, tablet, and desktop.
+- **Interactive Elements**: Live countdown to 2050 net-zero target, energy-saving tips carousel, and interactive map popups for live generation data.
+
+### Technical Implementation
+
+**Frontend**:
+- **Framework**: React 18 with TypeScript.
+- **Routing**: Wouter.
+- **State Management**: TanStack Query (React Query).
+- **UI Components**: Shadcn/ui with Radix UI primitives.
+- **Styling**: Tailwind CSS.
+
+**Backend**:
+- **Runtime**: Node.js with TypeScript.
+- **Framework**: Express.js for API server.
+- **Data Validation**: Zod schemas.
+- **Build System**: Vite for frontend, esbuild for backend.
+
+**Data Flow**:
+Data is fetched from the UK Carbon Intensity API at scheduled intervals, transformed, validated with Zod, and stored in PostgreSQL. Express routes serve this data to the frontend, which polls for updates every 5 minutes and visualizes it.
+
+**Key Features**:
+- **Dashboard**: Centralized view of energy data.
+- **Key Metrics**: Real-time display of demand, carbon intensity, and renewable percentage.
+- **Energy Mix Chart**: Interactive display of current energy generation sources with accurate percentage and MW values.
+- **Trend Charts**: Historical analysis (24h, 7d, 30d) of energy mix and carbon intensity.
+- **Regional Highlights**: Breakdown of regional energy generation.
+- **System Status**: Grid stability and health indicators.
+- **Net-Zero Countdown**: Visualization of progress towards the 2050 net-zero target.
+- **Energy-Saving Tips**: Interactive carousel of practical tips.
+- **Blog**: Articles on UK energy policy and technical insights.
+
+### System Design Choices
+- **Database**: PostgreSQL (via Neon serverless) managed by Drizzle ORM. An in-memory fallback is available for development.
+- **API Endpoints**:
+    - `/api/energy/current`: Latest energy data.
+    - `/api/energy/history`: Historical data.
+    - `/api/energy/status`: System health.
+    - `/api/repd/live-generation`: Live generation data from renewable sites.
+- **Multi-Page Structure**: Includes Dashboard, About GridMix, Blog, and About Me pages with global navigation.
+- **Data Source Management**: Intelligent `DataSourceManager` for monitoring and fallback when external APIs are unavailable.
+- **Error Handling**: Comprehensive error boundaries and graceful degradation for API failures.
+
+## External Dependencies
+
+- **UK Carbon Intensity API**: Primary data source for real-time energy, generation mix, and demand data.
+- **BMRS (Balancing Mechanism Reporting Service) API / Elexon**: Integrated for extended grid monitoring data (frequency, balancing, imbalance, interconnector flows), with intelligent data source selection and fallback mechanisms.
+- **Neon Database**: Serverless PostgreSQL for data persistence.
+- **Mailchimp**: For newsletter subscription management.
+- **Replit Infrastructure**: Used for development and deployment.
