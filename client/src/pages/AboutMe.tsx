@@ -64,15 +64,11 @@ export default function AboutMe() {
               <CardContent className="p-6">
                 <div className="space-y-6">
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                    I trained as a <strong>Chemical Engineer</strong> and went on to earn an <strong>MSc in Sustainable Energy & Entrepreneurship</strong> at the University of Nottingham. This academic foundation gave me a deep understanding of both the technical and business aspects of the energy transition.
-                  </p>
-                  
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                    Currently working in the <strong>UK renewable energy sector</strong>, I've witnessed firsthand how rapidly our energy landscape is evolving. From wind farms generating record amounts of clean electricity to innovative storage solutions transforming grid stability, these changes are reshaping how we think about energy every single day.
+                    I started out as a <strong>Chemical Engineer</strong>, then went on to earn an <strong>MSc in Sustainable Energy & Entrepreneurship</strong> at the University of Nottingham. That mix of science and business gave me a real appreciation for both sides of the energy transition — how it works technically, and how it scales in the real world.
                   </p>
                   
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    I also have a strong interest in <strong>property entrepreneurship</strong>, which has taught me valuable lessons about making complex markets more transparent and accessible—lessons I've applied directly to GridMix's design and user experience.
+                    I currently work in the <strong>UK renewable energy sector</strong>, where I've had a front-row seat to how fast things are changing. From Solar farms breaking generation records to new storage technologies reshaping how the grid stays balanced — it's an exciting, evolving space that impacts all of us.
                   </p>
                 </div>
               </CardContent>
@@ -91,19 +87,15 @@ export default function AboutMe() {
               <CardContent className="p-6">
                 <div className="space-y-6">
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                    GridMix emerged from my curiosity about <strong>climate policy</strong>, <strong>renewable energy science</strong>, 
-                    and a firm belief that everyone should have easy access to real-time, transparent insights into how our energy grid is changing.
+                    GridMix started as a mix of curiosity and frustration — curiosity about how our electricity system really works, and frustration at how difficult it was to find clear, accessible data about it.
                   </p>
                   
-                  <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-950 dark:to-green-950 p-6 rounded-xl border border-blue-200 dark:border-blue-800">
-                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                      "To make energy data not just accessible — but understandable and actionable. Whether you're a policy maker tracking renewable progress, a researcher analyzing trends, or simply someone curious about where your electricity comes from."
-                    </p>
-                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                    I wanted to make energy data not just available — but understandable and useful. Whether you're a policymaker tracking renewable progress, a researcher exploring energy trends, or just someone who wants to know when the grid is at its cleanest, GridMix is an attempt to make it possible.
+                  </p>
                   
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    GridMix is my way of helping others explore and make sense of the energy transition happening all around us. 
-                    Every chart, every data point, every insight is designed to make the invisible visible.
+                    At its core, GridMix is about making the invisible visible — turning raw data into insights you can actually use to make smarter, greener decisions.
                   </p>
                 </div>
               </CardContent>
@@ -118,10 +110,7 @@ export default function AboutMe() {
               </CardHeader>
               <CardContent className="p-6">
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                  To make energy data not just accessible — but understandable and actionable. 
-                  Whether you're a policy maker tracking renewable progress, a researcher analyzing trends, 
-                  or simply someone curious about where your electricity comes from, GridMix aims to provide 
-                  clear, real-time insights into the UK's journey toward net-zero.
+                  To give everyone — not just experts — a clear window into how the UK's energy grid is evolving toward net-zero. The aim is simple: take something complex and make it meaningful, visual, and actionable.
                 </p>
               </CardContent>
             </Card>
@@ -138,7 +127,7 @@ export default function AboutMe() {
               </CardHeader>
               <CardContent className="p-6">
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                  Outside of work, I'm usually listening to <strong>audiobooks</strong> or <strong>podcasts</strong>—there's always something new to learn about technology, business, or the energy sector. And while I'm still getting the hang of it, you'll often find me at the driving range in the evenings, working on my golf swing.
+                  When I'm not buried in energy models or datasets, you'll probably find me listening to <strong>audiobooks</strong> or <strong>podcasts</strong> about tech, business, or the future of energy. And lately, I've been spending my evenings at the driving range, still trying to get that perfect golf swing (it's definitely a work in progress).
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
