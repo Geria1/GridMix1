@@ -76,12 +76,16 @@ export function Forecast() {
               <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">
                 Using the Forecast
               </h3>
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <p>• Lower values (gCO₂/kWh) mean cleaner electricity</p>
-                <p>• Schedule energy-intensive tasks during predicted low periods</p>
-                <p>• 3-hour windows provide optimal planning flexibility</p>
-                <p>• Export CSV data for integration with smart home systems</p>
-                <p>• Monitor trends to understand grid decarbonization progress</p>
+              <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                <p>Lower values (gCO₂/kWh) indicate cleaner, greener electricity.</p>
+                
+                <p>Plan energy-intensive tasks—like EV charging or laundry—during predicted low-carbon periods.</p>
+                
+                <p>Each forecast covers 3-hour windows for optimal flexibility.</p>
+                
+                <p>Export forecasts as CSV to integrate with smart home or automation systems.</p>
+                
+                <p>Track long-term trends to see how the grid is decarbonising over time.</p>
               </div>
             </div>
           </div>
