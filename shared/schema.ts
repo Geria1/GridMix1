@@ -89,6 +89,8 @@ export const insertUserAlertSchema = createInsertSchema(userAlerts).omit({
   createdAt: true,
   updatedAt: true,
   lastTriggered: true,
+}).extend({
+  threshold: z.union([z.string(), z.number()]).transform(val => String(val)),
 });
 
 export const insertAlertLogSchema = createInsertSchema(alertLogs).omit({
