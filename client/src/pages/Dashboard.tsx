@@ -15,9 +15,11 @@ import { DataSourceAlert } from '@/components/DataSourceAlert';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { useCurrentEnergyData } from '@/hooks/useEnergyData';
+import { useAdminMode } from '@/hooks/useAdminMode';
 
 export default function Dashboard() {
   const { data: energyData, error } = useCurrentEnergyData();
+  const { isAdmin } = useAdminMode();
 
   const getRenewableAlert = () => {
     if (!energyData?.energyMix) return null;
@@ -44,10 +46,12 @@ export default function Dashboard() {
       <HeroSection />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Data Source Health Alert */}
-        <ErrorBoundary>
-          <DataSourceAlert />
-        </ErrorBoundary>
+        {/* Data Source Health Alert - Admin Only */}
+        {isAdmin && (
+          <ErrorBoundary>
+            <DataSourceAlert />
+          </ErrorBoundary>
+        )}
 
         {/* Alert Banner */}
         {!error && getRenewableAlert() && (
@@ -85,8 +89,8 @@ export default function Dashboard() {
           <EnergySavingTipsCarousel />
         </section>
 
-        {/* Enhanced Data Sources */}
-        <EnhancedDataSources />
+        {/* Enhanced Data Sources - Admin Only */}
+        {isAdmin && <EnhancedDataSources />}
       </main>
 
       <Footer />
