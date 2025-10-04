@@ -24,29 +24,32 @@ export function Navigation() {
   ];
 
   return (
-    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+    <nav className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 md:h-18">
           {/* Logo */}
           <Link href="/">
-            <div className="flex items-center space-x-2 cursor-pointer">
-              <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+            <div className="flex items-center space-x-2 cursor-pointer group">
+              <div className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-green-600 bg-clip-text text-transparent transition-all duration-300 group-hover:scale-105">
                 GridMix
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">
+              <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400 hidden sm:block font-medium">
                 UK Energy Dashboard
               </div>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-1">
             {navItems.map((item) => (
               <Link key={item.path} href={item.path}>
                 <Button
                   variant={item.active ? "default" : "ghost"}
                   size="sm"
-                  className={item.active ? "bg-blue-600 hover:bg-blue-700 text-white" : ""}
+                  className={item.active 
+                    ? "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-sm rounded-lg px-4 py-2 font-medium transition-all duration-200" 
+                    : "hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg px-4 py-2 transition-all duration-200"
+                  }
                 >
                   {item.label}
                 </Button>
@@ -61,12 +64,13 @@ export function Navigation() {
               variant="ghost"
               size="sm"
               onClick={toggleTheme}
-              className="p-2"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
+              data-testid="button-theme-toggle"
             >
               {theme === "light" ? (
-                <Moon className="h-4 w-4" />
+                <Moon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
               ) : (
-                <Sun className="h-4 w-4" />
+                <Sun className="h-5 w-5 text-gray-600 dark:text-gray-300" />
               )}
             </Button>
 
@@ -75,12 +79,13 @@ export function Navigation() {
               variant="ghost"
               size="sm"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 md:hidden"
+              className="p-2 lg:hidden hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
+              data-testid="button-mobile-menu"
             >
               {isMobileMenuOpen ? (
-                <X className="h-5 w-5" />
+                <X className="h-6 w-6 text-gray-600 dark:text-gray-300" />
               ) : (
-                <Menu className="h-5 w-5" />
+                <Menu className="h-6 w-6 text-gray-600 dark:text-gray-300" />
               )}
             </Button>
           </div>
@@ -88,17 +93,20 @@ export function Navigation() {
 
         {/* Mobile Navigation Dropdown */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-            <div className="px-2 pt-2 pb-3 space-y-1">
+          <div className="lg:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 animate-in slide-in-from-top duration-200">
+            <div className="px-2 pt-3 pb-4 space-y-2">
               {navItems.map((item) => (
                 <Link key={item.path} href={item.path}>
                   <Button
                     variant={item.active ? "default" : "ghost"}
                     size="sm"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`w-full justify-start ${
-                      item.active ? "bg-blue-600 hover:bg-blue-700 text-white" : ""
+                    className={`w-full justify-start rounded-lg transition-all duration-200 ${
+                      item.active 
+                        ? "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-sm font-medium" 
+                        : "hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
+                    data-testid={`link-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     {item.label}
                   </Button>
