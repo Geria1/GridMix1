@@ -270,19 +270,20 @@ export default function CarbonFootprint() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          Carbon Footprint Tracker
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          Track your personal carbon emissions using real-time UK grid data
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-green-50/60 dark:from-gray-900 dark:via-gray-850 dark:to-gray-900 py-10 md:py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="mb-10 md:mb-12">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-green-600 bg-clip-text text-transparent mb-3 md:mb-4">
+            Carbon Footprint Tracker
+          </h1>
+          <p className="text-base md:text-lg text-gray-600 dark:text-gray-400">
+            Track your personal carbon emissions using real-time UK grid data
+          </p>
+        </div>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        {/* Key Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center">
@@ -683,6 +684,7 @@ export default function CarbonFootprint() {
           </Card>
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   );
 }
