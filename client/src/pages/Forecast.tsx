@@ -56,19 +56,14 @@ export function Forecast() {
               <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">
                 How It Works
               </h3>
-              <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-                <p>Our AI model continuously learns from 30 days of historical carbon intensity data to forecast how clean or carbon-heavy the UK's electricity grid will be.</p>
-                
-                <p className="font-medium text-gray-700 dark:text-gray-300">It takes into account:</p>
-                <ul className="space-y-1 ml-4">
-                  <li>• Time-of-day and weekly patterns in grid behaviour</li>
-                  <li>• Weather conditions like wind and solar output</li>
-                  <li>• Seasonal variations affecting renewable generation</li>
-                </ul>
-                
-                <p>Every 6 hours, the model refreshes with the latest data, ensuring up-to-date forecasts. Predictions include confidence intervals, helping you understand uncertainty and plan smarter.</p>
-                
-                <p>Built using Meta's Prophet algorithm, our forecasting system delivers reliable, interpretable, and transparent results.</p>
+              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                <p>• Our AI model continuously learns from 30 days of historical carbon intensity data to forecast how clean or carbon-heavy the UK's electricity grid will be</p>
+                <p>• Takes into account time-of-day and weekly patterns in grid behaviour</p>
+                <p>• Weather conditions like wind and solar output</p>
+                <p>• Seasonal variations affecting renewable generation</p>
+                <p>• Every 6 hours, the model refreshes with the latest data, ensuring up-to-date forecasts</p>
+                <p>• Predictions include confidence intervals, helping you understand uncertainty and plan smarter</p>
+                <p>• Built using Meta's Prophet algorithm for reliable, interpretable, and transparent results</p>
               </div>
             </div>
             
@@ -76,16 +71,12 @@ export function Forecast() {
               <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">
                 Using the Forecast
               </h3>
-              <div className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-                <p>Lower values (gCO₂/kWh) indicate cleaner, greener electricity.</p>
-                
-                <p>Plan energy-intensive tasks—like EV charging or laundry—during predicted low-carbon periods.</p>
-                
-                <p>Each forecast covers 3-hour windows for optimal flexibility.</p>
-                
-                <p>Export forecasts as CSV to integrate with smart home or automation systems.</p>
-                
-                <p>Track long-term trends to see how the grid is decarbonising over time.</p>
+              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                <p>• Lower values (gCO₂/kWh) indicate cleaner, greener electricity</p>
+                <p>• Plan energy-intensive tasks—like EV charging or laundry—during predicted low-carbon periods</p>
+                <p>• Each forecast covers 3-hour windows for optimal flexibility</p>
+                <p>• Export forecasts as CSV to integrate with smart home or automation systems</p>
+                <p>• Track long-term trends to see how the grid is decarbonising over time</p>
               </div>
             </div>
           </div>
