@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "./ThemeProvider";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useAdminMode } from "@/hooks/useAdminMode";
 
 export function Navigation() {
   const [location] = useLocation();
   const { theme, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isAdmin } = useAdminMode();
 
   const navItems = [
     { path: "/", label: "Dashboard", active: location === "/" },
@@ -17,7 +19,8 @@ export function Navigation() {
     { path: "/carbon", label: "Carbon Tracker", active: location === "/carbon" },
     { path: "/blog", label: "Blog", active: location === "/blog" },
     { path: "/about", label: "About GridMix", active: location === "/about" },
-    { path: "/about-me", label: "About Me", active: location === "/about-me" }
+    { path: "/about-me", label: "About Me", active: location === "/about-me" },
+    ...(isAdmin ? [{ path: "/admin", label: "Admin", active: location === "/admin" }] : [])
   ];
 
   return (

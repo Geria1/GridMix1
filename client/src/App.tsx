@@ -9,6 +9,7 @@ import Dashboard from "@/pages/Dashboard";
 import About from "@/pages/About";
 import Blog from "@/pages/Blog";
 import AboutMe from "@/pages/AboutMe";
+import Admin from "@/pages/Admin";
 import { Projects } from "@/pages/Projects";
 import { Forecast } from "@/pages/Forecast";
 import Alerts from "@/pages/Alerts";
@@ -26,6 +27,7 @@ function Router() {
         <Route path="/about" component={About} />
         <Route path="/blog" component={Blog} />
         <Route path="/about-me" component={AboutMe} />
+        <Route path="/admin" component={Admin} />
         <Route path="/projects" component={Projects} />
         <Route path="/forecast" component={Forecast} />
         <Route path="/alerts" component={Alerts} />

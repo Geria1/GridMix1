@@ -48,9 +48,7 @@ export default function AboutMe() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
+        <div className="space-y-8">
             {/* Professional Journey */}
             <Card className="border-gray-200 dark:border-gray-700 shadow-lg">
               <CardHeader>
@@ -177,117 +175,6 @@ export default function AboutMe() {
                 </div>
               </CardContent>
             </Card>
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Technical Stack */}
-            <Card className="border-gray-200 dark:border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Tools & Technologies
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  Built on Replit with the help of AI assistance, using live data from official UK energy APIs.
-                </p>
-                <div className="space-y-3">
-                  <div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Platform</div>
-                    <Badge variant="outline">Replit</Badge>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Data Sources</div>
-                    <div className="flex flex-wrap gap-1">
-                      <Badge variant="outline" className="text-xs">Elexon BMRS API</Badge>
-                      <Badge variant="outline" className="text-xs">Carbon Intensity API</Badge>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Frontend</div>
-                    <div className="flex flex-wrap gap-1">
-                      <Badge variant="outline" className="text-xs">React</Badge>
-                      <Badge variant="outline" className="text-xs">TypeScript</Badge>
-                      <Badge variant="outline" className="text-xs">Tailwind CSS</Badge>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Charts</div>
-                    <Badge variant="outline" className="text-xs">Recharts</Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Interests */}
-            <Card className="border-gray-200 dark:border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Professional Background
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-2">
-                  <Badge variant="secondary" className="block text-center">Chemical Engineering</Badge>
-                  <Badge variant="secondary" className="block text-center">Sustainable Energy MSc</Badge>
-                  <Badge variant="secondary" className="block text-center">Renewable Energy Sector</Badge>
-                  <Badge variant="secondary" className="block text-center">Property Entrepreneurship</Badge>
-                  <Badge variant="secondary" className="block text-center">Climate Policy</Badge>
-                  <Badge variant="secondary" className="block text-center">Energy Science</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Personal Interests */}
-            <Card className="border-gray-200 dark:border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Personal Interests
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-2">
-                  <Badge variant="outline" className="block text-center">Audiobooks</Badge>
-                  <Badge variant="outline" className="block text-center">Podcasts</Badge>
-                  <Badge variant="outline" className="block text-center">Golf</Badge>
-                  <Badge variant="outline" className="block text-center">Open Data</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Quick Stats */}
-            <Card className="border-gray-200 dark:border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
-                  GridMix at a Glance
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-300">Launch Date:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">June 2025</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-300">Data Updates:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">Every 5 min</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-300">Coverage:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">GB Grid</span>
-                  </div>
-                  <div className="pt-2 border-t border-gray-200 dark:border-gray-600">
-                    <Link href="/">
-                      <Button variant="ghost" size="sm" className="w-full text-blue-600 dark:text-blue-400">
-                        View Dashboard →
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
     </div>
