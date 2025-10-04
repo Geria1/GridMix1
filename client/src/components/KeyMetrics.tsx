@@ -72,21 +72,29 @@ export function KeyMetrics() {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 mb-8">
       {metrics.map((metric, index) => (
-        <Card key={index} className="border-gray-200 dark:border-gray-700 transition-colors">
-          <CardContent className="p-6">
+        <Card 
+          key={index} 
+          className="border-gray-200/60 dark:border-gray-700/60 bg-white dark:bg-gray-800 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 hover:-translate-y-1"
+          data-testid={`card-${metric.title.toLowerCase().replace(/\s+/g, '-')}`}
+        >
+          <CardContent className="p-5 md:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{metric.title}</p>
+              <div className="flex-1 pr-3">
+                <p className="text-xs md:text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">
+                  {metric.title}
+                </p>
                 {isLoading ? (
-                  <Skeleton className="h-8 w-24 mt-1" />
+                  <Skeleton className="h-8 w-24 mt-1 rounded-lg" />
                 ) : (
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{metric.value}</p>
+                  <p className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
+                    {metric.value}
+                  </p>
                 )}
               </div>
-              <div className={`w-12 h-12 ${metric.bgColor} rounded-lg flex items-center justify-center`}>
-                <metric.icon className={`${metric.iconColor} text-xl`} size={24} />
+              <div className={`w-14 h-14 md:w-16 md:h-16 ${metric.bgColor} rounded-2xl flex items-center justify-center shadow-sm`}>
+                <metric.icon className={`${metric.iconColor}`} size={28} />
               </div>
             </div>
           </CardContent>

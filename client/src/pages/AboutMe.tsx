@@ -6,39 +6,39 @@ import profileImage from "@assets/IMG_0090_1751238030881.jpeg";
 
 export default function AboutMe() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-green-50/60 dark:from-gray-900 dark:via-gray-850 dark:to-gray-900">
       {/* Hero Section with Profile */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-6xl mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+      <div className="bg-gradient-to-r from-blue-600/5 to-green-600/5 dark:from-blue-900/10 dark:to-green-900/10 border-b border-gray-200/60 dark:border-gray-700/60">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10 items-center">
             {/* Profile Image - Left Column */}
             <div className="flex justify-center lg:justify-start">
-              <div className="relative">
+              <div className="relative group">
                 <img 
                   src={profileImage} 
                   alt="John Igwebuike - GridMix Creator"
-                  className="w-64 h-64 rounded-full object-cover shadow-2xl border-8 border-white dark:border-gray-700"
+                  className="w-56 h-56 md:w-72 md:h-72 rounded-3xl object-cover shadow-2xl border-8 border-white dark:border-gray-800 transition-transform duration-300 group-hover:scale-[1.02]"
                 />
-                <div className="absolute -bottom-2 -right-2 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center border-4 border-white dark:border-gray-700">
-                  <span className="text-white font-bold text-xl">⚡</span>
+                <div className="absolute -bottom-3 -right-3 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center border-4 border-white dark:border-gray-800 shadow-lg">
+                  <span className="text-white font-bold text-2xl md:text-3xl">⚡</span>
                 </div>
               </div>
             </div>
             
             {/* Introduction Text - Right Columns */}
             <div className="lg:col-span-2 text-center lg:text-left">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-green-600 bg-clip-text text-transparent mb-4">
                 Hey, I'm John Igwebuike
               </h1>
-              <p className="text-2xl text-gray-600 dark:text-gray-300 mb-6 font-light">
+              <p className="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 mb-6 font-light">
                 The mind behind GridMix
               </p>
               <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
-                <Badge variant="secondary" className="px-4 py-2 text-sm">Chemical Engineer</Badge>
-                <Badge variant="secondary" className="px-4 py-2 text-sm">Sustainable Energy MSc</Badge>
-                <Badge variant="secondary" className="px-4 py-2 text-sm">Energy Sector Professional</Badge>
+                <Badge variant="secondary" className="px-5 py-2.5 text-sm md:text-base rounded-xl shadow-sm hover:shadow-md transition-all duration-200">Chemical Engineer</Badge>
+                <Badge variant="secondary" className="px-5 py-2.5 text-sm md:text-base rounded-xl shadow-sm hover:shadow-md transition-all duration-200">Sustainable Energy MSc</Badge>
+                <Badge variant="secondary" className="px-5 py-2.5 text-sm md:text-base rounded-xl shadow-sm hover:shadow-md transition-all duration-200">Energy Sector Professional</Badge>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400 max-w-2xl">
+              <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
                 Passionate about clean energy, open data, and building tools that make complex energy systems 
                 accessible to everyone. GridMix is my way of democratizing access to real-time UK energy insights.
               </p>
@@ -47,14 +47,14 @@ export default function AboutMe() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="space-y-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div className="space-y-6 md:space-y-8">
             {/* Professional Journey */}
-            <Card className="border-gray-200 dark:border-gray-700 shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold">🎓</span>
+            <Card className="border-gray-200/60 dark:border-gray-700/60 shadow-md hover:shadow-xl transition-all duration-300">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3 md:gap-4">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center shadow-md">
+                    <span className="text-white font-bold text-xl md:text-2xl">🎓</span>
                   </div>
                   My Professional Journey
                 </CardTitle>

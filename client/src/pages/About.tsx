@@ -3,41 +3,41 @@ import { Badge } from "@/components/ui/badge";
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-green-50/60 dark:from-gray-900 dark:via-gray-850 dark:to-gray-900">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+      <div className="bg-gradient-to-r from-blue-600/5 to-green-600/5 dark:from-blue-900/10 dark:to-green-900/10 border-b border-gray-200/60 dark:border-gray-700/60">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-green-600 bg-clip-text text-transparent mb-3 md:mb-4">
             About GridMix
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
+          <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-200 font-medium">
             Powering Transparency in the UK Energy Transition
           </p>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12 space-y-6 md:space-y-8">
         {/* Main Description */}
-        <Card className="border-gray-200 dark:border-gray-700">
-          <CardContent className="p-6">
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+        <Card className="border-gray-200/60 dark:border-gray-700/60 shadow-md hover:shadow-lg transition-all duration-300">
+          <CardContent className="p-6 md:p-8">
+            <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
               GridMix is your live window into the UK's evolving electricity system. Built to track the real-time and historical performance of the national grid, GridMix offers a clear, dynamic view of how electricity is generated, consumed, and decarbonised.
             </p>
             
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+            <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
               From giant wind farms off the Scottish coast to solar panels soaking up sun in the south, GridMix breaks down how each energy source keeps the lights on — every hour, every season. Whether you're diving deep into policy, exploring for research, backing clean tech, or just want to understand where your power comes from, GridMix helps you follow the UK's net zero journey with ease.
             </p>
           </CardContent>
         </Card>
 
         {/* Projects Across the UK */}
-        <Card className="border-gray-200 dark:border-gray-700">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
+        <Card className="border-gray-200/60 dark:border-gray-700/60 shadow-md hover:shadow-lg transition-all duration-300">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
               Projects Across the UK
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-6">
+          <CardContent className="p-6 md:p-8 pt-0">
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
               The Projects page features an interactive map of renewable energy developments across the UK. Sourced from the official Renewable Energy Planning Database (REPD), it shows you where solar, wind, and battery storage projects are located, their operational status, and live output when available.
             </p>
