@@ -12,20 +12,22 @@ export default function Admin() {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-green-50/60 dark:from-gray-900 dark:via-gray-850 dark:to-gray-900">
         <Header />
-        <div className="max-w-4xl mx-auto px-4 py-12">
-          <Card className="border-gray-200 dark:border-gray-700">
-            <CardContent className="p-12 text-center">
-              <Shield className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          <Card className="border-gray-200/60 dark:border-gray-700/60 shadow-xl">
+            <CardContent className="p-10 md:p-16 text-center">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-red-500 to-red-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <Shield className="w-12 h-12 md:w-14 md:h-14 text-white" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent mb-3">
                 Access Restricted
               </h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
+              <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 mb-8">
                 This page is only accessible to administrators.
               </p>
               <Link href="/">
-                <Button>Return to Dashboard</Button>
+                <Button className="rounded-xl px-6 py-3 shadow-md hover:shadow-lg transition-all duration-200" data-testid="button-return-dashboard">Return to Dashboard</Button>
               </Link>
             </CardContent>
           </Card>
@@ -36,25 +38,27 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-green-50/60 dark:from-gray-900 dark:via-gray-850 dark:to-gray-900">
       <Header />
       
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <Shield className="w-8 h-8 text-blue-600" />
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div className="mb-10 md:mb-12">
+          <div className="flex items-center gap-3 md:gap-4 mb-3">
+            <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center shadow-md">
+              <Shield className="w-7 h-7 md:w-8 md:h-8 text-white" />
+            </div>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-green-600 bg-clip-text text-transparent">
               Admin Dashboard
             </h1>
           </div>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 ml-16 md:ml-18">
             System information and technical details
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid lg:grid-cols-2 gap-5 md:gap-6">
           {/* Technical Stack */}
-          <Card className="border-gray-200 dark:border-gray-700">
+          <Card className="border-gray-200/60 dark:border-gray-700/60 shadow-md hover:shadow-lg transition-all duration-300">
             <CardHeader>
               <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
                 Tools & Technologies

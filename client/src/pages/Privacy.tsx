@@ -6,20 +6,22 @@ import { Mail, Globe, Shield, Clock, FileText } from 'lucide-react';
 
 export default function Privacy() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-green-50/60 dark:from-gray-900 dark:via-gray-850 dark:to-gray-900 transition-colors">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div className="max-w-4xl mx-auto px-4 py-12">
-          <div className="flex items-center space-x-3 mb-4">
-            <Shield className="w-8 h-8" />
-            <h1 className="text-4xl font-bold">Privacy Policy</h1>
+      <div className="bg-gradient-to-r from-blue-600/95 via-blue-700/95 to-blue-800/95 text-white border-b border-blue-900/20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          <div className="flex items-center space-x-3 md:space-x-4 mb-5 md:mb-6">
+            <div className="w-12 h-12 md:w-14 md:h-14 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+              <Shield className="w-7 h-7 md:w-8 md:h-8" />
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">Privacy Policy</h1>
           </div>
-          <div className="flex items-center space-x-6 text-blue-100">
-            <div className="flex items-center space-x-2">
+          <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm md:text-base text-blue-100">
+            <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl">
               <Clock className="w-4 h-4" />
               <span>Effective: 29 June 2025</span>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl">
               <FileText className="w-4 h-4" />
               <span>Last updated: 29 June 2025</span>
             </div>
@@ -27,9 +29,9 @@ export default function Privacy() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12 space-y-6 md:space-y-8">
         {/* Introduction */}
-        <Card className="border-gray-200 dark:border-gray-700">
+        <Card className="border-gray-200/60 dark:border-gray-700/60 shadow-md hover:shadow-lg transition-all duration-300">
           <CardContent className="p-8">
             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
               GridMix ("we", "our", "us") is committed to protecting and respecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our website <strong>www.gridmix.co.uk</strong> and related services.
