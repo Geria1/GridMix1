@@ -320,7 +320,7 @@ In a time of climate urgency, understanding when electricity is clean and when i
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600/5 to-green-600/5 dark:from-blue-900/10 dark:to-green-900/10 border-b border-gray-200/60 dark:border-gray-700/60">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-          <h1 className="blog-subheading text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-green-600 bg-clip-text text-transparent mb-3 md:mb-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-green-600 bg-clip-text text-transparent mb-3 md:mb-4">
             GridMix Blog
           </h1>
           <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 font-medium">
