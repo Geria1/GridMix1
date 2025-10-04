@@ -27,10 +27,10 @@ export default function AboutMe() {
             
             {/* Introduction Text - Right Columns */}
             <div className="lg:col-span-2 text-center lg:text-left">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-green-600 bg-clip-text text-transparent mb-4">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-green-600 bg-clip-text text-transparent mb-4">
                 Hey, I'm John Igwebuike
               </h1>
-              <p className="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 mb-6 font-light">
+              <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 font-light">
                 The mind behind GridMix
               </p>
               <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
