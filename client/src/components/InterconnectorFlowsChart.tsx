@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ResponsiveContainer, ComposedChart, Area, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine } from 'recharts';
 import { Cable, TrendingUp, TrendingDown, Info } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { getApiUrl } from '@/config/api';
 
 interface InterconnectorData {
   settlementDate: string;
@@ -86,7 +87,7 @@ export function InterconnectorFlowsChart() {
   const { data, isLoading, error } = useQuery<InterconnectorData[]>({
     queryKey: ['interconnectors'],
     queryFn: async () => {
-      const response = await fetch('/api/bmrs/interconnectors?hours=24');
+      const response = await fetch(getApiUrl('/api/bmrs/interconnectors?hours=24'));
       if (!response.ok) throw new Error('Failed to fetch interconnector data');
       return response.json();
     },
