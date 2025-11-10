@@ -117,10 +117,16 @@ if (!process.env.VERCEL && require.main === module) {
 // Export initialized app for Vercel serverless function
 let appInstance: express.Express | null = null;
 
-export default async function handler(req: Request, res: Response) {
+export default async function handler(req: any, res: any) {
   if (!appInstance) {
     const { app } = await createApp();
     appInstance = app;
   }
-  return appInstance(req, res);
+  // Let Express handle the request
+  return new Promise((resolve, reject) => {
+    appInstance!(req, res, (err: any) => {
+      if (err) reject(err);
+      else resolve(undefined);
+    });
+  });
 }
