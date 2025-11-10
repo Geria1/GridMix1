@@ -59,24 +59,14 @@ interface BMRSMarginResponse {
 }
 
 export class BMRSApiService {
-  private baseUrl = 'https://bmrs.elexon.co.uk/api/v1';
-  private apiKey = process.env.BMRS_API_KEY;
+  private baseUrl = 'https://data.elexon.co.uk/bmrs/api/v1';
 
   constructor() {
-    if (!this.apiKey) {
-      logger.warn('BMRS_API_KEY not found - BMRS API calls will fail');
-    } else {
-      logger.info('BMRS API service initialized with authentication key');
-    }
+    logger.info('Elexon Insights API service initialized (no authentication required)');
   }
 
-  private getAuthHeaders() {
-    if (!this.apiKey) {
-      throw new Error('BMRS API key not configured');
-    }
-    
+  private getHeaders() {
     return {
-      'X-API-Key': this.apiKey,
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
@@ -84,102 +74,128 @@ export class BMRSApiService {
 
   async getActualDemand(from: string, to: string): Promise<BMRSDemandResponse[]> {
     try {
-      const url = `${this.baseUrl}/demand/actual/total?from=${from}&to=${to}`;
-      
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
-      
-      if (this.apiKey) {
-        headers['X-API-Key'] = this.apiKey;
-      }
-      
+      const url = `${this.baseUrl}/datasets/INDDEM/stream?from=${from}&to=${to}`;
+
       const response = await fetch(url, {
-        headers,
+        headers: this.getHeaders(),
         signal: AbortSignal.timeout(10000), // 10 second timeout
       });
 
-      logger.debug(`BMRS Demand API response status: ${response.status}`);
-      
+      logger.debug(`Elexon Demand API response status: ${response.status}`);
+
       if (!response.ok) {
         const errorText = await response.text();
-        logger.error(`BMRS Demand API error response: ${errorText.substring(0, 200)}...`);
-        
-        // Check if response is HTML (authentication failure)
-        if (errorText.includes('<!doctype') || errorText.includes('<html>')) {
-          throw new Error('BMRS API authentication failed - check API key');
-        }
-        
-        throw new Error(`BMRS Demand API error: ${response.status} ${response.statusText}`);
+        logger.error(`Elexon Demand API error response: ${errorText.substring(0, 200)}...`);
+        throw new Error(`Elexon Demand API error: ${response.status} ${response.statusText}`);
       }
 
-      const responseText = await response.text();
-      
-      // Check if response is HTML (authentication failure)
-      if (responseText.includes('<!doctype') || responseText.includes('<html>')) {
-        throw new Error('BMRS API returned HTML - authentication failed or invalid endpoint');
+      interface INDDEMResponse {
+        dataset: string;
+        demand: number;
+        publishTime: string;
+        startTime: string;
+        settlementDate: string;
+        settlementPeriod: number;
+        boundary: string;
       }
 
-      const data: BMRSDemandResponse[] = JSON.parse(responseText);
-      logger.debug(`BMRS demand data received: ${data.length} records`);
-      return data;
+      const inddemData: INDDEMResponse[] = await response.json();
+      logger.debug(`Elexon demand data received: ${inddemData.length} records`);
+
+      // Transform INDDEM format to BMRSDemandResponse format
+      // Filter for B1610 boundary (National Demand) and convert to expected format
+      const transformed: BMRSDemandResponse[] = inddemData
+        .filter(item => item.boundary === 'B1610' || item.boundary === 'National')
+        .map(item => ({
+          settlementDate: item.settlementDate,
+          settlementPeriod: item.settlementPeriod,
+          totalDemand: Math.abs(item.demand), // Take absolute value
+          publishingPeriodCommencingTime: item.publishTime
+        }));
+
+      // If no B1610 data, aggregate all boundaries
+      if (transformed.length === 0) {
+        const aggregated: Record<string, number> = {};
+        inddemData.forEach(item => {
+          const key = `${item.settlementDate}_${item.settlementPeriod}`;
+          aggregated[key] = (aggregated[key] || 0) + Math.abs(item.demand);
+        });
+
+        return Object.entries(aggregated).map(([key, totalDemand]) => {
+          const [settlementDate, period] = key.split('_');
+          const matchingItem = inddemData.find(
+            i => i.settlementDate === settlementDate && i.settlementPeriod === parseInt(period)
+          );
+          return {
+            settlementDate,
+            settlementPeriod: parseInt(period),
+            totalDemand,
+            publishingPeriodCommencingTime: matchingItem?.publishTime || new Date().toISOString()
+          };
+        });
+      }
+
+      return transformed;
     } catch (error) {
-      console.error('Error fetching BMRS demand data:', error);
+      console.error('Error fetching Elexon demand data:', error);
       throw error;
     }
   }
 
   async getActualGenerationByType(settlementDate: string): Promise<BMRSGenerationResponse[]> {
     try {
-      const url = `${this.baseUrl}/generation/actual/per-type/day-total?settlementDate=${settlementDate}`;
-      
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
-      
-      if (this.apiKey) {
-        headers['X-API-Key'] = this.apiKey;
-      }
-      
+      // Use FUELHH dataset for half-hourly generation by fuel type
+      // Get data for the entire day
+      const fromTime = `${settlementDate}T00:00:00Z`;
+      const toTime = `${settlementDate}T23:59:59Z`;
+      const url = `${this.baseUrl}/datasets/FUELHH/stream?from=${fromTime}&to=${toTime}`;
+
       const response = await fetch(url, {
-        headers,
+        headers: this.getHeaders(),
         signal: AbortSignal.timeout(10000),
       });
 
-      logger.debug(`BMRS Generation API response status: ${response.status}`);
-      
+      logger.debug(`Elexon Generation API response status: ${response.status}`);
+
       if (!response.ok) {
         const errorText = await response.text();
-        logger.error(`BMRS Generation API error response: ${errorText.substring(0, 200)}...`);
-        
-        if (errorText.includes('<!doctype') || errorText.includes('<html>')) {
-          throw new Error('BMRS API authentication failed - check API key');
-        }
-        
-        throw new Error(`BMRS Generation API error: ${response.status} ${response.statusText}`);
+        logger.error(`Elexon Generation API error response: ${errorText.substring(0, 200)}...`);
+        throw new Error(`Elexon Generation API error: ${response.status} ${response.statusText}`);
       }
 
-      const responseText = await response.text();
-      
-      // Check if response is HTML (authentication failure)
-      if (responseText.includes('<!doctype') || responseText.includes('<html>')) {
-        throw new Error('BMRS API returned HTML - authentication failed or invalid endpoint');
+      interface FUELHHResponse {
+        dataset: string;
+        publishTime: string;
+        startTime: string;
+        settlementDate: string;
+        settlementPeriod: number;
+        fuelType: string;
+        generation: number;
       }
-      
-      const data: BMRSGenerationResponse[] = JSON.parse(responseText);
-      console.log(`BMRS generation data received: ${data.length} records`);
-      
-      // Filter for active entries with valid data
-      return data.filter(item => 
-        item.activeFlag === 'Y' && 
-        item.fuelType && 
-        typeof item.quantity === 'number' && 
-        item.quantity > 0
-      );
+
+      const fuelhhData: FUELHHResponse[] = await response.json();
+      console.log(`Elexon generation data received: ${fuelhhData.length} records`);
+
+      // Transform FUELHH format to BMRSGenerationResponse format
+      // Aggregate by fuel type for the day
+      const aggregated: Record<string, number> = {};
+      fuelhhData.forEach(item => {
+        if (item.generation > 0) {
+          aggregated[item.fuelType] = (aggregated[item.fuelType] || 0) + item.generation;
+        }
+      });
+
+      // Convert to BMRSGenerationResponse format
+      const result: BMRSGenerationResponse[] = Object.entries(aggregated).map(([fuelType, quantity]) => ({
+        settlementDate,
+        fuelType,
+        quantity,
+        activeFlag: 'Y'
+      }));
+
+      return result.filter(item => item.quantity > 0);
     } catch (error) {
-      console.error('Error fetching BMRS generation data:', error);
+      console.error('Error fetching Elexon generation data:', error);
       throw error;
     }
   }
@@ -308,39 +324,24 @@ export class BMRSApiService {
     }
   }
 
-  // Get actual grid frequency data from BMRS
+  // Get actual grid frequency data from Elexon
   async getSystemFrequency(from: string, to: string): Promise<BMRSFrequencyResponse[]> {
     try {
-      const url = `${this.baseUrl}/balancing/dynamic/all?from=${from}&to=${to}`;
-
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
-
-      if (this.apiKey) {
-        headers['X-API-Key'] = this.apiKey;
-      }
+      const url = `${this.baseUrl}/datasets/FREQ/stream?from=${from}&to=${to}`;
 
       const response = await fetch(url, {
-        headers,
+        headers: this.getHeaders(),
         signal: AbortSignal.timeout(10000),
       });
 
       if (!response.ok) {
-        throw new Error(`BMRS Frequency API error: ${response.status} ${response.statusText}`);
+        throw new Error(`Elexon Frequency API error: ${response.status} ${response.statusText}`);
       }
 
-      const responseText = await response.text();
-      
-      if (responseText.includes('<!doctype') || responseText.includes('<html>')) {
-        throw new Error('BMRS API returned HTML - authentication failed or invalid endpoint');
-      }
-
-      const data: BMRSFrequencyResponse[] = JSON.parse(responseText);
+      const data: BMRSFrequencyResponse[] = await response.json();
       return data.filter(d => d.businessType === 'Frequency');
     } catch (error) {
-      console.error('Error fetching BMRS frequency data:', error);
+      console.error('Error fetching Elexon frequency data:', error);
       // Fallback to realistic frequency value
       return [];
     }
@@ -349,35 +350,20 @@ export class BMRSApiService {
   // Get system balancing data
   async getBalancingData(from: string, to: string): Promise<BMRSBalancingResponse[]> {
     try {
-      const url = `${this.baseUrl}/balancing/settlement/stack/all?from=${from}&to=${to}`;
-
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
-
-      if (this.apiKey) {
-        headers['X-API-Key'] = this.apiKey;
-      }
+      const url = `${this.baseUrl}/datasets/DISBSAD/stream?from=${from}&to=${to}`;
 
       const response = await fetch(url, {
-        headers,
+        headers: this.getHeaders(),
         signal: AbortSignal.timeout(10000),
       });
 
       if (!response.ok) {
-        throw new Error(`BMRS Balancing API error: ${response.status} ${response.statusText}`);
+        throw new Error(`Elexon Balancing API error: ${response.status} ${response.statusText}`);
       }
 
-      const responseText = await response.text();
-      
-      if (responseText.includes('<!doctype') || responseText.includes('<html>')) {
-        throw new Error('BMRS API returned HTML - authentication failed or invalid endpoint');
-      }
-
-      return JSON.parse(responseText);
+      return await response.json();
     } catch (error) {
-      console.error('Error fetching BMRS balancing data:', error);
+      console.error('Error fetching Elexon balancing data:', error);
       return [];
     }
   }
@@ -385,35 +371,20 @@ export class BMRSApiService {
   // Get system imbalance data
   async getImbalanceData(from: string, to: string): Promise<BMRSImbalanceResponse[]> {
     try {
-      const url = `${this.baseUrl}/balancing/settlement/system-sell-buy-price?from=${from}&to=${to}`;
-
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
-
-      if (this.apiKey) {
-        headers['X-API-Key'] = this.apiKey;
-      }
+      const url = `${this.baseUrl}/datasets/NETBSAD/stream?from=${from}&to=${to}`;
 
       const response = await fetch(url, {
-        headers,
+        headers: this.getHeaders(),
         signal: AbortSignal.timeout(10000),
       });
 
       if (!response.ok) {
-        throw new Error(`BMRS Imbalance API error: ${response.status} ${response.statusText}`);
+        throw new Error(`Elexon Imbalance API error: ${response.status} ${response.statusText}`);
       }
 
-      const responseText = await response.text();
-      
-      if (responseText.includes('<!doctype') || responseText.includes('<html>')) {
-        throw new Error('BMRS API returned HTML - authentication failed or invalid endpoint');
-      }
-
-      return JSON.parse(responseText);
+      return await response.json();
     } catch (error) {
-      console.error('Error fetching BMRS imbalance data:', error);
+      console.error('Error fetching Elexon imbalance data:', error);
       return [];
     }
   }
@@ -421,71 +392,63 @@ export class BMRSApiService {
   // Get reserve margin data
   async getReserveMargin(from: string, to: string): Promise<BMRSMarginResponse[]> {
     try {
-      const url = `${this.baseUrl}/forecast/margin/daily?from=${from}&to=${to}`;
-
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
-
-      if (this.apiKey) {
-        headers['X-API-Key'] = this.apiKey;
-      }
+      const url = `${this.baseUrl}/datasets/TSDF/stream?from=${from}&to=${to}`;
 
       const response = await fetch(url, {
-        headers,
+        headers: this.getHeaders(),
         signal: AbortSignal.timeout(10000),
       });
 
       if (!response.ok) {
-        throw new Error(`BMRS Reserve Margin API error: ${response.status} ${response.statusText}`);
+        throw new Error(`Elexon Reserve Margin API error: ${response.status} ${response.statusText}`);
       }
 
-      const responseText = await response.text();
-      
-      if (responseText.includes('<!doctype') || responseText.includes('<html>')) {
-        throw new Error('BMRS API returned HTML - authentication failed or invalid endpoint');
-      }
-
-      return JSON.parse(responseText);
+      return await response.json();
     } catch (error) {
-      console.error('Error fetching BMRS reserve margin data:', error);
+      console.error('Error fetching Elexon reserve margin data:', error);
       return [];
     }
   }
 
-  // Get interconnector flows
+  // Get interconnector flows (already included in FUELHH dataset)
   async getInterconnectorFlows(from: string, to: string): Promise<BMRSGenerationResponse[]> {
     try {
-      const url = `${this.baseUrl}/generation/actual/interconnector?from=${from}&to=${to}`;
-
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
-
-      if (this.apiKey) {
-        headers['X-API-Key'] = this.apiKey;
-      }
+      // Interconnector flows are included in FUELHH with fuel types like INTFR, INTIRL, etc.
+      const url = `${this.baseUrl}/datasets/FUELHH/stream?from=${from}&to=${to}`;
 
       const response = await fetch(url, {
-        headers,
+        headers: this.getHeaders(),
         signal: AbortSignal.timeout(10000),
       });
 
       if (!response.ok) {
-        throw new Error(`BMRS Interconnector API error: ${response.status} ${response.statusText}`);
+        throw new Error(`Elexon Interconnector API error: ${response.status} ${response.statusText}`);
       }
 
-      const responseText = await response.text();
-      
-      if (responseText.includes('<!doctype') || responseText.includes('<html>')) {
-        throw new Error('BMRS API returned HTML - authentication failed or invalid endpoint');
+      interface FUELHHResponse {
+        dataset: string;
+        publishTime: string;
+        startTime: string;
+        settlementDate: string;
+        settlementPeriod: number;
+        fuelType: string;
+        generation: number;
       }
 
-      return JSON.parse(responseText);
+      const data: FUELHHResponse[] = await response.json();
+
+      // Filter only interconnector fuel types (INT*)
+      const interconnectorData = data.filter(item => item.fuelType.startsWith('INT'));
+
+      // Transform to BMRSGenerationResponse format
+      return interconnectorData.map(item => ({
+        settlementDate: item.settlementDate,
+        fuelType: item.fuelType,
+        quantity: item.generation,
+        activeFlag: 'Y'
+      }));
     } catch (error) {
-      console.error('Error fetching BMRS interconnector data:', error);
+      console.error('Error fetching Elexon interconnector data:', error);
       return [];
     }
   }
