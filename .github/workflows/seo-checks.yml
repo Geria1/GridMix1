@@ -1,0 +1,131 @@
+name: SEO & Performance Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lighthouse-ci:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Generate Sitemap
+        run: npm run generate:sitemap
+
+      - name: Check Sitemap Exists
+        run: |
+          if [ ! -f dist/public/sitemap.xml ]; then
+            echo "❌ sitemap.xml not found"
+            exit 1
+          fi
+          echo "✅ sitemap.xml exists"
+
+      - name: Check robots.txt Exists
+        run: |
+          if [ ! -f public/robots.txt ]; then
+            echo "❌ robots.txt not found"
+            exit 1
+          fi
+          echo "✅ robots.txt exists"
+
+      - name: Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            http://localhost:5000
+          configPath: './.lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  seo-audit:
+    name: SEO Metadata Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Meta Tags in HTML
+        run: |
+          echo "Checking for required SEO meta tags..."
+
+          # Check for title
+          if grep -q "<title>" client/index.html; then
+            echo "✅ <title> tag found"
+          else
+            echo "❌ <title> tag missing"
+            exit 1
+          fi
+
+          # Check for meta description
+          if grep -q 'name="description"' client/index.html; then
+            echo "✅ meta description found"
+          else
+            echo "❌ meta description missing"
+            exit 1
+          fi
+
+          # Check for canonical
+          if grep -q 'rel="canonical"' client/index.html; then
+            echo "✅ canonical link found"
+          else
+            echo "❌ canonical link missing"
+            exit 1
+          fi
+
+          # Check for Open Graph
+          if grep -q 'property="og:' client/index.html; then
+            echo "✅ Open Graph tags found"
+          else
+            echo "❌ Open Graph tags missing"
+            exit 1
+          fi
+
+          # Check for structured data
+          if grep -q 'application/ld+json' client/index.html; then
+            echo "✅ Structured data (JSON-LD) found"
+          else
+            echo "❌ Structured data missing"
+            exit 1
+          fi
+
+          echo "✅ All required SEO meta tags present"
+
+  image-optimization-check:
+    name: Image Optimization Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for alt attributes
+        run: |
+          echo "Checking for images without alt attributes..."
+
+          # Find all .tsx files and check for img tags without alt
+          missing_alt=$(grep -r '<img' client/src --include="*.tsx" | grep -v 'alt=' | wc -l || true)
+
+          if [ "$missing_alt" -gt 0 ]; then
+            echo "⚠️ Found $missing_alt img tags potentially missing alt attributes"
+            echo "Please review and add alt attributes to all images"
+          else
+            echo "✅ All images appear to have alt attributes"
+          fi

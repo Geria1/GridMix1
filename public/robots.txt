@@ -1,0 +1,22 @@
+# gridmix.co.uk robots.txt
+# Allow all search engines to index the site
+
+User-agent: *
+Allow: /
+
+# Disallow API routes
+Disallow: /api/
+
+# Disallow admin routes
+Disallow: /admin
+
+# Sitemap location
+Sitemap: https://gridmix.co.uk/sitemap.xml
+
+# Block staging/preview environments
+User-agent: *
+Disallow: /$VERCEL_ENV=preview/
+Disallow: /$VERCEL_ENV=development/
+
+# Crawl delay (optional - be respectful)
+Crawl-delay: 1

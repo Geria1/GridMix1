@@ -3,19 +3,106 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>GridMix - UK Real-Time Energy Dashboard</title>
-    <meta name="description" content="Real-time UK electricity generation data dashboard showing energy mix, carbon intensity, and renewable energy sources. Live data from National Grid ESO." />
-    
-    <!-- Open Graph tags for social media -->
-    <meta property="og:title" content="GridMix - UK Real-Time Energy Dashboard" />
-    <meta property="og:description" content="Track UK's energy mix in real-time with interactive charts and data visualization" />
+    <title>GridMix - UK Real-Time Energy Dashboard | Live Carbon Intensity & Renewable Energy Data</title>
+    <meta name="description" content="Real-time UK electricity generation data dashboard showing energy mix, carbon intensity, and renewable energy sources. Live data from National Grid ESO. Track renewables, forecast demand, and reduce your carbon footprint." />
+    <meta name="keywords" content="UK energy dashboard, carbon intensity, renewable energy, National Grid, electricity generation, energy mix, solar power, wind power, carbon footprint" />
+    <meta name="author" content="GridMix" />
+    <meta name="theme-color" content="#007acc" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://gridmix.co.uk/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:site_name" content="GridMix" />
     <meta property="og:type" content="website" />
-    
+    <meta property="og:url" content="https://gridmix.co.uk/" />
+    <meta property="og:title" content="GridMix - UK Real-Time Energy Dashboard" />
+    <meta property="og:description" content="Track UK's energy mix in real-time with interactive charts and data visualization. Monitor carbon intensity and renewable energy sources." />
+    <meta property="og:image" content="https://gridmix.co.uk/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="GridMix Dashboard Screenshot" />
+    <meta property="og:locale" content="en_GB" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@gridmix" />
+    <meta name="twitter:creator" content="@gridmix" />
+    <meta name="twitter:title" content="GridMix - UK Real-Time Energy Dashboard" />
+    <meta name="twitter:description" content="Track UK's energy mix in real-time. Monitor carbon intensity and renewable energy sources from National Grid." />
+    <meta name="twitter:image" content="https://gridmix.co.uk/og-image.jpg" />
+    <meta name="twitter:image:alt" content="GridMix Dashboard Screenshot" />
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23007acc'><path d='M13 3L4 14h5l-2 7 9-11h-5l2-7z'/></svg>" />
-    
+
     <!-- Preconnect to improve performance -->
-    <link rel="preconnect" href="https://api.carbonintensity.org.uk" />
+    <link rel="preconnect" href="https://api.carbonintensity.org.uk" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="dns-prefetch" href="https://api.carbonintensity.org.uk" />
+
+    <!-- Structured Data - Organization & WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://gridmix.co.uk/#org",
+          "name": "GridMix",
+          "url": "https://gridmix.co.uk",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://gridmix.co.uk/logo.png",
+            "width": 512,
+            "height": 512
+          },
+          "description": "Real-time UK energy dashboard and carbon intensity monitoring platform",
+          "sameAs": [
+            "https://twitter.com/gridmix",
+            "https://github.com/Geria1/GridMix1"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://gridmix.co.uk/#website",
+          "url": "https://gridmix.co.uk",
+          "name": "GridMix",
+          "publisher": { "@id": "https://gridmix.co.uk/#org" },
+          "inLanguage": "en-GB",
+          "description": "Real-time UK electricity generation data dashboard",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://gridmix.co.uk/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://gridmix.co.uk/#app",
+          "name": "GridMix Dashboard",
+          "url": "https://gridmix.co.uk",
+          "applicationCategory": "UtilityApplication",
+          "operatingSystem": "Web Browser",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "GBP"
+          },
+          "featureList": [
+            "Real-time UK energy mix data",
+            "Carbon intensity monitoring",
+            "Renewable energy tracking",
+            "72-hour demand forecasting",
+            "Interactive data visualization"
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
