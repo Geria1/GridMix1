@@ -11,7 +11,7 @@ export function useCurrentEnergyData() {
 
 export function useEnergyHistory(hours: number = 24) {
   return useQuery<EnergyData[]>({
-    queryKey: ['/api/energy/history', hours],
+    queryKey: ['/api/energy/history', { hours }],
     refetchInterval: 5 * 60 * 1000,
     staleTime: 4 * 60 * 1000,
   });

@@ -316,98 +316,140 @@ In a time of climate urgency, understanding when electricity is clean and when i
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-green-50/60 dark:from-gray-900 dark:via-gray-850 dark:to-gray-900">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600/5 to-green-600/5 dark:from-blue-900/10 dark:to-green-900/10 border-b border-gray-200/60 dark:border-gray-700/60">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-green-600 bg-clip-text text-transparent mb-3 md:mb-4">
-            GridMix Blog
-          </h1>
-          <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 font-medium">
-            UK energy decoded
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 mesh-gradient">
+      {/* Modern Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-cyan-600 to-emerald-600 dark:from-blue-900 dark:via-cyan-900 dark:to-emerald-900">
+        {/* Animated background orbs */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        </div>
+
+        <div className="relative max-w-6xl mx-auto px-4 py-20 md:py-28">
+          <div className="text-center space-y-6">
+            <div className="inline-block px-6 py-2 bg-white/20 backdrop-blur-xl rounded-full border border-white/30 mb-4 scale-in">
+              <span className="text-sm font-semibold text-white">
+                ⚡ Energy Insights & Analysis
+              </span>
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 fade-in">
+              GridMix Blog
+            </h1>
+
+            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto slide-up">
+              Decoding the UK's energy transition, one insight at a time
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+      <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* Featured Articles */}
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Featured Articles</h2>
-              <div className="space-y-6">
+            <div className="fade-in">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-3xl font-bold gradient-text-energy">Featured Articles</h2>
+                <Badge className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-0 px-4 py-1.5">
+                  {featuredPosts.length} Articles
+                </Badge>
+              </div>
+
+              <div className="space-y-8">
                 {featuredPosts.map((post, postIndex) => (
-                  <Card key={postIndex} className="border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <CardTitle className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                            {post.title}
-                          </CardTitle>
-                          <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
-                            <span>{post.date}</span>
-                            <span>{post.readTime}</span>
+                  <Card key={postIndex} className="bento-card hover:-translate-y-1 overflow-hidden">
+                    {/* Article Header with Gradient */}
+                    <div className="relative bg-gradient-to-br from-blue-600/10 via-cyan-600/10 to-emerald-600/10 dark:from-blue-600/20 dark:via-cyan-600/20 dark:to-emerald-600/20 p-8 border-b border-white/20 dark:border-gray-700/30">
+                      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-emerald-500/10 rounded-full blur-3xl"></div>
+                      <div className="relative">
+                        <CardTitle className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
+                          {post.title}
+                        </CardTitle>
+                        <div className="flex items-center gap-4 text-sm">
+                          <div className="flex items-center gap-2 px-3 py-1.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-full">
+                            <span className="text-gray-700 dark:text-gray-300">📅 {post.date}</span>
+                          </div>
+                          <div className="flex items-center gap-2 px-3 py-1.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-full">
+                            <span className="text-gray-700 dark:text-gray-300">⏱️ {post.readTime}</span>
                           </div>
                         </div>
                       </div>
-                    </CardHeader>
-                    <CardContent>
+                    </div>
+
+                    <CardContent className="p-8">
                       {showFullArticle !== postIndex ? (
                         <>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                          <p className="text-lg text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
                             {post.excerpt}
                           </p>
-                          <div className="space-y-4">
-                            <ShareButtons 
+
+                          {/* Tags */}
+                          <div className="flex flex-wrap gap-2 mb-6">
+                            {post.tags.map((tag: string, tagIndex: number) => (
+                              <Badge
+                                key={tagIndex}
+                                className="bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900/40 dark:to-cyan-900/40 text-blue-700 dark:text-blue-300 border-0 px-4 py-1.5 text-sm font-medium hover:scale-105 transition-transform"
+                              >
+                                #{tag}
+                              </Badge>
+                            ))}
+                          </div>
+
+                          <div className="space-y-6">
+                            <ShareButtons
                               title={post.title}
                               description={post.excerpt}
-                              className="py-3 border-t border-gray-200 dark:border-gray-700"
+                              className="py-6 border-t border-gray-200/50 dark:border-gray-700/50"
                             />
-                            <div className="flex items-center justify-between">
-                              <div className="flex flex-wrap gap-2">
-                                {post.tags.map((tag: string, tagIndex: number) => (
-                                  <Badge key={tagIndex} variant="secondary" className="text-xs">
-                                    {tag}
-                                  </Badge>
-                                ))}
-                              </div>
-                              <Button 
-                                onClick={() => setShowFullArticle(postIndex)}
-                                className="bg-blue-600 hover:bg-blue-700 text-white"
-                              >
-                                Read Full Article →
-                              </Button>
-                            </div>
+
+                            <Button
+                              onClick={() => {
+                                console.log('Expanding article:', postIndex);
+                                setShowFullArticle(postIndex);
+                              }}
+                              className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white text-lg py-6 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-2xl"
+                            >
+                              Read Full Article →
+                            </Button>
                           </div>
                         </>
                       ) : (
                         <>
-                          <div className="prose prose-sm dark:prose-invert max-w-none">
-                            <div className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed space-y-4">
+                          <div className="prose prose-lg dark:prose-invert max-w-none">
+                            <div className="text-base text-gray-700 dark:text-gray-300 leading-relaxed space-y-6">
                               {renderContent(post.content)}
                             </div>
                           </div>
-                          <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 space-y-6">
-                            <ShareButtons 
+
+                          <div className="mt-12 pt-8 border-t border-gray-200/50 dark:border-gray-700/50 space-y-6">
+                            {/* Tags */}
+                            <div className="flex flex-wrap gap-2">
+                              {post.tags.map((tag: string, tagIndex: number) => (
+                                <Badge
+                                  key={tagIndex}
+                                  className="bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900/40 dark:to-cyan-900/40 text-blue-700 dark:text-blue-300 border-0 px-4 py-1.5 text-sm font-medium"
+                                >
+                                  #{tag}
+                                </Badge>
+                              ))}
+                            </div>
+
+                            <ShareButtons
                               title={post.title}
                               description={post.excerpt}
                             />
-                            <div className="flex items-center justify-between">
-                              <div className="flex flex-wrap gap-2">
-                                {post.tags.map((tag: string, tagIndex: number) => (
-                                  <Badge key={tagIndex} variant="secondary" className="text-xs">
-                                    {tag}
-                                  </Badge>
-                                ))}
-                              </div>
-                              <Button 
-                                variant="outline"
-                                onClick={() => setShowFullArticle(null)}
-                              >
-                                ← Back to Summary
-                              </Button>
-                            </div>
+
+                            <Button
+                              onClick={() => {
+                                console.log('Collapsing article');
+                                setShowFullArticle(null);
+                              }}
+                              className="bg-white/20 dark:bg-gray-800/30 backdrop-blur-xl border border-white/30 dark:border-gray-700/30 hover:bg-white/30 dark:hover:bg-gray-700/40 w-full md:w-auto text-lg py-4 px-8 rounded-2xl font-semibold transition-all duration-300 hover:scale-105"
+                            >
+                              ← Back to Summary
+                            </Button>
                           </div>
                         </>
                       )}
@@ -426,67 +468,67 @@ In a time of climate urgency, understanding when electricity is clean and when i
             />
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
+          {/* Modern Sidebar */}
+          <div className="space-y-6 slide-up">
             {/* Newsletter Signup */}
-            <NewsletterSignup
-              title="Stay Updated"
-              description="Get notified when we publish new articles about UK energy trends and analysis."
-              source="blog-sidebar"
-              compact={true}
-            />
+            <div className="sticky top-24 space-y-6">
+              <NewsletterSignup
+                title="Stay Updated"
+                description="Get notified when we publish new articles about UK energy trends and analysis."
+                source="blog-sidebar"
+                compact={true}
+              />
 
-            {/* Tag Filters */}
-            <Card className="border-gray-200 dark:border-gray-700">
-              <CardHeader>
-                <CardTitle className="blog-subheading text-lg font-semibold text-gray-900 dark:text-white">
-                  Browse by Topic
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="flex flex-wrap gap-2">
-                  {tags.map((tag: string, index: number) => (
-                    <Badge 
-                      key={index} 
-                      variant="outline" 
-                      className="cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+              {/* Modern Tag Filters */}
+              <Card className="bento-card">
+                <CardHeader>
+                  <CardTitle className="text-xl font-bold gradient-text-energy">
+                    Browse Topics
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <div className="flex flex-wrap gap-3">
+                    {tags.map((tag: string, index: number) => (
+                      <Badge
+                        key={index}
+                        className="cursor-pointer bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/30 dark:to-cyan-900/30 text-blue-700 dark:text-blue-300 border border-blue-200/50 dark:border-blue-700/30 hover:scale-110 hover:shadow-lg transition-all duration-300 px-4 py-2"
+                      >
+                        #{tag}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
 
-            {/* Recent Energy Stats */}
-            <Card className="border-gray-200 dark:border-gray-700">
-              <CardHeader>
-                <CardTitle className="blog-subheading text-lg font-semibold text-gray-900 dark:text-white">
-                  Quick Stats
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">Wind Share Today:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">~20%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">Renewable Share:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">~55%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">Grid Demand:</span>
-                    <span className="font-medium text-gray-900 dark:text-white">42.0 GW</span>
-                  </div>
-                  <div className="pt-2 border-t border-gray-200 dark:border-gray-600">
-                    <Button variant="ghost" size="sm" className="w-full text-blue-600 dark:text-blue-400">
+              {/* Modern Quick Stats */}
+              <Card className="bento-card overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 rounded-full blur-2xl"></div>
+                <CardHeader className="relative">
+                  <CardTitle className="text-xl font-bold gradient-text-energy">
+                    ⚡ Live Grid Stats
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 relative">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center p-3 bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Wind Share</span>
+                      <span className="text-lg font-bold text-blue-600 dark:text-blue-400">~20%</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Renewables</span>
+                      <span className="text-lg font-bold text-emerald-600 dark:text-emerald-400">~55%</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Demand</span>
+                      <span className="text-lg font-bold text-orange-600 dark:text-orange-400">42.0 GW</span>
+                    </div>
+                    <Button className="w-full btn-modern text-white mt-4">
                       View Live Dashboard →
                     </Button>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>

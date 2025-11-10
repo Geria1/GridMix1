@@ -7,12 +7,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 import type { EnergyData } from '@/types/energy';
 
 const TREND_COLORS = {
-  wind: '#2196F3',
-  gas: '#757575',
-  nuclear: '#9C27B0',
-  solar: '#FF9800',
-  hydro: '#00BCD4',
-  biomass: '#795548',
+  wind: '#06B6D4',      // Vibrant cyan
+  gas: '#64748B',       // Slate gray
+  nuclear: '#6366F1',   // Deep indigo
+  solar: '#F59E0B',     // Bright amber
+  hydro: '#0EA5E9',     // Sky blue
+  biomass: '#D97706',   // Amber brown
 };
 
 export function TrendChart() {
@@ -52,9 +52,9 @@ export function TrendChart() {
   if (error) {
     return (
       <div className="lg:col-span-2">
-        <Card className="border-gray-200 dark:border-gray-700">
-          <CardContent className="p-6">
-            <div className="text-center text-red-600 dark:text-red-400">
+        <Card className="border-destructive/20 bg-destructive/5">
+          <CardContent className="p-8">
+            <div className="text-center text-destructive font-medium">
               Error loading trend data
             </div>
           </CardContent>
@@ -67,20 +67,20 @@ export function TrendChart() {
 
   return (
     <div className="lg:col-span-2">
-      <Card className="border-gray-200 dark:border-gray-700 transition-colors">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
+      <Card className="border-border hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+        <CardHeader className="pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <CardTitle className="text-xl font-bold tracking-tight">
               Energy Mix Trend (GW)
             </CardTitle>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               {[24, 168, 720].map((range) => (
                 <Button
                   key={range}
                   variant={timeRange === range ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setTimeRange(range as 24 | 168 | 720)}
-                  className={timeRange === range ? 'bg-blue-600 hover:bg-blue-700' : ''}
+                  className={timeRange === range ? 'bg-primary hover:bg-primary/90 text-primary-foreground' : 'hover:bg-muted'}
                 >
                   {getTimeRangeLabel(range)}
                 </Button>
@@ -88,47 +88,63 @@ export function TrendChart() {
             </div>
           </div>
         </CardHeader>
-        
-        <CardContent className="p-6 pt-0">
+
+        <CardContent className="p-8 pt-2">
           {isLoading ? (
-            <Skeleton className="h-96 w-full" />
+            <Skeleton className="h-96 w-full rounded-xl" />
           ) : chartData.length === 0 ? (
-            <div className="h-96 flex items-center justify-center text-gray-500 dark:text-gray-400">
+            <div className="h-96 flex items-center justify-center text-muted-foreground">
               No historical data available
             </div>
           ) : (
             <div className="h-96">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                  <XAxis 
-                    dataKey="time" 
-                    stroke="var(--muted-foreground)"
-                    fontSize={12}
+                <LineChart data={chartData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
+                  <XAxis
+                    dataKey="time"
+                    stroke="hsl(var(--muted-foreground))"
+                    fontSize={13}
+                    fontWeight={500}
+                    tickLine={false}
+                    axisLine={false}
                   />
-                  <YAxis 
-                    stroke="var(--muted-foreground)"
-                    fontSize={12}
+                  <YAxis
+                    stroke="hsl(var(--muted-foreground))"
+                    fontSize={13}
+                    fontWeight={500}
                     tickFormatter={(value) => `${value}GW`}
+                    tickLine={false}
+                    axisLine={false}
                   />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: 'var(--card)',
-                      border: '1px solid var(--border)',
-                      borderRadius: '8px',
+                      backgroundColor: 'hsl(var(--card))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '12px',
+                      padding: '12px',
+                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                     }}
                     formatter={(value: number, name: string) => [`${value} GW`, name]}
+                    labelStyle={{ color: 'hsl(var(--foreground))', fontWeight: 600 }}
                   />
-                  <Legend />
+                  <Legend
+                    wrapperStyle={{
+                      paddingTop: '20px',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                    }}
+                  />
                   {Object.entries(TREND_COLORS).map(([key, color]) => (
                     <Line
                       key={key}
                       type="monotone"
                       dataKey={key}
                       stroke={color}
-                      strokeWidth={2}
+                      strokeWidth={3}
                       dot={false}
                       name={key.charAt(0).toUpperCase() + key.slice(1)}
+                      activeDot={{ r: 5, strokeWidth: 2 }}
                     />
                   ))}
                 </LineChart>

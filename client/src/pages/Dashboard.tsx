@@ -15,11 +15,9 @@ import { DataSourceAlert } from '@/components/DataSourceAlert';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { useCurrentEnergyData } from '@/hooks/useEnergyData';
-import { useAdminMode } from '@/hooks/useAdminMode';
 
 export default function Dashboard() {
   const { data: energyData, error } = useCurrentEnergyData();
-  const { isAdmin } = useAdminMode();
 
   const getRenewableAlert = () => {
     if (!energyData?.energyMix) return null;
@@ -41,56 +39,70 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 mesh-gradient transition-colors">
       {/* Hero Section */}
       <HeroSection />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Data Source Health Alert - Admin Only */}
-        {isAdmin && (
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Data Source Health Alert */}
+        <div className="fade-in">
           <ErrorBoundary>
             <DataSourceAlert />
           </ErrorBoundary>
-        )}
+        </div>
 
         {/* Alert Banner */}
         {!error && getRenewableAlert() && (
-          <Alert className="mb-6 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
-            <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-            <AlertDescription className="text-blue-800 dark:text-blue-300">
-              {getRenewableAlert()}
-            </AlertDescription>
-          </Alert>
+          <div className="scale-in">
+            <Alert className="mb-6 glass-card bg-gradient-to-r from-blue-50/80 to-cyan-50/80 dark:from-blue-900/20 dark:to-cyan-900/20 border-blue-300/50 dark:border-blue-700/50">
+              <Info className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <AlertDescription className="text-blue-800 dark:text-blue-300 font-medium">
+                {getRenewableAlert()}
+              </AlertDescription>
+            </Alert>
+          </div>
         )}
 
         {/* Key Metrics */}
-        <KeyMetrics />
+        <div className="slide-up">
+          <KeyMetrics />
+        </div>
 
         {/* Energy Mix Dashboard with Tabs */}
-        <EnergyMixDashboard />
+        <div className="fade-in">
+          <EnergyMixDashboard />
+        </div>
 
         {/* Carbon Intensity Tracking */}
-        <CarbonIntensityChart />
+        <div className="slide-up">
+          <CarbonIntensityChart />
+        </div>
 
         {/* Emissions Trajectory Section */}
-        <NetZeroCountdownChart />
+        <div className="fade-in">
+          <NetZeroCountdownChart />
+        </div>
 
         {/* Analysis & Insights Panels */}
-        <AnalysisInsightsPanel />
+        <div className="scale-in">
+          <AnalysisInsightsPanel />
+        </div>
 
         {/* Regional and System Status */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 slide-up">
           <RegionalHighlights />
           <SystemStatus />
         </div>
 
         {/* Energy Saving Tips Carousel */}
-        <section className="mb-8">
+        <section className="mb-8 fade-in">
           <EnergySavingTipsCarousel />
         </section>
 
-        {/* Enhanced Data Sources - Admin Only */}
-        {isAdmin && <EnhancedDataSources />}
+        {/* Enhanced Data Sources */}
+        <div className="scale-in">
+          <EnhancedDataSources />
+        </div>
       </main>
 
       <Footer />

@@ -46,9 +46,9 @@ export class ProductionUtils {
   }
 
   static validateEnvironment(): { valid: boolean; missing: string[] } {
-    const requiredEnvVars = [];
+    const requiredEnvVars: string[] = [];
     const optionalEnvVars = ['BMRS_API_KEY', 'MAILCHIMP_API_KEY'];
-    
+
     const missing = requiredEnvVars.filter(envVar => !process.env[envVar]);
     
     if (missing.length > 0) {

@@ -1,58 +1,33 @@
-import { QueryClient, QueryFunction } from "@tanstack/react-query";
+import { QueryClient } from '@tanstack/react-query';
 
-async function throwIfResNotOk(res: Response) {
-  if (!res.ok) {
-    const text = (await res.text()) || res.statusText;
-    throw new Error(`${res.status}: ${text}`);
-  }
-}
-
-export async function apiRequest(
-  method: string,
-  url: string,
-  data?: unknown | undefined,
-): Promise<Response> {
-  const res = await fetch(url, {
-    method,
-    headers: data ? { "Content-Type": "application/json" } : {},
-    body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
-  });
-
-  await throwIfResNotOk(res);
-  return res;
-}
-
-type UnauthorizedBehavior = "returnNull" | "throw";
-export const getQueryFn: <T>(options: {
-  on401: UnauthorizedBehavior;
-}) => QueryFunction<T> =
-  ({ on401: unauthorizedBehavior }) =>
-  async ({ queryKey }) => {
-    const res = await fetch(queryKey[0] as string, {
-      credentials: "include",
-    });
-
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
-    }
-
-    await throwIfResNotOk(res);
-    return await res.json();
-  };
+const API_BASE_URL = 'http://localhost:5000';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      queryFn: getQueryFn({ on401: "throw" }),
-      refetchInterval: 5 * 60 * 1000, // 5 minutes for energy data
+      staleTime: 1000 * 60 * 5, // 5 minutes
       refetchOnWindowFocus: false,
-      staleTime: 2 * 60 * 1000, // 2 minutes stale time for energy data
-      retry: 2,
-      gcTime: 10 * 60 * 1000, // Keep data cached for 10 minutes
-    },
-    mutations: {
-      retry: 2,
+      retry: 1,
+      queryFn: async ({ queryKey }) => {
+        const url = `${API_BASE_URL}${queryKey[0]}`;
+        const params = queryKey[1];
+
+        let fullUrl = url;
+        if (params && typeof params === 'object') {
+          const searchParams = new URLSearchParams(
+            Object.entries(params).map(([key, value]) => [key, String(value)])
+          );
+          fullUrl = `${url}?${searchParams}`;
+        }
+
+        const response = await fetch(fullUrl);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return response.json();
+      },
     },
   },
 });

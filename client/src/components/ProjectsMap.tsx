@@ -57,6 +57,14 @@ interface SearchFilters {
   maxCapacity: number;
 }
 
+interface LiveGenerationSummary {
+  totalCurrentOutput: number;
+  averageCapacityFactor: number;
+  totalInstalledCapacity: number;
+  onlineProjects: number;
+  offlineProjects: number;
+}
+
 const getTechnologyIcon = (type: string) => {
   switch (type.toLowerCase()) {
     case 'wind onshore':
@@ -176,7 +184,7 @@ export function ProjectsMap() {
   });
 
   // Fetch live generation summary
-  const { data: liveSummary } = useQuery({
+  const { data: liveSummary } = useQuery<LiveGenerationSummary>({
     queryKey: ['/api/repd/live-generation/summary'],
     refetchInterval: 10000, // Refresh every 10 seconds
   });

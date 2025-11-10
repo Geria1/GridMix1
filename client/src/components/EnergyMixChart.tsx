@@ -8,16 +8,16 @@ import { Skeleton } from '@/components/ui/skeleton';
 import type { EnergyMix } from '@/types/energy';
 
 const ENERGY_COLORS = {
-  wind: '#00BFFF',
-  solar: '#FFD700',
-  nuclear: '#FF6347',
-  gas: '#8A2BE2',
-  coal: '#4B4B4B',
-  hydro: '#1E90FF',
-  biomass: '#228B22',
-  oil: '#A52A2A',
-  imports: '#999999',
-  other: '#CCCCCC',
+  wind: '#06B6D4',      // Vibrant cyan
+  solar: '#F59E0B',     // Bright amber
+  nuclear: '#6366F1',   // Deep indigo
+  gas: '#64748B',       // Slate gray
+  coal: '#334155',      // Dark slate
+  hydro: '#0EA5E9',     // Sky blue
+  biomass: '#D97706',   // Amber brown
+  oil: '#78716C',       // Stone gray
+  imports: '#94A3B8',   // Light slate
+  other: '#CBD5E1',     // Lighter slate
 };
 
 const ENERGY_LABELS = {
@@ -75,9 +75,9 @@ export function EnergyMixChart() {
 
   if (error) {
     return (
-      <Card className="lg:col-span-1 border-gray-200 dark:border-gray-700">
-        <CardContent className="p-6">
-          <div className="text-center text-red-600 dark:text-red-400">
+      <Card className="lg:col-span-1 border-destructive/20 bg-destructive/5">
+        <CardContent className="p-8">
+          <div className="text-center text-destructive">
             Error loading energy mix data
           </div>
         </CardContent>
@@ -89,10 +89,10 @@ export function EnergyMixChart() {
 
   return (
     <div className="lg:col-span-1">
-      <Card className="border-gray-200 dark:border-gray-700 transition-colors">
-        <CardHeader>
+      <Card className="border-border hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+        <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">
+            <CardTitle className="text-xl font-bold tracking-tight">
               Current Energy Mix
             </CardTitle>
             <Button
@@ -100,15 +100,15 @@ export function EnergyMixChart() {
               size="sm"
               onClick={handleExport}
               disabled={isLoading || !energyData}
-              className="text-blue-600 hover:text-blue-700"
+              className="hover:bg-primary hover:text-primary-foreground transition-colors"
             >
-              <Download className="mr-1 h-4 w-4" />
+              <Download className="mr-2 h-4 w-4" />
               Export
             </Button>
           </div>
         </CardHeader>
-        
-        <CardContent className="p-6 pt-0">
+
+        <CardContent className="p-8 pt-2">
           {isLoading ? (
             <div className="space-y-4">
               <Skeleton className="h-64 w-full rounded-full" />
@@ -123,16 +123,16 @@ export function EnergyMixChart() {
             </div>
           ) : (
             <>
-              <div className="h-64 mb-6">
+              <div className="h-72 mb-8">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={chartData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={60}
-                      outerRadius={100}
-                      paddingAngle={2}
+                      innerRadius={70}
+                      outerRadius={110}
+                      paddingAngle={3}
                       dataKey="value"
                     >
                       {chartData.map((entry, index) => (
@@ -146,10 +146,12 @@ export function EnergyMixChart() {
                       ]}
                       labelFormatter={() => 'Energy Generation'}
                       contentStyle={{
-                        backgroundColor: 'var(--card)',
-                        border: '1px solid var(--border)',
-                        borderRadius: '8px',
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '12px',
                         fontSize: '14px',
+                        padding: '12px',
+                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                       }}
                     />
                   </PieChart>
@@ -157,17 +159,22 @@ export function EnergyMixChart() {
               </div>
 
               {/* Energy Source Legend */}
-              <div className="space-y-3">
+              <div className="space-y-3 mt-6">
                 {chartData.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div 
-                        className="w-3 h-3 rounded-full" 
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors group"
+                  >
+                    <div className="flex items-center space-x-3">
+                      <div
+                        className="w-4 h-4 rounded-full shadow-sm ring-2 ring-white dark:ring-card"
                         style={{ backgroundColor: item.color }}
                       ></div>
-                      <span className="text-sm text-gray-600 dark:text-gray-400">{item.name}</span>
+                      <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                        {item.name}
+                      </span>
                     </div>
-                    <span className="text-sm font-medium text-gray-900 dark:text-white">
+                    <span className="text-sm font-bold text-foreground tabular-nums">
                       {item.value}%
                     </span>
                   </div>

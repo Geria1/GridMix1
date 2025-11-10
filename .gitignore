@@ -4,3 +4,29 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Local development
+.local/
+
+# Build output
+build/
+
+# Database
+*.db
+*.sqlite
+
+# Debug files
+DEBUG_FIXES.md
+
+# Backup folders
+gridmix full/
+
+# OS files
+Thumbs.db
+*.swp
+*.swo

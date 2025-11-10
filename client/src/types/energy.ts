@@ -1,25 +1,26 @@
 export interface EnergyMix {
-  gas: number;
-  coal: number;
-  nuclear: number;
   wind: number;
   solar: number;
+  nuclear: number;
+  gas: number;
+  coal: number;
   hydro: number;
   biomass: number;
+  oil: number;
   imports: number;
   other: number;
 }
 
 export interface RegionalData {
-  england: {
+  england?: {
     nuclear: number;
     gas: number;
   };
-  scotland: {
+  scotland?: {
     wind: number;
     hydro: number;
   };
-  wales: {
+  wales?: {
     wind: number;
   };
 }
@@ -32,8 +33,7 @@ export interface SystemStatus {
 }
 
 export interface EnergyData {
-  id: number;
-  timestamp: Date;
+  timestamp: string;
   totalDemand: number;
   carbonIntensity: number;
   frequency: string;
@@ -44,7 +44,12 @@ export interface EnergyData {
 
 export interface ApiStatus {
   status: string;
-  lastUpdate: Date;
+  lastUpdate: string;
   dataSource: string;
+  dataQuality: string;
+  sources?: {
+    bmrs?: string;
+    carbonIntensity?: string;
+  };
   error?: string;
 }

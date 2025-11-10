@@ -311,14 +311,20 @@ export class BMRSApiService {
   // Get actual grid frequency data from BMRS
   async getSystemFrequency(from: string, to: string): Promise<BMRSFrequencyResponse[]> {
     try {
-      const url = `${this.baseUrl}/balancing/dynamic/all?from=${from}&to=${to}&APIKey=${this.apiKey}`;
+      const url = `${this.baseUrl}/balancing/dynamic/all?from=${from}&to=${to}`;
 
-      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
+      if (this.apiKey) {
+        headers['X-API-Key'] = this.apiKey;
+      }
+
       const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers,
+        signal: AbortSignal.timeout(10000),
       });
 
       if (!response.ok) {
@@ -343,14 +349,20 @@ export class BMRSApiService {
   // Get system balancing data
   async getBalancingData(from: string, to: string): Promise<BMRSBalancingResponse[]> {
     try {
-      const url = `${this.baseUrl}/balancing/settlement/stack/all?from=${from}&to=${to}&APIKey=${this.apiKey}`;
+      const url = `${this.baseUrl}/balancing/settlement/stack/all?from=${from}&to=${to}`;
 
-      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
+      if (this.apiKey) {
+        headers['X-API-Key'] = this.apiKey;
+      }
+
       const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers,
+        signal: AbortSignal.timeout(10000),
       });
 
       if (!response.ok) {
@@ -373,14 +385,20 @@ export class BMRSApiService {
   // Get system imbalance data
   async getImbalanceData(from: string, to: string): Promise<BMRSImbalanceResponse[]> {
     try {
-      const url = `${this.baseUrl}/balancing/settlement/system-sell-buy-price?from=${from}&to=${to}&APIKey=${this.apiKey}`;
+      const url = `${this.baseUrl}/balancing/settlement/system-sell-buy-price?from=${from}&to=${to}`;
 
-      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
+      if (this.apiKey) {
+        headers['X-API-Key'] = this.apiKey;
+      }
+
       const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers,
+        signal: AbortSignal.timeout(10000),
       });
 
       if (!response.ok) {
@@ -403,14 +421,20 @@ export class BMRSApiService {
   // Get reserve margin data
   async getReserveMargin(from: string, to: string): Promise<BMRSMarginResponse[]> {
     try {
-      const url = `${this.baseUrl}/forecast/margin/daily?from=${from}&to=${to}&APIKey=${this.apiKey}`;
+      const url = `${this.baseUrl}/forecast/margin/daily?from=${from}&to=${to}`;
 
-      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
+      if (this.apiKey) {
+        headers['X-API-Key'] = this.apiKey;
+      }
+
       const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers,
+        signal: AbortSignal.timeout(10000),
       });
 
       if (!response.ok) {
@@ -433,14 +457,20 @@ export class BMRSApiService {
   // Get interconnector flows
   async getInterconnectorFlows(from: string, to: string): Promise<BMRSGenerationResponse[]> {
     try {
-      const url = `${this.baseUrl}/generation/actual/interconnector?from=${from}&to=${to}&APIKey=${this.apiKey}`;
+      const url = `${this.baseUrl}/generation/actual/interconnector?from=${from}&to=${to}`;
 
-      
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
+      if (this.apiKey) {
+        headers['X-API-Key'] = this.apiKey;
+      }
+
       const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers,
+        signal: AbortSignal.timeout(10000),
       });
 
       if (!response.ok) {

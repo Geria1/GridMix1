@@ -27,12 +27,12 @@ const netZeroProgressData = [
 ];
 
 const milestones = [
-  { year: 1990, title: "Baseline Year", description: "~800 MtCO₂e total emissions" },
+  { year: 1990, title: "Baseline Year", description: "~800 MtCO₂e total emissions", emissions: 800 },
   { year: 2008, title: "Climate Change Act", description: "World's first legally binding framework" },
-  { year: 2019, title: "Net Zero Commitment", description: "Legal target enshrined in law" },
-  { year: 2023, title: "50% Reduction", description: "Halfway to net zero achieved" },
-  { year: 2030, title: "6th Carbon Budget", description: "68% reduction from 1990 levels" },
-  { year: 2050, title: "Net Zero Target", description: "Zero net greenhouse gas emissions" }
+  { year: 2019, title: "Net Zero Commitment", description: "Legal target enshrined in law", emissions: 488 },
+  { year: 2023, title: "50% Reduction", description: "Halfway to net zero achieved", emissions: 400 },
+  { year: 2030, title: "6th Carbon Budget", description: "68% reduction from 1990 levels", emissions: 256 },
+  { year: 2050, title: "Net Zero Target", description: "Zero net greenhouse gas emissions", emissions: 0 }
 ];
 
 export function NetZeroProgressChart() {
