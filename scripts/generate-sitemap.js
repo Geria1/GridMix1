@@ -21,11 +21,9 @@ const routes = [
   { path: '/dashboard', changefreq: 'hourly', priority: 0.9, title: 'Dashboard' },
   { path: '/forecast', changefreq: 'daily', priority: 0.8, title: 'Energy Forecast' },
   { path: '/projects', changefreq: 'weekly', priority: 0.7, title: 'UK Renewable Projects' },
-  { path: '/carbon-footprint', changefreq: 'daily', priority: 0.8, title: 'Carbon Footprint Tracker' },
   { path: '/blog', changefreq: 'weekly', priority: 0.7, title: 'Energy Blog' },
   { path: '/about', changefreq: 'monthly', priority: 0.6, title: 'About GridMix' },
   { path: '/about-me', changefreq: 'monthly', priority: 0.5, title: 'About the Creator' },
-  { path: '/alerts', changefreq: 'daily', priority: 0.6, title: 'Energy Alerts' },
   { path: '/privacy', changefreq: 'yearly', priority: 0.3, title: 'Privacy Policy' },
   { path: '/terms', changefreq: 'yearly', priority: 0.3, title: 'Terms of Service' },
 ];

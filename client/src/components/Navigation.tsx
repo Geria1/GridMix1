@@ -15,8 +15,6 @@ export function Navigation() {
     { path: "/", label: "Dashboard", active: location === "/" },
     { path: "/projects", label: "Projects", active: location === "/projects" },
     { path: "/forecast", label: "Forecast", active: location === "/forecast" },
-    { path: "/alerts", label: "Alerts", active: location === "/alerts" },
-    { path: "/carbon", label: "Carbon Tracker", active: location === "/carbon" },
     { path: "/blog", label: "Blog", active: location === "/blog" },
     { path: "/about", label: "About GridMix", active: location === "/about" },
     { path: "/about-me", label: "About Me", active: location === "/about-me" },
