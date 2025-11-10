@@ -77,5 +77,11 @@
       "permanent": true
     }
   ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    }
+  ],
   "trailingSlash": false
 }
