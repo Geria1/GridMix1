@@ -3,7 +3,7 @@ import { HeroSection } from '@/components/HeroSection';
 import { KeyMetrics } from '@/components/KeyMetrics';
 import { EnergyMixDashboard } from '@/components/EnergyMixDashboard';
 import { CarbonIntensityChart } from '@/components/CarbonIntensityChart';
-import { NetZeroCountdownChart } from '@/components/NetZeroCountdownChart';
+import { InterconnectorFlowsChart } from '@/components/InterconnectorFlowsChart';
 import { AnalysisInsightsPanel } from '@/components/AnalysisInsightsPanel';
 import { RegionalHighlights } from '@/components/RegionalHighlights';
 import { SystemStatus } from '@/components/SystemStatus';
@@ -78,9 +78,9 @@ export default function Dashboard() {
           <CarbonIntensityChart />
         </div>
 
-        {/* Emissions Trajectory Section */}
+        {/* Interconnector Flows Section */}
         <div className="fade-in">
-          <NetZeroCountdownChart />
+          <InterconnectorFlowsChart />
         </div>
 
         {/* Analysis & Insights Panels */}
