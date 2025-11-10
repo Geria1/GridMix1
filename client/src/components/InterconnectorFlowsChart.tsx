@@ -44,6 +44,44 @@ const interconnectorColors: Record<string, string> = {
   other: '#6b7280',       // gray
 };
 
+// Generate fallback mock data for demonstration when API is unavailable
+const generateMockData = (): ChartDataPoint[] => {
+  const now = new Date();
+  const data: ChartDataPoint[] = [];
+
+  for (let i = 24; i >= 0; i--) {
+    const time = new Date(now.getTime() - i * 60 * 60 * 1000);
+    const hour = time.getHours();
+
+    // Simulate realistic patterns: higher imports during peak hours (17-20), exports during low demand
+    const baseFrance = hour >= 17 && hour <= 20 ? 1500 + Math.random() * 500 : 800 + Math.random() * 400;
+    const baseIreland = 200 + Math.random() * 300;
+    const baseNetherlands = hour >= 7 && hour <= 9 ? 600 + Math.random() * 200 : 400 + Math.random() * 200;
+    const baseBelgium = 300 + Math.random() * 200;
+    const baseNorway = 400 + Math.random() * 300;
+
+    data.push({
+      time: time.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+      timestamp: time.getTime(),
+      france: Math.round(baseFrance),
+      ireland: Math.round(baseIreland),
+      netherlands: Math.round(baseNetherlands),
+      belgium: Math.round(baseBelgium),
+      norway: Math.round(baseNorway),
+      other: Math.round(Math.random() * 100),
+      total: 0, // Will be calculated
+    });
+  }
+
+  // Calculate totals
+  data.forEach(point => {
+    point.total = point.france + point.ireland + point.netherlands +
+                  point.belgium + point.norway + point.other;
+  });
+
+  return data;
+};
+
 export function InterconnectorFlowsChart() {
   const { data, isLoading, error } = useQuery<InterconnectorData[]>({
     queryKey: ['interconnectors'],
@@ -52,12 +90,17 @@ export function InterconnectorFlowsChart() {
       if (!response.ok) throw new Error('Failed to fetch interconnector data');
       return response.json();
     },
-    refetchInterval: 5 * 60 * 1000, // Refresh every 5 minutes
+    retry: 1, // Only retry once
+    refetchInterval: error ? false : 5 * 60 * 1000, // Don't refetch if there's an error
   });
 
-  // Process data into chart format
-  const chartData: ChartDataPoint[] = [];
-  if (data && data.length > 0) {
+  // Process data into chart format, use mock data as fallback
+  let chartData: ChartDataPoint[] = [];
+
+  if (error || !data || data.length === 0) {
+    // Use mock data when API is unavailable
+    chartData = generateMockData();
+  } else if (data && data.length > 0) {
     // Group by settlement period
     const groupedData = data.reduce((acc, item) => {
       const key = item.settlementDate;
@@ -133,19 +176,8 @@ export function InterconnectorFlowsChart() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="lg:col-span-2">
-        <Card className="border-gray-200 dark:border-gray-700">
-          <CardContent className="p-6">
-            <div className="text-center text-red-600 dark:text-red-400">
-              Unable to load interconnector flow data
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  // Don't show error UI anymore since we have fallback data
+  const usingMockData = error || !data || data.length === 0;
 
   return (
     <div className="lg:col-span-2">
@@ -181,8 +213,13 @@ export function InterconnectorFlowsChart() {
           <Alert className="mb-6 bg-blue-50/80 dark:bg-blue-900/20 border-blue-300/50 dark:border-blue-700/50">
             <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
             <AlertDescription className="text-sm text-blue-800 dark:text-blue-300">
-              Positive values indicate imports (buying electricity), negative values indicate exports (selling electricity).
-              The UK has interconnectors with France, Ireland, Netherlands, Belgium, Norway, and Denmark.
+              {usingMockData ? (
+                <>Displaying simulated interconnector flow data. Live API data temporarily unavailable.
+                Positive values indicate imports (buying electricity), negative values indicate exports (selling electricity).</>
+              ) : (
+                <>Positive values indicate imports (buying electricity), negative values indicate exports (selling electricity).
+                The UK has interconnectors with France, Ireland, Netherlands, Belgium, Norway, and Denmark.</>
+              )}
             </AlertDescription>
           </Alert>
 
@@ -363,8 +400,17 @@ export function InterconnectorFlowsChart() {
 
           {/* Additional Info */}
           <div className="mt-6 text-xs text-gray-600 dark:text-gray-400 space-y-1">
-            <p>Data source: Elexon BMRS (Balancing Mechanism Reporting Service)</p>
-            <p>Updates every 5 minutes with live interconnector flow data</p>
+            {usingMockData ? (
+              <>
+                <p>Displaying simulated data based on typical UK interconnector flow patterns</p>
+                <p>Live BMRS API data will be available once backend server is deployed</p>
+              </>
+            ) : (
+              <>
+                <p>Data source: Elexon BMRS (Balancing Mechanism Reporting Service)</p>
+                <p>Updates every 5 minutes with live interconnector flow data</p>
+              </>
+            )}
           </div>
         </CardContent>
       </Card>
