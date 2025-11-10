@@ -237,17 +237,28 @@ export default function AboutMe() {
                 </CardHeader>
                 <CardContent className="p-6 relative">
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                    Built on Replit with the help of AI assistance, using live data from official UK energy APIs.
+                    Full-stack application built with modern technologies and AI assistance, using live data from official UK energy APIs.
                   </p>
                   <div className="space-y-4">
                     <div>
-                      <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">Platform</div>
-                      <Badge className="bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/40 dark:to-purple-900/40 text-indigo-700 dark:text-indigo-300 border-0 hover:scale-105 transition-transform">Replit</Badge>
+                      <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">Backend</div>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/40 dark:to-emerald-900/40 text-green-700 dark:text-green-300 border-0 text-xs hover:scale-105 transition-transform">Node.js</Badge>
+                        <Badge className="bg-gradient-to-r from-gray-100 to-slate-100 dark:from-gray-900/40 dark:to-slate-900/40 text-gray-700 dark:text-gray-300 border-0 text-xs hover:scale-105 transition-transform">Express</Badge>
+                        <Badge className="bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40 text-blue-700 dark:text-blue-300 border-0 text-xs hover:scale-105 transition-transform">TypeScript</Badge>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">Database</div>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge className="bg-gradient-to-r from-blue-100 to-sky-100 dark:from-blue-900/40 dark:to-sky-900/40 text-blue-700 dark:text-blue-300 border-0 text-xs hover:scale-105 transition-transform">PostgreSQL</Badge>
+                        <Badge className="bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/40 dark:to-teal-900/40 text-emerald-700 dark:text-emerald-300 border-0 text-xs hover:scale-105 transition-transform">Drizzle ORM</Badge>
+                      </div>
                     </div>
                     <div>
                       <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">Data Sources</div>
                       <div className="flex flex-wrap gap-2">
-                        <Badge className="bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900/40 dark:to-cyan-900/40 text-blue-700 dark:text-blue-300 border-0 text-xs hover:scale-105 transition-transform">Elexon BMRS API</Badge>
+                        <Badge className="bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900/40 dark:to-cyan-900/40 text-blue-700 dark:text-blue-300 border-0 text-xs hover:scale-105 transition-transform">Elexon Insights API</Badge>
                         <Badge className="bg-gradient-to-r from-emerald-100 to-green-100 dark:from-emerald-900/40 dark:to-green-900/40 text-emerald-700 dark:text-emerald-300 border-0 text-xs hover:scale-105 transition-transform">Carbon Intensity API</Badge>
                       </div>
                     </div>
