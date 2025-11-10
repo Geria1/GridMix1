@@ -92,11 +92,21 @@ app.get('/api/system/status', (req, res) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen(port, "0.0.0.0", () => {
-    log(`serving on port ${port}`);
-  });
+  // Export app for Vercel, otherwise start server
+  if (process.env.VERCEL) {
+    // On Vercel, export the Express app (don't start server)
+    // @ts-ignore
+    globalThis.app = app;
+  } else {
+    // ALWAYS serve the app on port 5000
+    // this serves both the API and the client.
+    // It is the only port that is not firewalled.
+    const port = 5000;
+    server.listen(port, "0.0.0.0", () => {
+      log(`serving on port ${port}`);
+    });
+  }
 })();
+
+// Export for Vercel serverless function
+export default app;
