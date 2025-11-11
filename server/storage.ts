@@ -147,6 +147,19 @@ export class DbStorage implements IStorage {
 }
 
 // Use DbStorage if DATABASE_URL is available, otherwise fall back to MemStorage
-export const storage = process.env.DATABASE_URL
-  ? new DbStorage(process.env.DATABASE_URL)
-  : new MemStorage();
+// Wrap in try-catch to handle initialization errors gracefully
+function createStorage(): IStorage {
+  try {
+    if (process.env.DATABASE_URL) {
+      console.log('[Storage] Initializing database storage');
+      return new DbStorage(process.env.DATABASE_URL);
+    }
+  } catch (error) {
+    console.error('[Storage] Failed to initialize database storage, falling back to memory storage:', error);
+  }
+
+  console.log('[Storage] Using in-memory storage');
+  return new MemStorage();
+}
+
+export const storage = createStorage();

@@ -116,17 +116,64 @@ if (!process.env.VERCEL && require.main === module) {
 
 // Export initialized app for Vercel serverless function
 let appInstance: express.Express | null = null;
+let initError: Error | null = null;
 
 export default async function handler(req: any, res: any) {
-  if (!appInstance) {
-    const { app } = await createApp();
-    appInstance = app;
-  }
-  // Let Express handle the request
-  return new Promise((resolve, reject) => {
-    appInstance!(req, res, (err: any) => {
-      if (err) reject(err);
-      else resolve(undefined);
+  try {
+    // If previous initialization failed, try again
+    if (!appInstance && !initError) {
+      try {
+        log('[Serverless] Initializing Express app');
+        const { app } = await createApp();
+        appInstance = app;
+        log('[Serverless] Express app initialized successfully');
+      } catch (error: any) {
+        initError = error;
+        logger.error('[Serverless] Failed to initialize app', error);
+
+        // Return error response
+        res.status(500).json({
+          error: 'Server initialization failed',
+          message: ProductionUtils.getConfig().isProduction
+            ? 'Internal server error'
+            : error.message
+        });
+        return;
+      }
+    }
+
+    // If initialization previously failed, return error
+    if (initError) {
+      res.status(500).json({
+        error: 'Server initialization failed',
+        message: ProductionUtils.getConfig().isProduction
+          ? 'Internal server error'
+          : initError.message
+      });
+      return;
+    }
+
+    // Let Express handle the request
+    return new Promise((resolve, reject) => {
+      appInstance!(req, res, (err: any) => {
+        if (err) {
+          logger.error('[Serverless] Request handler error', err);
+          reject(err);
+        } else {
+          resolve(undefined);
+        }
+      });
     });
-  });
+  } catch (error: any) {
+    logger.error('[Serverless] Unexpected error in handler', error);
+
+    if (!res.headersSent) {
+      res.status(500).json({
+        error: 'Internal server error',
+        message: ProductionUtils.getConfig().isProduction
+          ? 'An unexpected error occurred'
+          : error.message
+      });
+    }
+  }
 }
