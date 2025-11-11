@@ -115,5 +115,9 @@
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
+  },
+  "overrides": {
+    "superagent": "^10.1.2",
+    "formidable": "^3.5.2"
   }
 }
